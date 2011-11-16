@@ -7,5 +7,11 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mysql-connector-java-5.1.15-bin.jar"/>
+	<classpathentry kind="lib" path="C:/apps/apache-tomcat-6.0.33/lib/servlet-api.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://download.oracle.com/docs/cd/E17802_01/products/products/servlet/2.5/docs/servlet-2_5-mr2/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jstl-impl-1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
