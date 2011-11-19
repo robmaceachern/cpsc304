@@ -139,9 +139,7 @@ CREATE TABLE `borrowing` (
   PRIMARY KEY (`borid`),
   KEY `bid` (`bid`),
   CONSTRAINT `borrowing_ibfk_1` FOREIGN KEY (`bid`) REFERENCES `borrower` (`bid`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `borrowing_ibfk_2` FOREIGN KEY (`callNumber`) REFERENCES `bookcopy` (`callNumber`) ON DELETE CASCADE ON UPDATE CASCADE
--- ,  CONSTRAINT `borrowing_ibfk_3` FOREIGN KEY (`copyNo`) REFERENCES `bookcopy` (`copyNo`) ON DELETE CASCADE ON UPDATE CASCADE
--- for some reason it won't let me make a reference to copyNo ????
+  CONSTRAINT `borrowing_ibfk_2` FOREIGN KEY (`callNumber`, `copyNo`) REFERENCES `bookcopy` (`callNumber`, `copyNo`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
