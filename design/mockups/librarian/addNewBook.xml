@@ -1,0 +1,85 @@
+<mockup version="1.0" skin="sketch" measuredW="1020" measuredH="801" mockupW="960" mockupH="781">
+  <controls>
+    <control controlID="36" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="60" y="20" w="960" h="781" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>A%20Web%20Page%0Ahttp%3A//fuckthepolice.com/crazycoollibrary</text>
+      </controlProperties>
+    </control>
+    <control controlID="37" controlTypeID="com.balsamiq.mockups::Title" x="82" y="118" w="-1" h="-1" measuredW="305" measuredH="50" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>CrazyCoolLibary%21</text>
+      </controlProperties>
+    </control>
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::Label" x="402" y="137" w="154" h="25" measuredW="131" measuredH="21" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>It%27s%20so%20cool%2C%20it%27s%20crazy%21</text>
+      </controlProperties>
+    </control>
+    <control controlID="39" controlTypeID="com.balsamiq.mockups::HRule" x="82" y="177" w="909" h="-1" measuredW="100" measuredH="5" zOrder="3" locked="false" isInGroup="-1"/>
+    <control controlID="40" controlTypeID="com.balsamiq.mockups::VRule" x="283" y="197" w="-1" h="544" measuredW="5" measuredH="100" zOrder="4" locked="false" isInGroup="-1"/>
+    <control controlID="42" controlTypeID="com.balsamiq.mockups::Accordion" x="82" y="208" w="186" h="237" measuredW="170" measuredH="390" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>5</selectedIndex>
+        <text>Clerk%0ABorrower%0A-%20Sub-Item%202.1%0A-%20Sub-Item%202.2%0ALibrarian%0A-%20Add%20new%20book%0A-%20Add%20new%20book%20copy%0A-%20Remove%20borrower%0A-%20Check%20out%20books%20report%0A-%20Most%20popular%20books%20report</text>
+      </controlProperties>
+    </control>
+    <control controlID="43" controlTypeID="com.balsamiq.mockups::TextInput" x="500" y="291" w="394" h="-1" measuredW="79" measuredH="27" zOrder="6" locked="false" isInGroup="-1"/>
+    <control controlID="44" controlTypeID="com.balsamiq.mockups::Label" x="380" y="289" w="60" h="33" measuredW="60" measuredH="33" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>right</align>
+        <size>24</size>
+        <text>ISBN</text>
+      </controlProperties>
+    </control>
+    <control controlID="46" controlTypeID="com.balsamiq.mockups::TextInput" x="500" y="343" w="394" h="-1" measuredW="79" measuredH="27" zOrder="8" locked="false" isInGroup="-1"/>
+    <control controlID="47" controlTypeID="com.balsamiq.mockups::Label" x="388" y="341" w="52" h="33" measuredW="52" measuredH="33" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>right</align>
+        <size>24</size>
+        <text>Title</text>
+      </controlProperties>
+    </control>
+    <control controlID="48" controlTypeID="com.balsamiq.mockups::Label" x="357" y="386" w="83" h="21" measuredW="75" measuredH="33" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>right</align>
+        <size>24</size>
+        <text>Author</text>
+      </controlProperties>
+    </control>
+    <control controlID="49" controlTypeID="com.balsamiq.mockups::Label" x="328" y="436" w="112" h="21" measuredW="99" measuredH="33" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>right</align>
+        <size>24</size>
+        <text>Publisher</text>
+      </controlProperties>
+    </control>
+    <control controlID="50" controlTypeID="com.balsamiq.mockups::Label" x="372" y="484" w="68" h="21" measuredW="59" measuredH="33" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>right</align>
+        <size>24</size>
+        <text>Year</text>
+      </controlProperties>
+    </control>
+    <control controlID="51" controlTypeID="com.balsamiq.mockups::Title" x="328" y="214" w="243" h="-1" measuredW="231" measuredH="41" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>left</align>
+        <size>32</size>
+        <text>Add%20a%20new%20book</text>
+      </controlProperties>
+    </control>
+    <control controlID="52" controlTypeID="com.balsamiq.mockups::TextInput" x="500" y="386" w="394" h="-1" measuredW="79" measuredH="27" zOrder="14" locked="false" isInGroup="-1"/>
+    <control controlID="53" controlTypeID="com.balsamiq.mockups::TextInput" x="500" y="432" w="394" h="-1" measuredW="79" measuredH="27" zOrder="15" locked="false" isInGroup="-1"/>
+    <control controlID="54" controlTypeID="com.balsamiq.mockups::TextInput" x="500" y="480" w="394" h="-1" measuredW="79" measuredH="27" zOrder="16" locked="false" isInGroup="-1"/>
+    <control controlID="55" controlTypeID="com.balsamiq.mockups::Button" x="773" y="548" w="121" h="44" measuredW="106" measuredH="29" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>20</size>
+        <text>Add%20book</text>
+      </controlProperties>
+    </control>
+    <control controlID="56" controlTypeID="com.balsamiq.mockups::StickyNote" x="703" y="592" w="238" h="203" measuredW="109" measuredH="123" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>On%20button%20push%2C%20display%20new%20page%20with%20text%3A%0A%20%0Aif%20successful%3A%20%22Book%20%7Btitle%7D%20has%20been%20added%20to%20the%20library%22%0A%20%0Aelse%3A%20%22There%20was%20a%20problem%20adding%20your%20book%20to%20the%20library.%20Please%20try%20again.%20Error%3A%7Bdetails%7D%22</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
