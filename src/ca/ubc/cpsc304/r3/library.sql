@@ -28,7 +28,7 @@ CREATE TABLE `book` (
   `title` varchar(45) DEFAULT NULL,
   `mainAuthor` varchar(45) DEFAULT NULL,
   `publisher` varchar(45) DEFAULT NULL,
-  `year` timestamp NOT NULL,
+  `year` int(4) NOT NULL,
   PRIMARY KEY (`callNumber`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -84,7 +84,7 @@ CREATE TABLE `borrower` (
   `emailAddress` varchar(20) DEFAULT NULL,
   `sinOrStNo` int(10) NOT NULL,
   `expiryDate` date NOT NULL,
-  `btype` ENUM ('student', 'falculty', 'staff'),
+  `btype` ENUM ('student', 'faculty', 'staff'),
   PRIMARY KEY (`bid`),
   CONSTRAINT `borrower_ibfk_1` FOREIGN KEY (`btype`) REFERENCES `borrowertype` (`btype`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
