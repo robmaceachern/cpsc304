@@ -1,0 +1,10 @@
+
+<Context>
+    <!-- Specify a JDBC datasource -->
+    <Resource name="jdbc/crazycoollibrary" auth="Container"
+        type="javax.sql.DataSource" username="devuser" password="devuser"
+        driverClassName="com.mysql.jdbc.Driver"
+        url="jdbc:mysql://localhost/crazycoollibrary"
+        maxActive="10" maxIdle="4" />
+ 
+</Context>

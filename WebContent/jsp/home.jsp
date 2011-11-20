@@ -11,5 +11,12 @@
 <h1>Welcome to the home page of CrazyCoolLibrary</h1>
 <h2>${someVariable}</h2>
 
+<p>The system has the following tables:</p>
+<ul>
+	<c:forEach items="${tables}" var="table">
+		<li>${table.tableName} (# of rows: ${table.numRows})</li>
+	</c:forEach>
+</ul>
+
 </body>
 </html>
