@@ -28,7 +28,7 @@ CREATE TABLE `book` (
   `title` varchar(45) DEFAULT NULL,
   `mainAuthor` varchar(45) DEFAULT NULL,
   `publisher` varchar(45) DEFAULT NULL,
-  `year` int(11) DEFAULT NULL,
+  `year` timestamp NOT NULL,
   PRIMARY KEY (`callNumber`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -51,9 +51,10 @@ DROP TABLE IF EXISTS `bookcopy`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bookcopy` (
   `callNumber` int(11) NOT NULL,
-  `copyNo` int(11) NOT NULL,
+  `copyNo` int(5) NOT NULL AUTO_INCREMENT,
   `status` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`callNumber`,`copyNo`),
+  KEY (`copyNo`),
   CONSTRAINT `bookcopy_ibfk_1` FOREIGN KEY (`callNumber`) REFERENCES `book` (`callNumber`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -75,18 +76,17 @@ DROP TABLE IF EXISTS `borrower`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `borrower` (
-  `bid` int(11) NOT NULL,
+  `bid` int(10) NOT NULL AUTO_INCREMENT,
   `password` varchar(20) DEFAULT NULL,
   `name` varchar(30) DEFAULT NULL,
   `address` varchar(50) DEFAULT NULL,
-  `phone` int(11) DEFAULT NULL,
+  `phone` int(7) DEFAULT NULL,
   `emailAddress` varchar(20) DEFAULT NULL,
-  `sinOrStNo` int(11) NOT NULL,
+  `sinOrStNo` int(10) NOT NULL,
   `expiryDate` date NOT NULL,
-  `type` varchar(20) DEFAULT NULL,
+  `btype` ENUM ('student', 'falculty', 'staff'),
   PRIMARY KEY (`bid`),
-  KEY `type` (`type`),
-  CONSTRAINT `borrower_ibfk_1` FOREIGN KEY (`type`) REFERENCES `borrowertype` (`type`)
+  CONSTRAINT `borrower_ibfk_1` FOREIGN KEY (`btype`) REFERENCES `borrowertype` (`btype`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -107,9 +107,9 @@ DROP TABLE IF EXISTS `borrowertype`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `borrowertype` (
-  `type` varchar(20) NOT NULL,
-  `bookTimeLimit` varchar(15) NOT NULL,
-  PRIMARY KEY (`type`)
+  `btype` ENUM ('student', 'faculty', 'staff'),
+  `bookTimeLimit` ENUM ('2', '6', '12'),  
+  PRIMARY KEY (`btype`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -130,10 +130,10 @@ DROP TABLE IF EXISTS `borrowing`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `borrowing` (
-  `borid` int(11) NOT NULL,
+  `borid` int(11) NOT NULL AUTO_INCREMENT,
   `bid` int(11) NOT NULL,
   `callNumber` int(11) NOT NULL,
-  `copyNo` int(11) NOT NULL,
+  `copyNo` int(5) NOT NULL,
   `outDate` datetime DEFAULT NULL,
   `inDate` datetime DEFAULT NULL,
   PRIMARY KEY (`borid`),
@@ -160,7 +160,7 @@ DROP TABLE IF EXISTS `fine`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fine` (
-  `fid` int(11) NOT NULL,
+  `fid` int(11) NOT NULL AUTO_INCREMENT,
   `amount` int(11) NOT NULL,
   `issuedDate` datetime NOT NULL,
   `paidDate` datetime DEFAULT NULL,
@@ -189,7 +189,6 @@ CREATE TABLE `hasauthor` (
   `author` varchar(30) NOT NULL,
   `callNumber` int(11) NOT NULL,
   PRIMARY KEY (`author`,`callNumber`),
-  KEY `callNumber` (`callNumber`),
   CONSTRAINT `callNumber` FOREIGN KEY (`callNumber`) REFERENCES `book` (`callNumber`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -235,7 +234,7 @@ DROP TABLE IF EXISTS `holdrequest`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `holdrequest` (
-  `hid` int(11) NOT NULL,
+  `hid` int(11) NOT NULL AUTO_INCREMENT,
   `bid` int(11) NOT NULL,
   `callNumber` int(11) NOT NULL,
   `issuedDate` datetime DEFAULT NULL,
