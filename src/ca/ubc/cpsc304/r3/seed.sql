@@ -40,9 +40,9 @@ values('student', '2'),
 -- Populate the borrower table with some example entries
 --     
 insert into borrower(bid, password, name, address, phone, emailAddress, sinOrStNo, expiryDate, btype)
-values(1, 'password1', 'Riley Chang', '123 Oak Street', 1234567, 'riley@cpsc304.com', 1234567, 20130101, 'student'),
+values(1, 'password1', 'Riley Chang', '123 Oak Street', 1234567, 'riley@cpsc304.com', 1234567, 20130101, 'staff'),
       (2, 'password2', 'Rob MacEachern', '234 Main Street', 2345678, 'rob@cpsc304.com', 2345678, 20130101, 'faculty'),
-      (3, 'password3', 'Robert Woff', '123 Maple Street', 3456789, 'robert@cpsc304.com', 3456789, 20130101, 'staff');
+      (3, 'password3', 'Robert Woff', '123 Maple Street', 3456789, 'robert@cpsc304.com', 3456789, 20130101, 'student');
  
 --
 -- Populate the borrowing table with some example entries
