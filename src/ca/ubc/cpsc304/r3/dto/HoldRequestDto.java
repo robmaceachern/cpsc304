@@ -2,53 +2,53 @@ package ca.ubc.cpsc304.r3.dto;
 
 public class HoldRequestDto {
 	// variables to hold the actual data of a hold request
-	private int hid_;
-    private int bid_;
-    private int callNumber_;
-    private java.sql.Date issuedDate_;
+	private int hid;
+    private int bid;
+    private int callNumber;
+    private java.sql.Date issuedDate;
 	
     // default constructor
     public HoldRequestDto(){}
     
     // constructor with initialised values
 	public HoldRequestDto(int hid, int bid, int callNumber, java.sql.Date issuedDate){
-		hid_ = hid;
-		bid_ = bid;
-		callNumber_ = callNumber;
-		issuedDate_ = issuedDate;
+		this.hid = hid;
+		this.bid = bid;
+		this.callNumber = callNumber;
+		this.issuedDate = issuedDate;
 	}
 	
 	// getters and setters for the data members
 
-	public int getHid_() {
-		return hid_;
+	public int getHid() {
+		return hid;
 	}
 
-	public void setHid_(int hid_) {
-		this.hid_ = hid_;
+	public void setHid_(int hid) {
+		this.hid = hid;
 	}
 
-	public int getBid_() {
-		return bid_;
+	public int getBid() {
+		return bid;
 	}
 
-	public void setBid_(int bid_) {
-		this.bid_ = bid_;
+	public void setBid(int bid) {
+		this.bid = bid;
 	}
 
-	public int getCallNumber_() {
-		return callNumber_;
+	public int getCallNumber() {
+		return callNumber;
 	}
 
-	public void setCallNumber_(int callNumber_) {
-		this.callNumber_ = callNumber_;
+	public void setCallNumber(int callNumber) {
+		this.callNumber = callNumber;
 	}
 
-	public java.sql.Date getIssuedDate_() {
-		return issuedDate_;
+	public java.sql.Date getIssuedDate() {
+		return issuedDate;
 	}
 
-	public void setIssuedDate_(java.sql.Date issuedDate_) {
-		this.issuedDate_ = issuedDate_;
+	public void setIssuedDate(java.sql.Date issuedDate) {
+		this.issuedDate = issuedDate;
 	}
 }

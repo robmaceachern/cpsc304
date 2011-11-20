@@ -1,6 +1,6 @@
 package ca.ubc.cpsc304.r3.db;
 
-// general sql imports
+//general sql imports
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,34 +9,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 // import the hold request dto class
-import ca.ubc.cpsc304.r3.dto.HoldRequestDto;
+import ca.ubc.cpsc304.r3.dto.FineDto;
 
-public class HoldReqestDao {
+public class FineDao {
 	
 	private ConnectionService connService;
 	
-	public HoldReqestDao(ConnectionService connService){
+	public FineDao(ConnectionService connService){
 		this.connService = connService;
 	}
 	
-	public List<HoldRequestDto> getByID(int id) throws SQLException{
-		List<HoldRequestDto> queryResult = new ArrayList<HoldRequestDto>();
+	public List<FineDto> getUnpaidByID(int id) throws SQLException{
+		List<FineDto> queryResult = new ArrayList<FineDto>();
 		Connection conn = null; 
 		try {
 			conn = connService.getConnection();
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(
 					"SELECT * " + 
-					"FROM holdrequest " + 
-					"WHERE bid="+id);
+					"FROM fine " + 
+					"WHERE paidDate=NULL AND " +
+					"borid IN " +
+					"(SELECT borid " +
+					"FROM borrowing " +
+					"WHERE bid=" + id + ")");		
 			while(rs.next()){
 				// for each row, put the data in the dto
 				// and add it to list of results
-				HoldRequestDto dto = new HoldRequestDto();
-				dto.setBid(rs.getInt("bid"));
-				dto.setHid_(rs.getInt("hid"));
-				dto.setCallNumber(rs.getInt("callNumber"));
+				FineDto dto = new FineDto();
+				dto.setFid(rs.getInt("fid"));
+				dto.setAmount(rs.getInt("amount"));
 				dto.setIssuedDate(rs.getDate("issuedDate"));
+				dto.setPaidDate(rs.getDate("paidDate"));
+				dto.setBorid(rs.getInt("borid"));
 				queryResult.add(dto);
 			}
 		} catch (SQLException e) {
