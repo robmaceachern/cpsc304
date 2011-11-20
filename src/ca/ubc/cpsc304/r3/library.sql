@@ -29,7 +29,8 @@ CREATE TABLE `book` (
   `mainAuthor` varchar(45) DEFAULT NULL,
   `publisher` varchar(45) DEFAULT NULL,
   `year` int(4) NOT NULL,
-  PRIMARY KEY (`callNumber`)
+  PRIMARY KEY (`callNumber`),
+  CONSTRAINT unique_isbn UNIQUE (isbn)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
