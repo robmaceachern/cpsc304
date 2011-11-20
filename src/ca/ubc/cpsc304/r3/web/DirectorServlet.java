@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ca.ubc.cpsc304.r3.web.responder.HomePageController;
+import ca.ubc.cpsc304.r3.web.responder.NewBookController;
 
 /**
  * This class receives all the user's web requests and then determines what controller
@@ -57,6 +58,8 @@ public class DirectorServlet extends HttpServlet {
 		// add pages. It's not ideal, but it'll do the job.
 		if(requestPath.equals("/")){
 			return new HomePageController().getHomePage(request);
+		} else if(requestPath.equals("/addnewbook/")){
+			return new NewBookController().getNewBookForm();
 		}
 		
 		// an error page if nothing hits

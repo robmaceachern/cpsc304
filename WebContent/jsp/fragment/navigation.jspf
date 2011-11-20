@@ -1,0 +1,37 @@
+<script>
+	$(function() {
+		$("#navigation").accordion({ navigation: true});
+	});
+</script>
+
+<p>Below is the navigation. We'll set it up prettier later.</p>
+<div id="navigation">
+	<h3><a href="#">Borrower</a></h3>
+	<div>
+		<ul>
+			<li><a href="/CrazyCoolLibrary/app/searchforbook">Search for book</a></li>
+			<li><a href="/CrazyCoolLibrary/app/checkaccount">Check account status</a></li>
+			<li><a href="/CrazyCoolLibrary/app/placehold">Place hold request</a></li>
+			<li><a href="/CrazyCoolLibrary/app/payfine">Pay fine</a></li>
+		</ul>
+	</div>
+	<h3><a href="#">Clerk</a></h3>
+	<div>
+		<ul>
+			<li><a href="/CrazyCoolLibrary/app/addborrower">Add borrower</a></li>
+			<li><a href="/CrazyCoolLibrary/app/checkoutitems">Check out items</a></li>
+			<li><a href="/CrazyCoolLibrary/app/processreturn">Process return</a></li>
+			<li><a href="/CrazyCoolLibrary/app/checkoverdue">Check overdue items</a></li>
+		</ul>
+	</div>
+	<h3><a href="#">Librarian</a></h3>
+	<div>
+		<ul>
+			<li><a href="/CrazyCoolLibrary/app/addnewbook">Add new book</a></li>
+			<li><a href="/CrazyCoolLibrary/app/addnewcopu">Add new book copy</a></li>
+			<li><a href="/CrazyCoolLibrary/app/removeborrower">Remove borrower</a></li>
+			<li><a href="/CrazyCoolLibrary/app/checkoutbooksreport">Checked out books report</a></li>
+			<li><a href="/CrazyCoolLibrary/app/mostpopularbooksreport">Most popular books report</a></li>
+		</ul>
+	</div>
+</div>
