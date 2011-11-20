@@ -165,8 +165,9 @@ CREATE TABLE `fine` (
   `amount` int(9) NOT NULL,
   `issuedDate` datetime NOT NULL,
   `paidDate` datetime DEFAULT NULL,
-  `borid` varchar(45) NOT NULL,
-  PRIMARY KEY (`fid`)
+  `borid` int(9) NOT NULL,
+  PRIMARY KEY (`fid`),
+  CONSTRAINT `borid_fk` FOREIGN KEY (`borid`) REFERENCES `borrowing` (`borid`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
