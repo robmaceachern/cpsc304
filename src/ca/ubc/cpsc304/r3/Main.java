@@ -8,7 +8,8 @@ public class Main {
 	 */
 	public static void main(String[] args) throws Exception {
 		ClerkDao dao = new ClerkDao();
-		dao.readDataBase();
+		dao.startConnection();
+		dao.checkOverdue();
 
 	}
 
