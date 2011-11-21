@@ -1,7 +1,6 @@
 --
 -- Script to populate our database tables with some example entries
 --
-use crazycoollibrary;
 
 --
 -- Populate the book table with some example entries
