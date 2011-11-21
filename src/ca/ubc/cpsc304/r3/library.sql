@@ -23,14 +23,15 @@ DROP TABLE IF EXISTS `book`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `book` (
-  `callNumber` int(9) NOT NULL,
-  `isbn` int(9) DEFAULT NULL,
+  `callNumber` int NOT NULL,
+  `isbn` int UNIQUE NOT NULL,
   `title` varchar(45) DEFAULT NULL,
   `mainAuthor` varchar(45) DEFAULT NULL,
   `publisher` varchar(45) DEFAULT NULL,
-  `year` int(4) NOT NULL,
+  `year` int NOT NULL,
   PRIMARY KEY (`callNumber`),
-  CONSTRAINT unique_isbn UNIQUE (isbn)
+  CONSTRAINT unique_isbn UNIQUE (isbn),
+  CONSTRAINT valid_year CHECK (year >= 1000 AND year < 9999)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -51,8 +52,8 @@ DROP TABLE IF EXISTS `bookcopy`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bookcopy` (
-  `callNumber` int(9) NOT NULL,
-  `copyNo` int(5) NOT NULL AUTO_INCREMENT,
+  `callNumber` int NOT NULL,
+  `copyNo` int NOT NULL AUTO_INCREMENT,
   `status` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`callNumber`,`copyNo`),
   KEY (`copyNo`),
@@ -77,17 +78,17 @@ DROP TABLE IF EXISTS `borrower`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `borrower` (
-  `bid` int(10) NOT NULL AUTO_INCREMENT,
+  `bid` int NOT NULL AUTO_INCREMENT,
   `password` varchar(20) DEFAULT NULL,
   `name` varchar(30) DEFAULT NULL,
   `address` varchar(50) DEFAULT NULL,
-  `phone` int(7) DEFAULT NULL,
+  `phone` int DEFAULT NULL,
   `emailAddress` varchar(20) DEFAULT NULL,
-  `sinOrStNo` int(10) NOT NULL,
+  `sinOrStNo` int UNIQUE NOT NULL,
   `expiryDate` date NOT NULL,
   `btype` ENUM ('student', 'faculty', 'staff'),
   PRIMARY KEY (`bid`),
-  CONSTRAINT `borrower_ibfk_1` FOREIGN KEY (`btype`) REFERENCES `borrowertype` (`btype`)
+  CONSTRAINT `borrower_ibfk_1` FOREIGN KEY (`btype`) REFERENCES `borrowertype` (`btype`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -131,10 +132,10 @@ DROP TABLE IF EXISTS `borrowing`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `borrowing` (
-  `borid` int(9) NOT NULL AUTO_INCREMENT,
-  `bid` int(9) NOT NULL,
-  `callNumber` int(9) NOT NULL,
-  `copyNo` int(5) NOT NULL,
+  `borid` int NOT NULL AUTO_INCREMENT,
+  `bid` int NOT NULL,
+  `callNumber` int NOT NULL,
+  `copyNo` int NOT NULL,
   `outDate` datetime DEFAULT NULL,
   `inDate` datetime DEFAULT NULL,
   PRIMARY KEY (`borid`),
@@ -161,11 +162,11 @@ DROP TABLE IF EXISTS `fine`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fine` (
-  `fid` int(9) NOT NULL AUTO_INCREMENT,
-  `amount` int(9) NOT NULL,
+  `fid` int NOT NULL AUTO_INCREMENT,
+  `amount` int NOT NULL,
   `issuedDate` datetime NOT NULL,
   `paidDate` datetime DEFAULT NULL,
-  `borid` int(9) NOT NULL,
+  `borid` int NOT NULL,
   PRIMARY KEY (`fid`),
   CONSTRAINT `borid_fk` FOREIGN KEY (`borid`) REFERENCES `borrowing` (`borid`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -189,7 +190,7 @@ DROP TABLE IF EXISTS `hasauthor`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hasauthor` (
   `author` varchar(30) NOT NULL,
-  `callNumber` int(9) NOT NULL,
+  `callNumber` int NOT NULL,
   PRIMARY KEY (`author`,`callNumber`),
   CONSTRAINT `callNumber` FOREIGN KEY (`callNumber`) REFERENCES `book` (`callNumber`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -212,7 +213,7 @@ DROP TABLE IF EXISTS `hassubject`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hassubject` (
-  `callNumber` int(9) NOT NULL,
+  `callNumber` int NOT NULL,
   `subject` varchar(20) NOT NULL,
   PRIMARY KEY (`callNumber`,`subject`),
   CONSTRAINT `hassubject_ibfk_1` FOREIGN KEY (`callNumber`) REFERENCES `book` (`callNumber`)
@@ -236,9 +237,9 @@ DROP TABLE IF EXISTS `holdrequest`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `holdrequest` (
-  `hid` int(9) NOT NULL AUTO_INCREMENT,
-  `bid` int(9) NOT NULL,
-  `callNumber` int(9) NOT NULL,
+  `hid` int NOT NULL AUTO_INCREMENT,
+  `bid` int NOT NULL,
+  `callNumber` int NOT NULL,
   `issuedDate` datetime DEFAULT NULL,
   PRIMARY KEY (`hid`),
   KEY `bid` (`bid`),
