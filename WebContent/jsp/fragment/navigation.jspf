@@ -1,6 +1,15 @@
 <script>
 	$(function() {
-		$("#navigation").accordion({ navigation: true});
+		$("#navigation").accordion({ navigation: true, navigationFilter: function(){
+			var delim = location.href.indexOf("?");
+			if(delim == -1){
+				return this.href.toLowerCase() == location.href.toLowerCase();
+			} else {
+				// chop off the params
+				var sub = location.href.substr(0, delim);
+				return this.href.toLowerCase() == sub.toLowerCase();
+			}
+		}});
 	});
 </script>
 
@@ -28,10 +37,16 @@
 	<div>
 		<ul>
 			<li><a href="/CrazyCoolLibrary/app/addnewbook">Add new book</a></li>
-			<li><a href="/CrazyCoolLibrary/app/addnewcopu">Add new book copy</a></li>
+			<li><a href="/CrazyCoolLibrary/app/addnewcopy">Add new book copy</a></li>
 			<li><a href="/CrazyCoolLibrary/app/removeborrower">Remove borrower</a></li>
-			<li><a href="/CrazyCoolLibrary/app/checkoutbooksreport">Checked out books report</a></li>
+			<li><a href="/CrazyCoolLibrary/app/checkedoutbooksreport">Checked out books report</a></li>
 			<li><a href="/CrazyCoolLibrary/app/mostpopularbooksreport">Most popular books report</a></li>
+			<!-- The following keep the navigation blocks in sync, but does not display any links -->
+			<li style="display:none;"><a href="/CrazyCoolLibrary/app/addnewbooksubmit"></a>
+			<li style="display:none;"><a href="/CrazyCoolLibrary/app/addnewbookcopysubmit"></a>
+			<li style="display:none;"><a href="/CrazyCoolLibrary/app/removeborrowersubmit"></a>
+			<li style="display:none;"><a href="/CrazyCoolLibrary/app/viewcheckedoutbooksreport"></a>
+			<li style="display:none;"><a href="/CrazyCoolLibrary/app/viewmostpopularbooksreport"></a>
 		</ul>
 	</div>
 </div>

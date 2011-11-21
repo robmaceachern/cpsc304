@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ca.ubc.cpsc304.r3.web.responder.BorrowerController;
 import ca.ubc.cpsc304.r3.web.responder.HomePageController;
-import ca.ubc.cpsc304.r3.web.responder.NewBookController;
+import ca.ubc.cpsc304.r3.web.responder.BookController;
+import ca.ubc.cpsc304.r3.web.responder.ReportController;
 
 /**
  * This class receives all the user's web requests and then determines what controller
@@ -41,9 +43,19 @@ public class DirectorServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// we'll need to implement this to handle POSTed data (such as forms)
+		// POST is for submitting forms
+		ViewAndParams view = getPostViewAndParams(request);
+		
+		// this takes any parameters and makes them available to the jsp
+		for(String key : view.getViewParams().keySet()){
+			request.setAttribute(key, view.getViewParams().get(key));
+		}
+		
+		RequestDispatcher dispatch = getServletContext().getRequestDispatcher(view.getViewPath());
+		dispatch.forward(request, response);
 	}
-	
+
+
 	/**
 	 * 
 	 * @param request the web request
@@ -59,10 +71,34 @@ public class DirectorServlet extends HttpServlet {
 		if(requestPath.equals("/")){
 			return new HomePageController().getHomePage(request);
 		} else if(requestPath.equals("/addnewbook/")){
-			return new NewBookController().getNewBookForm();
+			return new BookController().getNewBookForm();
+		} else if(requestPath.equals("/addnewcopy/")){
+			return new BookController().getNewBookCopyForm();
+		} else if(requestPath.equals("/removeborrower/")){
+			return new BorrowerController().getRemoveBorrowerForm();
+		} else if(requestPath.equals("/checkedoutbooksreport/")){
+			return new ReportController().getCheckedOutBooksForm();
+		} else if(requestPath.equals("/viewcheckedoutbooksreport/")){
+			return new ReportController().getCheckedOutBooksReport(request);
+		} else if(requestPath.equals("/mostpopularbooksreport/")){
+			return new ReportController().getMostPopularBooksReportForm();
+		} else if(requestPath.equals("/viewmostpopularbooksreport/")){
+			return new ReportController().getMostPopularBooksReport(request);
 		}
 		
 		// an error page if nothing hits
+		return new ViewAndParams("/jsp/error.jsp");
+	}
+	
+	private ViewAndParams getPostViewAndParams(HttpServletRequest request) {
+		String requestPath = cleanUpPath(request.getPathInfo());
+		if(requestPath.equals("/addnewbookcopysubmit/")){
+			return new BookController().addNewBookCopy(request);
+		} else if (requestPath.equals("/addnewbooksubmit/")){
+			return new BookController().addNewBook(request);
+		} else if(requestPath.equals("/removeborrowersubmit/")){
+			return new BorrowerController().removeBorrower(request);
+		}
 		return new ViewAndParams("/jsp/error.jsp");
 	}
 
