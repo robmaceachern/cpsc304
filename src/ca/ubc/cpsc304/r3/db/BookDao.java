@@ -7,6 +7,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.ubc.cpsc304.r3.dto.BookDto;
+
 public class BookDao {
 
 	private ConnectionService connService;
@@ -87,5 +89,122 @@ public class BookDao {
 		public void setTableName(String tableName) {
 			this.tableName = tableName;
 		}
+	}
+	
+	public List<BookDto> getByCallNumber(int id) throws SQLException{
+		List<BookDto> queryResult = new ArrayList<BookDto>();
+		Connection conn = null; 
+		try {
+			conn = connService.getConnection();
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(
+					"SELECT * " + 
+					"FROM book " + 
+					"WHERE callNumber="+id);
+			while(rs.next()){
+				// for each row, put the data in the dto
+				// and add it to list of results
+				BookDto dto = new BookDto();
+				dto.setCallNumber(rs.getInt("callNumber"));
+				dto.setIsbn(rs.getInt("isbn"));
+				dto.setTitle(rs.getString("title"));
+				dto.setMainAuthor(rs.getString("mainAuthor"));
+				dto.setPublisher(rs.getString("publisher"));
+				dto.setYear(rs.getInt("year"));
+				queryResult.add(dto);
+			}
+		} catch (SQLException e) {
+			// two options here. either don't catch this exception and 
+			// make the caller handle it, or wrap it in a more 
+			// descriptive exception depending on the situation.
+			// I'll just throw it
+			throw e;
+			
+		} finally {
+			// don't forget to close the connection
+			// when you're done with it
+			if(conn != null){
+				conn.close();
+			}
+		}
+		return queryResult;
+	}
+	
+	public List<BookDto> searchMainAuthorByKeyword(String keyword) throws SQLException{
+		List<BookDto> queryResult = new ArrayList<BookDto>();
+		Connection conn = null; 
+		try {
+			conn = connService.getConnection();
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(
+					"SELECT * " + 
+					"FROM book " + 
+					"WHERE mainAuthor like '%"+keyword+"%'"); // matches any main author that contains <keyword>
+			while(rs.next()){
+				// for each row, put the data in the dto
+				// and add it to list of results
+				BookDto dto = new BookDto();
+				dto.setCallNumber(rs.getInt("callNumber"));
+				dto.setIsbn(rs.getInt("isbn"));
+				dto.setTitle(rs.getString("title"));
+				dto.setMainAuthor(rs.getString("mainAuthor"));
+				dto.setPublisher(rs.getString("publisher"));
+				dto.setYear(rs.getInt("year"));
+				queryResult.add(dto);
+			}
+		} catch (SQLException e) {
+			// two options here. either don't catch this exception and 
+			// make the caller handle it, or wrap it in a more 
+			// descriptive exception depending on the situation.
+			// I'll just throw it
+			throw e;
+			
+		} finally {
+			// don't forget to close the connection
+			// when you're done with it
+			if(conn != null){
+				conn.close();
+			}
+		}
+		return queryResult;
+	}
+	
+	public List<BookDto> searchTitleByKeyword(String keyword) throws SQLException{
+		List<BookDto> queryResult = new ArrayList<BookDto>();
+		Connection conn = null; 
+		try {
+			conn = connService.getConnection();
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(
+					"SELECT * " + 
+					"FROM book " + 
+					"WHERE title like '%"+keyword+"%'"); // matches any title that contains <keyword>
+			while(rs.next()){
+				// for each row, put the data in the dto
+				// and add it to list of results
+				BookDto dto = new BookDto();
+				dto.setCallNumber(rs.getInt("callNumber"));
+				dto.setIsbn(rs.getInt("isbn"));
+				dto.setTitle(rs.getString("title"));
+				dto.setMainAuthor(rs.getString("mainAuthor"));
+				dto.setPublisher(rs.getString("publisher"));
+				dto.setYear(rs.getInt("year"));
+				queryResult.add(dto);
+			}
+		} catch (SQLException e) {
+			// two options here. either don't catch this exception and 
+			// make the caller handle it, or wrap it in a more 
+			// descriptive exception depending on the situation.
+			// I'll just throw it
+			throw e;
+			
+		} finally {
+			// don't forget to close the connection
+			// when you're done with it
+			if(conn != null){
+				conn.close();
+			}
+		}
+		return queryResult;
 	}
 }
