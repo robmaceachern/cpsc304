@@ -1,4 +1,4 @@
-package ca.ubc.cpsc304.r3;
+package ca.ubc.cpsc304.r3.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,18 +11,24 @@ import java.util.Calendar;
 import java.util.List;
 import java.sql.Date;
 
+
 public class ClerkDao {
 
 	private Connection conn = null;
 	private Statement st = null;
 	private PreparedStatement ps = null;
 	private ResultSet rs = null;
+	private ConnectionService connServ;
 
 	// offset for 1 year
 	public final long YEAR = 1000 * 60 * 60 * 24 * 356L;
 	// offset for 1 week
 	public final long WEEK = 1000 * 60 * 60 * 24 * 7L;
 
+	public ClerkDao(ConnectionService cs){
+		connServ=cs;
+	}
+	
 	public void startConnection() {
 		try {
 			// This will load the MySQL driver, each DB has its own driver
@@ -70,6 +76,9 @@ public class ClerkDao {
 	// Checks for all overdue items
 	public void checkOverdue() {
 		try {
+			Connection conn = connServ.getConnection();
+			Statement st = conn.createStatement();
+			ResultSet rs = null;
 			// Get all borrowers with books out currently
 			// Need this to get each borrower's limit
 			List<Integer> bids = new ArrayList<Integer>();
@@ -77,6 +86,7 @@ public class ClerkDao {
 			List<Date> dueDs = new ArrayList<Date>();
 			List<Date> overDs = new ArrayList<Date>();
 
+			
 			// !! for some reason this query doesn't return correctly? the same
 			// exact thing in heidi works as expected !!
 			rs = st.executeQuery("SELECT bid, borid, outDate FROM Borrowing WHERE inDate IS NULL");
@@ -147,8 +157,7 @@ public class ClerkDao {
 	 * item's details and the due day.
 	 */
 
-	public void borrowItem(int bid, int callNo) {
-		try {
+	public void borrowItem(int bid, int callNo) throws SQLException {
 			// Check if has overdue book
 			rs = st.executeQuery("SELECT amount FROM Fine F, Borrowing B "
 					+ "WHERE F.amount > 0 AND B.borid=F.borid AND B.bid="
@@ -183,11 +192,6 @@ public class ClerkDao {
 					+ convertToSQLvalue(copy));
 			ps.executeUpdate();
 			printResults(rs, 2);
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 	}
 

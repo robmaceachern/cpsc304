@@ -27,10 +27,15 @@
 	<h3><a href="#">Clerk</a></h3>
 	<div>
 		<ul>
-			<li><a href="/CrazyCoolLibrary/app/addborrower">Add borrower</a></li>
-			<li><a href="/CrazyCoolLibrary/app/checkoutitems">Check out items</a></li>
+			<li><a href="/CrazyCoolLibrary/app/addnewborrower">Add borrower</a></li>
+			<li><a href="/CrazyCoolLibrary/app/checkoutbooks">Check out books</a></li>
 			<li><a href="/CrazyCoolLibrary/app/processreturn">Process return</a></li>
-			<li><a href="/CrazyCoolLibrary/app/checkoverdue">Check overdue items</a></li>
+			<li><a href="/CrazyCoolLibrary/app/checkoverduereport">Check overdue items</a></li>
+			<!-- The following keep the navigation blocks in sync, but does not display any links -->
+			<li style="display:none;"><a href="/CrazyCoolLibrary/app/addnewborrowersubmit"></a>
+			<li style="display:none;"><a href="/CrazyCoolLibrary/app/checkoutbooksubmit"></a>
+			<li style="display:none;"><a href="/CrazyCoolLibrary/app/processreturnsubmit"></a>
+			<li style="display:none;"><a href="/CrazyCoolLibrary/app/viewcheckoverduereport"></a>
 		</ul>
 	</div>
 	<h3><a href="#">Librarian</a></h3>

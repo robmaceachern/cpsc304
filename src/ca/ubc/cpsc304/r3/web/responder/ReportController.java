@@ -25,5 +25,16 @@ public class ReportController {
 		ViewAndParams vp = new ViewAndParams("/jsp/librarian/reportMostPopularBooksDisplay.jsp");
 		return vp;
 	}
+
+	public ViewAndParams getOverdueReportForm() {
+		ViewAndParams vp = new ViewAndParams("/jsp/clerk/checkOverdueForm.jsp");
+		return vp;
+	}
+
+	public ViewAndParams getOverdueReport(HttpServletRequest request) {
+		ViewAndParams vp = new ViewAndParams("/jsp/clerk/checkOverdueDisplay.jsp");
+		return vp;
+	}
+	
 	
 }

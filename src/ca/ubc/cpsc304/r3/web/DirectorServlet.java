@@ -11,92 +11,126 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ca.ubc.cpsc304.r3.web.responder.BorrowerController;
+import ca.ubc.cpsc304.r3.web.responder.BorrowingController;
 import ca.ubc.cpsc304.r3.web.responder.HomePageController;
 import ca.ubc.cpsc304.r3.web.responder.BookController;
 import ca.ubc.cpsc304.r3.web.responder.ReportController;
 
 /**
- * This class receives all the user's web requests and then determines what controller
- * should handle it.
+ * This class receives all the user's web requests and then determines what
+ * controller should handle it.
  */
 public class DirectorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 
 		ViewAndParams view = getViewAndParams(request);
-		
+
 		// this takes any parameters and makes them available to the jsp
-		for(String key : view.getViewParams().keySet()){
+		for (String key : view.getViewParams().keySet()) {
 			request.setAttribute(key, view.getViewParams().get(key));
 		}
-		
-		RequestDispatcher dispatch = getServletContext().getRequestDispatcher(view.getViewPath());
+
+		RequestDispatcher dispatch = getServletContext().getRequestDispatcher(
+				view.getViewPath());
 		dispatch.forward(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		// POST is for submitting forms
 		ViewAndParams view = getPostViewAndParams(request);
-		
+
 		// this takes any parameters and makes them available to the jsp
-		for(String key : view.getViewParams().keySet()){
+		for (String key : view.getViewParams().keySet()) {
 			request.setAttribute(key, view.getViewParams().get(key));
 		}
-		
-		RequestDispatcher dispatch = getServletContext().getRequestDispatcher(view.getViewPath());
+
+		RequestDispatcher dispatch = getServletContext().getRequestDispatcher(
+				view.getViewPath());
 		dispatch.forward(request, response);
 	}
-
 
 	/**
 	 * 
-	 * @param request the web request
+	 * @param request
+	 *            the web request
 	 * @return the ViewAndParams to display
 	 */
-	private ViewAndParams getViewAndParams(HttpServletRequest request){
-		
+	private ViewAndParams getViewAndParams(HttpServletRequest request) {
+
 		// can be something like "/booklist" or "/librarian/addbook"
 		String requestPath = cleanUpPath(request.getPathInfo());
-		
-		// this will grow into a giant list of if/else statements as we 
+
+		// this will grow into a giant list of if/else statements as we
 		// add pages. It's not ideal, but it'll do the job.
-		if(requestPath.equals("/")){
+
+		// home
+		if (requestPath.equals("/")) {
 			return new HomePageController().getHomePage(request);
-		} else if(requestPath.equals("/addnewbook/")){
+		}
+
+		// clerk
+		else if (requestPath.equals("/addnewborrower/")) {
+			return new BorrowerController().getNewBorrowerForm();
+		} else if (requestPath.equals("/checkoutbooks/")) {
+			return new BorrowingController().checkOutBookForm();
+		} else if (requestPath.equals("/processreturn/")) {
+			return new BorrowingController().processReturnForm();
+		} else if (requestPath.equals("/checkoverduereport/")) {
+			return new ReportController().getOverdueReportForm();
+		}
+		// librarian
+		else if (requestPath.equals("/addnewbook/")) {
 			return new BookController().getNewBookForm();
-		} else if(requestPath.equals("/addnewcopy/")){
+		} else if (requestPath.equals("/addnewcopy/")) {
 			return new BookController().getNewBookCopyForm();
-		} else if(requestPath.equals("/removeborrower/")){
+		} else if (requestPath.equals("/removeborrower/")) {
 			return new BorrowerController().getRemoveBorrowerForm();
-		} else if(requestPath.equals("/checkedoutbooksreport/")){
+		} else if (requestPath.equals("/checkedoutbooksreport/")) {
 			return new ReportController().getCheckedOutBooksForm();
-		} else if(requestPath.equals("/viewcheckedoutbooksreport/")){
+		} else if (requestPath.equals("/viewcheckedoutbooksreport/")) {
 			return new ReportController().getCheckedOutBooksReport(request);
-		} else if(requestPath.equals("/mostpopularbooksreport/")){
+		} else if (requestPath.equals("/mostpopularbooksreport/")) {
 			return new ReportController().getMostPopularBooksReportForm();
-		} else if(requestPath.equals("/viewmostpopularbooksreport/")){
+		} else if (requestPath.equals("/viewmostpopularbooksreport/")) {
 			return new ReportController().getMostPopularBooksReport(request);
 		}
-		
+		else if (requestPath.equals("/viewcheckoverduereport/"))
+			return new ReportController().getOverdueReport(request);
 		// an error page if nothing hits
 		return new ViewAndParams("/jsp/error.jsp");
 	}
-	
+
 	private ViewAndParams getPostViewAndParams(HttpServletRequest request) {
 		String requestPath = cleanUpPath(request.getPathInfo());
-		if(requestPath.equals("/addnewbookcopysubmit/")){
+		
+		//borrower
+		
+		//clerk
+		if (requestPath.equals("/addnewborrowersubmit/")) 
+			return new BorrowerController().addNewBorrower(request);
+		else if (requestPath.equals("/checkoutbookssubmit/"))
+			return new BorrowingController().checkOutBook(request);
+		else if (requestPath.equals("/processreturnsubmit/"))
+			return new BorrowingController().processReturnResults(request);
+		
+		//librarian
+		else if (requestPath.equals("/addnewbookcopysubmit/")) {
 			return new BookController().addNewBookCopy(request);
-		} else if (requestPath.equals("/addnewbooksubmit/")){
+		} else if (requestPath.equals("/addnewbooksubmit/")) {
 			return new BookController().addNewBook(request);
-		} else if(requestPath.equals("/removeborrowersubmit/")){
+		} else if (requestPath.equals("/removeborrowersubmit/")) {
 			return new BorrowerController().removeBorrower(request);
 		}
 		return new ViewAndParams("/jsp/error.jsp");
@@ -104,16 +138,16 @@ public class DirectorServlet extends HttpServlet {
 
 	private String cleanUpPath(String pathInfo) {
 		// treat empty or null as root
-		if(pathInfo == null || pathInfo.isEmpty()){
+		if (pathInfo == null || pathInfo.isEmpty()) {
 			return "/";
 		}
-		
-		char lastChar = pathInfo.charAt(pathInfo.length()-1);
-		if(lastChar != '/'){
+
+		char lastChar = pathInfo.charAt(pathInfo.length() - 1);
+		if (lastChar != '/') {
 			return pathInfo + "/";
 		}
 		return pathInfo;
-		
+
 	}
 
 	public static class ViewAndParams {
@@ -122,25 +156,26 @@ public class DirectorServlet extends HttpServlet {
 
 		private Map<String, Object> viewParams;
 
-		public ViewAndParams(String viewPath){
-			if(viewPath == null) throw new NullPointerException();
+		public ViewAndParams(String viewPath) {
+			if (viewPath == null)
+				throw new NullPointerException();
 			this.viewPath = viewPath;
 			this.viewParams = new HashMap<String, Object>();
 		}
 
-		public void putViewParam(String name, Object o){
+		public void putViewParam(String name, Object o) {
 			this.viewParams.put(name, o);
 		}
-		
-		public void putAllViewParams(Map<String, Object> params){
+
+		public void putAllViewParams(Map<String, Object> params) {
 			this.viewParams.putAll(params);
 		}
-		
-		public Map<String, Object> getViewParams(){
+
+		public Map<String, Object> getViewParams() {
 			return new HashMap<String, Object>(this.viewParams);
 		}
-		
-		public String getViewPath(){
+
+		public String getViewPath() {
 			return this.viewPath;
 		}
 	}

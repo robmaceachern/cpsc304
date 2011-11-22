@@ -7,6 +7,8 @@
 <title>Error!!1!</title>
 </head>
 <body>
+<h1>ERROR PAGE!</h1>
+<h3>--Insert error message--</h3>
 <h1>We can't find the page you're looking for. Try again, fool!</h1>
 </body>
 </html>

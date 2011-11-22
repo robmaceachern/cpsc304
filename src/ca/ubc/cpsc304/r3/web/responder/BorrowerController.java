@@ -15,5 +15,15 @@ public class BorrowerController {
 		ViewAndParams vp = new ViewAndParams("/jsp/librarian/removeBorrowerForm.jsp");
 		return vp;
 	}
+	
+	public ViewAndParams addNewBorrower(HttpServletRequest request){
+		ViewAndParams vp = new ViewAndParams("/jsp/clerk/addNewBorrowerResults.jsp");
+		return vp;
+	}
+	
+	public ViewAndParams getNewBorrowerForm(){
+		ViewAndParams vp = new ViewAndParams("/jsp/clerk/addNewBorrowerForm.jsp");
+		return vp;
+	}
 
 }
