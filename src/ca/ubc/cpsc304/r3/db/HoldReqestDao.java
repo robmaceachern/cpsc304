@@ -55,5 +55,37 @@ public class HoldReqestDao {
 		}
 		return queryResult;
 	}
+	
+	public void placeByCallNumberAndID(int callNo, int borrowerID) throws SQLException{
+		Connection conn = null; 
+		try {
+			// first get the current date to be used when placing the hold request
+			java.util.Date now = new java.util.Date();
+			java.sql.Date sqlNow = new java.sql.Date(now.getTime());
+			
+			conn = connService.getConnection();
+			Statement st = conn.createStatement();
+			st.executeQuery(
+					"insert into holdrequest(bid, callNumber, issuedDate) " + 
+					"values("+borrowerID+", "+callNo+", "+sqlNow+")");
+		
+		} catch (SQLException e) {
+			// two options here. either don't catch this exception and 
+			// make the caller handle it, or wrap it in a more 
+			// descriptive exception depending on the situation.
+			// I'll just throw it
+			throw e;
+			
+		} finally {
+			// don't forget to close the connection
+			// when you're done with it
+			if(conn != null){
+				conn.close();
+			}
+		}
+		
+		// is there anything we want to return?
+		return;
+	}
 }
 
