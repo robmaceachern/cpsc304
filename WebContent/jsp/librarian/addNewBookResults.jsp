@@ -7,16 +7,33 @@
 <head>
 <jsp:include page="/jsp/fragment/head.jspf"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Add new book</title>
+<title>
+	<c:choose>
+		<c:when test="${hasError}">Add Book - Failure</c:when>
+		<c:otherwise>Book Successfully Added</c:otherwise>
+	</c:choose>
+</title>
 </head>
 <body>
-<jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
-<jsp:include page="/jsp/fragment/navigation.jspf"/>
-	<h1>New book successfully added</h1>
-	<p>That is a lie. This hasn't been implemented yet.</p>
-	<p>If there was an error, it will be printed here</p>
-	<c:forEach var="entry" items="${bookAdded}" >
-		<p>${entry.key} : ${entry.value[0]}</p>
-	</c:forEach>
+	<jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
+	<jsp:include page="/jsp/fragment/navigation.jspf"/>
+
+	<c:choose>
+		<c:when test="${hasError}">
+			<h1>Add Book - Failure</h1>
+			<p>${errorMsg}</p>
+		</c:when>
+		<c:otherwise>
+			<h1>New Book Successfully Added</h1>
+			<p>The following book was added to the system:</p>
+			<ul>
+				<li>ISBN: ${bookAdded.isbn}</li>
+				<li>Title: ${bookAdded.title}</li>
+				<li>Author: ${bookAdded.mainAuthor}</li>
+				<li>Publisher: ${bookAdded.publisher}</li>
+				<li>Year: ${bookAdded.year}</li>
+			</ul>
+		</c:otherwise>
+	</c:choose>
 </body>
 </html>
