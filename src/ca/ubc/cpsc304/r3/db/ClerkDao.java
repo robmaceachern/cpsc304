@@ -11,7 +11,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.sql.Date;
 
-
 public class ClerkDao {
 
 	private Connection conn = null;
@@ -25,10 +24,14 @@ public class ClerkDao {
 	// offset for 1 week
 	public final long WEEK = 1000 * 60 * 60 * 24 * 7L;
 
-	public ClerkDao(ConnectionService cs){
-		connServ=cs;
+	public ClerkDao(ConnectionService cs) {
+		connServ = cs;
 	}
-	
+
+	public ClerkDao() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public void startConnection() {
 		try {
 			// This will load the MySQL driver, each DB has its own driver
@@ -86,16 +89,16 @@ public class ClerkDao {
 			List<Date> dueDs = new ArrayList<Date>();
 			List<Date> overDs = new ArrayList<Date>();
 
-			
 			// !! for some reason this query doesn't return correctly? the same
 			// exact thing in heidi works as expected !!
 			rs = st.executeQuery("SELECT bid, borid, outDate FROM Borrowing WHERE inDate IS NULL");
-			
-			//this gets all 4 i inserted into my db
-//			printResults(rs, 3);
+
+			// this gets all 4 i inserted into my db
+			// printResults(rs, 3);
 
 			// only ever 1 element??
-			// seems related to java.sql.SQLException: Operation not allowed after ResultSet closed
+			// seems related to java.sql.SQLException: Operation not allowed
+			// after ResultSet closed
 			int j = 0;
 			while (rs.next()) {
 				int b = rs.getInt("bid");
@@ -106,7 +109,7 @@ public class ClerkDao {
 				overDs.add(makeDate(-1 * getBorrowerLimit(b)));
 				System.out.println(++j);
 			}
-			
+
 			if (bids.size() < 1) {
 				System.out.println("No overdue items.");
 				return;
@@ -145,8 +148,6 @@ public class ClerkDao {
 		}
 	}
 
-	
-
 	/*
 	 * Check-out items borrowed by a borrower. To borrow items, borrowers
 	 * provide their card number and a list with the call numbers of the items
@@ -158,40 +159,48 @@ public class ClerkDao {
 	 */
 
 	public void borrowItem(int bid, int callNo) throws SQLException {
-			// Check if has overdue book
-			rs = st.executeQuery("SELECT amount FROM Fine F, Borrowing B "
-					+ "WHERE F.amount > 0 AND B.borid=F.borid AND B.bid="
-					+ convertToSQLvalue(bid));
-			if (rs.next()) {
-				System.out.println("You currently have a fine of "
-						+ rs.getInt("amount"));
-				return;
-			}
-			// get an available copy
-			int copy = findAvailableCopy(callNo);
-			if (copy == -1) {
-				// prompt user to request hold
-				System.out.println("Sorry, there are no available copies.");
-				return;
-			}
 
-			// Create new borrowing record
-			ps = conn
-					.prepareStatement("INSERT into Borrowing(bid, callNumber, copyNo, outDate, inDate) "
-							+ "values (?,?,?,?,?)");
-			ps.setInt(1, bid);
-			ps.setInt(2, callNo);
-			ps.setInt(3, copy);
-			ps.setDate(4, makeDate(0));
-			ps.executeUpdate();
-			printResults(rs, 6);
+		Connection conn = connServ.getConnection();
+		Statement st = conn.createStatement();
+		ResultSet rs = null;	
+		// Check if has overdue book
+		rs = st.executeQuery("SELECT amount FROM Fine F, Borrowing B "
+				+ "WHERE F.amount > 0 AND B.borid=F.borid AND B.bid="
+				+ convertToSQLvalue(bid));
+		if (rs.next()) {
+			System.out.println("You currently have a fine of "
+					+ rs.getInt("amount"));
+			throw new SQLException("You have a fine.");
+		}
+		// get an available copy
+		int copy = findAvailableCopy(callNo);
+		if (copy == -1) {
+			// prompt user to request hold
+			System.out.println("Sorry, there are no available copies.");
+			throw new SQLException("No available copies.");
+		}
 
-			ps = conn.prepareStatement("UPDATE BookCopy "
-					+ "SET status='out' WHERE callNumber="
-					+ convertToSQLvalue(callNo) + " AND copyNo="
-					+ convertToSQLvalue(copy));
-			ps.executeUpdate();
-			printResults(rs, 2);
+		// Create new borrowing record
+		ps = conn
+				.prepareStatement("INSERT into Borrowing(bid, callNumber, copyNo, outDate) "
+						+ "values (?,?,?,?)");
+		ps.setInt(1, bid);
+		ps.setInt(2, callNo);
+		ps.setInt(3, copy);
+		ps.setDate(4, makeDate(0));
+
+		ps.executeUpdate();
+		// st = conn.createStatement();
+		// rs =st.executeQuery("SELECT * FROM  Borrowing");
+		// printResults(rs, 6);
+
+		ps = conn.prepareStatement("UPDATE BookCopy "
+				+ "SET status='out' WHERE callNumber="
+				+ convertToSQLvalue(callNo) + " AND copyNo="
+				+ convertToSQLvalue(copy));
+		ps.executeUpdate();
+		// rs = st.executeQuery("SELECT * FROM BookCopy");
+		// printResults(rs, 2);
 
 	}
 
@@ -311,11 +320,17 @@ public class ClerkDao {
 
 	public int findAvailableCopy(int callNum) {
 		try {
+			Connection conn = connServ.getConnection();
+			Statement st = conn.createStatement();
+			ResultSet rs = null;
 			rs = st.executeQuery("SELECT copyNo FROM bookCopy "
 					+ "WHERE status='in' AND callNumber="
 					+ convertToSQLvalue(callNum));
-			if (rs.next())
-				return rs.getInt(1);
+			if (rs.next()){
+				int i = rs.getInt(1);
+				conn.close();
+				return i;
+			}
 		} catch (SQLException e) {
 			System.out.println("couldn't find a copy");
 			e.printStackTrace();
@@ -470,7 +485,8 @@ public class ClerkDao {
 				String col = res.getMetaData().getColumnName(i);
 				Object val = res.getObject(i);
 				System.out.println(col + ": " + val);
-			}System.out.println();
+			}
+			System.out.println();
 		}
 	}
 

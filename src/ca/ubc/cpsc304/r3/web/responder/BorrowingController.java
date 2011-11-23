@@ -14,17 +14,22 @@ public class BorrowingController {
 	public ViewAndParams checkOutBook(HttpServletRequest request) {
 		Map<String, String[]> reqParams = request.getParameterMap();
 		ClerkDao clerk = new ClerkDao(ConnectionService.getInstance());
+//		clerk = new ClerkDao();
+//		clerk.startConnection();
 		String[] books = listStrings(reqParams.get("callNumber")[0]);
 		for (int i = 0; i < books.length; i++) {
+			
+			System.out.println(Integer.parseInt(reqParams.get("bid")[0])
+					+ " " + Integer.parseInt(books[i]));
 			try {
-				// TODO make checkout get more than 1 input, then this'll work
-				// clerk.borrowItem(Integer.parseInt(reqParams.get("bid")[0]),
-				// Integer.parseInt(books[i]));
-				System.out.println(Integer.parseInt(reqParams.get("bid")[0])
-						+ " " + Integer.parseInt(books[i]));
+				clerk.borrowItem(Integer.parseInt(reqParams.get("bid")[0]),
+						 Integer.parseInt(books[i]));
 			} catch (NumberFormatException e) {
 				System.out.println("NOT A NUMBER!");
+				return new ViewAndParams("/jsp/error.jsp");
 			} catch (Exception e) {
+				System.err.println(e);
+//				e.printStackTrace();
 				return new ViewAndParams("/jsp/error.jsp");
 			}
 		}
@@ -53,7 +58,6 @@ public class BorrowingController {
 	private String[] listStrings(String s) {
 		if (s == null)
 			return null;
-		s = s.replaceAll(" ", "");
 		int count = countChars(s, ',', 0);
 		String[] sList = new String[count + 1];
 		return listStringsHelper(s, count, sList, 0);
@@ -66,7 +70,7 @@ public class BorrowingController {
 		}
 		if (s.charAt(index) == ',') {
 			list[list.length - 1 - n] = s.substring(0, index);
-			return listStringsHelper(s.substring(index + 1), n - 1, list, 0);
+			return listStringsHelper(s.substring(index + 1).trim(), n - 1, list, 0);
 		}
 		return listStringsHelper(s, n, list, index + 1);
 	}

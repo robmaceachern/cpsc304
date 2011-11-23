@@ -11,8 +11,10 @@ public class Main {
 	 */
 	public static void main(String[] args) throws Exception {
 		ClerkDao dao = new ClerkDao(ConnectionService.getInstance());
-		//dao.startConnection();
-		dao.checkOverdue();
+//		ClerkDao dao = new ClerkDao();
+//		dao.startConnection();
+		dao.borrowItem(1, 1);
+//		dao.checkOverdue();
 
 	}
 
