@@ -7,33 +7,13 @@
 <head>
 <jsp:include page="/jsp/fragment/head.jspf"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Checked out books report</title>
+<title>Book removed</title>
 </head>
 <body>
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
-	<h1>Checked out books report</h1>
-	<p>That is a lie. This hasn't been implemented yet. It'll look like a pretty table</p>
+	<h1>Book removed</h1>
+	<p>That is a lie. This hasn't been implemented yet.</p>
 	<p>If there was an error, it will be printed here</p>
-		<table>
-		<thead>
-			<tr>
-				<td>Call Number</td>
-				<td>Title</td>
-				<td>Main Author</td>
-				<td>Check Out Count</td>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="item" items="${mostPopularBooks}">
-			<tr>
-				<td>${item.callNumber}</td>
-				<td>${item.title}</td>
-				<td>${item.mainAuthor}</td>
-				<td>${item.checkoutCount}</td>
-			</tr>
-			</c:forEach>
-		</tbody>
-	</table>
 </body>
 </html>
