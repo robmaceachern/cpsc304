@@ -15,5 +15,28 @@
 	<h1>Checked out books report</h1>
 	<p>That is a lie. This hasn't been implemented yet. It'll look like a pretty table</p>
 	<p>If there was an error, it will be printed here</p>
+	
+	<table>
+		<thead>
+			<tr>
+				<td>Call Number</td>
+				<td>Title</td>
+				<td>Check Out Date</td>
+				<td>Due Date</td>
+				<td>Overdue</td>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach var="item" items="${checkedOutBooks}">
+			<tr>
+				<td>${item.callNumber}</td>
+				<td>${item.title}</td>
+				<td>${item.outDate}</td>
+				<td>${item.dueDate}</td>
+				<td>${item.overdue}</td>
+			</tr>
+			</c:forEach>
+		</tbody>
+	</table>
 </body>
 </html>

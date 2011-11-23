@@ -31,6 +31,14 @@ public class BookController {
 		ViewAndParams vp = new ViewAndParams("/jsp/librarian/addNewBookCopyResults.jsp");
 		return vp;
 	}
-	
 
+	public ViewAndParams getRemoveBookForm() {
+		ViewAndParams vp = new ViewAndParams("/jsp/librarian/removeBookForm.jsp");
+		return vp;
+	}
+
+	public ViewAndParams removeBook(HttpServletRequest request) {
+		ViewAndParams vp = new ViewAndParams("/jsp/librarian/removeBookResults.jsp");
+		return vp;
+	}
 }

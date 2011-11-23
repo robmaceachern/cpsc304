@@ -7,19 +7,16 @@
 <head>
 <jsp:include page="/jsp/fragment/head.jspf"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Most popular books report</title>
+<title>Remove a Book</title>
 </head>
 <body>
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
-	<h1>Most popular books report</h1>
+	<h1>Remove a Book</h1>
 	<p>Not implemented yet</p>
-	<!-- I'm using GET for this form because we're not changing the server state 
-			based on the year or limit. It's just a filtering mechanism. -->
-	<form action="/CrazyCoolLibrary/app/viewmostpopularbooksreport" method="get">
-		<div><label for="year">Year</label><input id="year" name="year" type="text"/></div>
-		<div><label for="limit">Results limit</label><input id="limit" name="limit" type="text"/></div>
-		<button type="submit">Generate report</button>
+	<form action="/CrazyCoolLibrary/app/removebooksubmit" method="post">
+		<div><label for="catalogueNumber">Catalogue Number</label><input id="catalogueNumber" name="catalogueNumber" type="text"/></div>
+		<button type="submit">Remove Book</button>
 	</form>
 </body>
 </html>
