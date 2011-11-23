@@ -31,7 +31,7 @@ public class BookDao {
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(
 					"SELECT table_name, table_rows " + 
-							"FROM information_schema.tables " + 
+					"FROM information_schema.tables " + 
 					"WHERE table_schema='crazycoollibrary'");
 			while(rs.next()){
 				// for each row, put the data in the dto
@@ -100,8 +100,8 @@ public class BookDao {
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(
 					"SELECT * " + 
-							"FROM book " + 
-							"WHERE callNumber="+id);
+					"FROM book " + 
+					"WHERE callNumber="+id);
 			while(rs.next()){
 				// for each row, put the data in the dto
 				// and add it to list of results
@@ -139,8 +139,8 @@ public class BookDao {
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(
 					"SELECT * " + 
-							"FROM book " + 
-							"WHERE mainAuthor like '%"+keyword+"%'"); // matches any main author that contains <keyword>
+					"FROM book " + 
+					"WHERE mainAuthor like '%"+keyword+"%'"); // matches any main author that contains <keyword>
 			while(rs.next()){
 				// for each row, put the data in the dto
 				// and add it to list of results
@@ -178,8 +178,8 @@ public class BookDao {
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(
 					"SELECT * " + 
-							"FROM book " + 
-							"WHERE title like '%"+keyword+"%'"); // matches any title that contains <keyword>
+					"FROM book " + 
+					"WHERE title like '%"+keyword+"%'"); // matches any title that contains <keyword>
 			while(rs.next()){
 				// for each row, put the data in the dto
 				// and add it to list of results
