@@ -13,9 +13,8 @@
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
 	<h1>Remove a Book</h1>
-	<p>Not implemented yet</p>
 	<form action="/CrazyCoolLibrary/app/removebooksubmit" method="post">
-		<div><label for="catalogueNumber">Catalogue Number</label><input id="catalogueNumber" name="catalogueNumber" type="text"/></div>
+		<div><label for="catalogueNumber">Call Number</label><input id="callNumber" name="callNumber" type="text"/></div>
 		<button type="submit">Remove Book</button>
 	</form>
 </body>

@@ -60,9 +60,36 @@ public class BookController {
 		return vp;
 	}
 
+	/**
+	 * 
+	 * From reqs:
+	 * Remove a book from the catalogue.  The librarian provides 
+	 * the catalogue number for the item and the system removes 
+	 * it from the database.
+	 * 
+	 * Note: I'm treating catalogue number as callNumber
+	 * 
+	 * @param request
+	 * @return the removeBookResults view and its view parameters
+	 */
 	public ViewAndParams removeBook(HttpServletRequest request) {
 		ViewAndParams vp = new ViewAndParams("/jsp/librarian/removeBookResults.jsp");
-		return vp;
+		try {
+			
+			@SuppressWarnings("unchecked")
+			Map<String, String[]> params = request.getParameterMap();
+			BookDao dao = new BookDao(ConnectionService.getInstance());
+			int callNumber = Integer.parseInt(params.get("callNumber")[0]);
+			int numBooksRemoved = dao.removeBook(callNumber);
+			
+			vp.putViewParam("numBooksRemoved", numBooksRemoved);
+			vp.putViewParam("callNumber", callNumber);
+			return vp;
+		} catch (Exception e){
+			vp.putViewParam("hasError", true);
+			vp.putViewParam("errorMsg", generateFriendlyError(e));
+			return vp;
+		}
 	}
 	
 	/**

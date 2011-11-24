@@ -209,6 +209,12 @@ public class BookDao {
 		return queryResult;
 	}
 
+	/**
+	 * Adds a new book to the system
+	 * 
+	 * @param dto the book dto
+	 * @throws SQLException when a db error occurs
+	 */
 	public void addNewBook(BookDto dto) throws SQLException {
 
 		Connection conn = null;
@@ -230,5 +236,28 @@ public class BookDao {
 			}
 		}
 
+	}
+
+	/**
+	 * Removes a book given a 
+	 * @param callNumber the book's call number
+	 * @return the number of rows deleted
+	 * @throws SQLException If there was an error executing the operation
+	 */
+	public int removeBook(int callNumber) throws SQLException {
+		Connection conn = null;
+		try {
+			conn = this.connService.getConnection();
+			PreparedStatement ps = conn.prepareStatement(
+					"DELETE FROM book " + 
+					"WHERE callNumber=?");
+			ps.setInt(1, callNumber);
+			return ps.executeUpdate();
+		} finally {
+			if(conn != null){
+				conn.close();
+			}
+		}
+		
 	}
 }
