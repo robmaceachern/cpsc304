@@ -13,7 +13,7 @@
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
     <h1>Check your account</h1>
-    <p>This is the Check Account page, but I don't have anything yet.  :]</p>
+    <p>Enter your borrower ID to check the items you currently have checked out, your outstanding fines, and your current hold requests.</p>
     <form action="/CrazyCoolLibrary/app/checkaccountsubmit" method="get">
         <div><label for="bid">Borrower ID</label><input id="bid" name="bid" type="text"/></div>
         <button type="submit">Check Account</button>

@@ -7,8 +7,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import ca.ubc.cpsc304.r3.db.BorrowingDao;
+import ca.ubc.cpsc304.r3.db.HoldRequestDao;
 import ca.ubc.cpsc304.r3.db.ConnectionService;
+import ca.ubc.cpsc304.r3.db.FineDao;
 import ca.ubc.cpsc304.r3.dto.BorrowingDto;
+import ca.ubc.cpsc304.r3.dto.FineDto;
+import ca.ubc.cpsc304.r3.dto.HoldRequestDto;
 import ca.ubc.cpsc304.r3.web.DirectorServlet.ViewAndParams;
 
 public class BorrowerController {
@@ -41,24 +45,33 @@ public class BorrowerController {
 	public ViewAndParams getCheckAccountResults(HttpServletRequest request) {
 		ViewAndParams vp = new ViewAndParams("/jsp/borrower/checkAccountResults.jsp");
 		
-		Integer bid = getIntFromParams("bid", request);
-		if(bid==null){
-			// TODO: do something nicer
-		}
-		else{
-			BorrowingDao dao = new BorrowingDao(ConnectionService.getInstance());
-			
-			try {
-				List<BorrowingDto> borrowedItems = dao.getUnpaidByID(bid);
-				vp.putViewParam("borrowedItems", borrowedItems);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				// also catch / handle invalid input exception
-			}
-		}
+		try {
+			@SuppressWarnings("unchecked")
 		
-		return vp;
+			Integer bid = getIntFromParams("bid", request);
+
+			// create dao's for the 3 different queries
+			BorrowingDao daoBorrowing = new BorrowingDao(ConnectionService.getInstance());	
+			FineDao daoFine = new FineDao(ConnectionService.getInstance());
+			HoldRequestDao daoHoldRequest = new HoldRequestDao(ConnectionService.getInstance());
+			
+			// get the results of the 3 queries
+			List<BorrowingDto> borrowedItems = daoBorrowing.getBorrowedByID(bid);
+			List<FineDto> outstandingFines = daoFine.getUnpaidByID(bid);
+			List<HoldRequestDto> currentHolds = daoHoldRequest.getByID(bid);
+			
+			// attach the results to give them to the web page
+			vp.putViewParam("borrowedItems", borrowedItems);
+			vp.putViewParam("outstandingFines", outstandingFines);
+			vp.putViewParam("currentHolds", currentHolds);
+			
+			return vp;
+		} catch (Exception e) {
+			e.printStackTrace();
+			vp.putViewParam("hasError", true);
+			vp.putViewParam("errorMsg", generateFriendlyError(e));
+			return vp;
+		}
 	}
 	
 	private Integer getIntFromParams(String key, HttpServletRequest request){
@@ -76,6 +89,24 @@ public class BorrowerController {
 			catch(NumberFormatException e){
 				return null;
 			}
+		}
+	}
+	
+	/**
+	 * Generates a user-friendly error message for various 
+	 * types of exceptions
+	 * @param e the exception
+	 * @return a user-friendly error messsage
+	 */
+	public static String generateFriendlyError(Exception e){
+		if(e instanceof NullPointerException){
+			return "Please ensure all required fields are completed before submitting.";
+		} else if (e instanceof NumberFormatException){
+			return "Please ensure that numeric fields contain only numbers.";
+		} else if (e instanceof SQLException){
+			return e.getMessage() + ". Please correct the error and try again.";
+		} else {
+			return "There was a a problem completing your request. " + e.getMessage();
 		}
 	}
 

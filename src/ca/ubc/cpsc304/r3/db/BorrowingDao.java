@@ -19,7 +19,7 @@ public class BorrowingDao {
 		this.connService = connService;
 	}
 	
-	public List<BorrowingDto> getUnpaidByID(int id) throws SQLException{
+	public List<BorrowingDto> getBorrowedByID(int id) throws SQLException{
 		List<BorrowingDto> queryResult = new ArrayList<BorrowingDto>();
 		Connection conn = null; 
 		try {
