@@ -1,6 +1,7 @@
 package ca.ubc.cpsc304.r3.db;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,11 +13,11 @@ import ca.ubc.cpsc304.r3.dto.BookDto;
 public class BookDao {
 
 	private ConnectionService connService;
-	
+
 	public BookDao(ConnectionService connService){
 		this.connService = connService;
 	}
-	
+
 	/**
 	 * A sample query to demonstrate how the data access will work.
 	 * @return a list of database table names.
@@ -46,7 +47,7 @@ public class BookDao {
 			// descriptive exception depending on the situation.
 			// I'll just throw it
 			throw e;
-			
+
 		} finally {
 			// don't forget to close the connection
 			// when you're done with it
@@ -56,8 +57,8 @@ public class BookDao {
 		}
 		return queryResult;
 	}
-	
-	
+
+
 	/**
 	 * 
 	 * Encapsulates the results of my table query.
@@ -67,11 +68,11 @@ public class BookDao {
 	 *
 	 */
 	public static class TableDto {
-		
+
 		private String tableName;
-		
+
 		private int numRows;
-		
+
 		public TableDto(){}
 
 		public int getNumRows() {
@@ -90,7 +91,7 @@ public class BookDao {
 			this.tableName = tableName;
 		}
 	}
-	
+
 	public List<BookDto> getByCallNumber(int id) throws SQLException{
 		List<BookDto> queryResult = new ArrayList<BookDto>();
 		Connection conn = null; 
@@ -119,7 +120,7 @@ public class BookDao {
 			// descriptive exception depending on the situation.
 			// I'll just throw it
 			throw e;
-			
+
 		} finally {
 			// don't forget to close the connection
 			// when you're done with it
@@ -129,7 +130,7 @@ public class BookDao {
 		}
 		return queryResult;
 	}
-	
+
 	public List<BookDto> searchMainAuthorByKeyword(String keyword) throws SQLException{
 		List<BookDto> queryResult = new ArrayList<BookDto>();
 		Connection conn = null; 
@@ -158,7 +159,7 @@ public class BookDao {
 			// descriptive exception depending on the situation.
 			// I'll just throw it
 			throw e;
-			
+
 		} finally {
 			// don't forget to close the connection
 			// when you're done with it
@@ -168,7 +169,7 @@ public class BookDao {
 		}
 		return queryResult;
 	}
-	
+
 	public List<BookDto> searchTitleByKeyword(String keyword) throws SQLException{
 		List<BookDto> queryResult = new ArrayList<BookDto>();
 		Connection conn = null; 
@@ -197,7 +198,7 @@ public class BookDao {
 			// descriptive exception depending on the situation.
 			// I'll just throw it
 			throw e;
-			
+
 		} finally {
 			// don't forget to close the connection
 			// when you're done with it
@@ -206,5 +207,28 @@ public class BookDao {
 			}
 		}
 		return queryResult;
+	}
+
+	public void addNewBook(BookDto dto) throws SQLException {
+
+		Connection conn = null;
+		try {
+			conn = this.connService.getConnection();
+			PreparedStatement ps = conn.prepareStatement(
+					"INSERT INTO book"+
+					"(isbn, title, mainAuthor, publisher, year) " +
+					"VALUES (?,?,?,?,?)");
+			ps.setInt(1, dto.getIsbn());
+			ps.setString(2, dto.getTitle());
+			ps.setString(3, dto.getMainAuthor());
+			ps.setString(4, dto.getPublisher());
+			ps.setInt(5, dto.getYear());
+			ps.executeUpdate();
+		} finally {
+			if (conn != null){
+				conn.close();
+			}
+		}
+
 	}
 }

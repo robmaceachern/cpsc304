@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `book`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `book` (
-  `callNumber` int NOT NULL,
+  `callNumber` int NOT NULL AUTO_INCREMENT,
   `isbn` int UNIQUE NOT NULL,
   `title` varchar(45) DEFAULT NULL,
   `mainAuthor` varchar(45) DEFAULT NULL,
@@ -35,6 +35,7 @@ CREATE TABLE `book` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+ALTER TABLE `book` AUTO_INCREMENT=10001;
 --
 -- Dumping data for table `book`
 --

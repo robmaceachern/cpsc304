@@ -112,9 +112,11 @@ public class DirectorServlet extends HttpServlet {
 			return new ReportController().getMostPopularBooksReportForm();
 		} else if (requestPath.equals("/viewmostpopularbooksreport/")) {
 			return new ReportController().getMostPopularBooksReport(request);
-		}
-		else if (requestPath.equals("/viewcheckoverduereport/"))
+		} else if (requestPath.equals("/viewcheckoverduereport/")){
 			return new ReportController().getOverdueReport(request);
+		} else if (requestPath.equals("/removebook/")){
+			return new BookController().getRemoveBookForm();
+		}
 		// an error page if nothing hits
 		return new ViewAndParams("/jsp/error.jsp");
 	}
@@ -139,6 +141,8 @@ public class DirectorServlet extends HttpServlet {
 			return new BookController().addNewBook(request);
 		} else if (requestPath.equals("/removeborrowersubmit/")) {
 			return new BorrowerController().removeBorrower(request);
+		} else if (requestPath.equals("/removebooksubmit/")){
+			return new BookController().removeBook(request);
 		}
 		return new ViewAndParams("/jsp/error.jsp");
 	}
