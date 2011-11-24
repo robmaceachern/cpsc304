@@ -7,12 +7,10 @@
 <head>
 <jsp:include page="/jsp/fragment/head.jspf"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>
-	<c:choose>
-		<c:when test="${hasError}">Add Book - Failure</c:when>
-		<c:otherwise>Book Successfully Added</c:otherwise>
-	</c:choose>
-</title>
+<c:choose>
+	<c:when test="${hasError}"><title>Add Book - Failure</title></c:when>
+	<c:otherwise><title>Book Successfully Added</title></c:otherwise>
+</c:choose>
 </head>
 <body>
 	<jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
