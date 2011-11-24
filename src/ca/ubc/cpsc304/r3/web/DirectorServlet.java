@@ -79,6 +79,13 @@ public class DirectorServlet extends HttpServlet {
 		if (requestPath.equals("/")) {
 			return new HomePageController().getHomePage(request);
 		}
+		// borrower
+		else if(requestPath.equals("/checkaccount/")) {
+			return new BorrowerController().getCheckAccountForm();
+		}
+		else if(requestPath.equals("/checkaccountsubmit/")){
+			return new BorrowerController().getCheckAccountResults(request);
+		}
 
 		// clerk
 		else if (requestPath.equals("/addnewborrower/")) {

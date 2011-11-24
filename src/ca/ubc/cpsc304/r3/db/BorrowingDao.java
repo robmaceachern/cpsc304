@@ -28,7 +28,7 @@ public class BorrowingDao {
 			ResultSet rs = st.executeQuery(
 					"SELECT * " + 
 					"FROM borrowing " + 
-					"WHERE inDate=NULL AND " +
+					"WHERE inDate IS NULL AND " +
 					"bid="+id);	
 			while(rs.next()){
 				// for each row, put the data in the dto
