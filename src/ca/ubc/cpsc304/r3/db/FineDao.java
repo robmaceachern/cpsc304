@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // import the hold request dto class
+import ca.ubc.cpsc304.r3.dto.FineDetailedDto;
 import ca.ubc.cpsc304.r3.dto.FineDto;
 
 public class FineDao {
@@ -96,6 +97,43 @@ public class FineDao {
 			// I'll just throw it
 			throw e;
 			
+		} finally {
+			// don't forget to close the connection
+			// when you're done with it
+			if(conn != null){
+				conn.close();
+			}
+		}
+		return queryResult;
+	}
+	
+	public List<FineDetailedDto> getDetailedByFid(int id) throws SQLException{
+		List<FineDetailedDto> queryResult = new ArrayList<FineDetailedDto>();
+		Connection conn = null; 
+		try {			
+			conn = connService.getConnection();	
+			PreparedStatement ps = conn.prepareStatement(
+					"SELECT F.fid, F.amount, F.issuedDate, F.paidDate, F.borid, BO.callNumber, B.title, B.mainAuthor " + 
+					"FROM fine F, book B, borrowing BO " + 
+					"WHERE fid=? AND F.borid=BO.borid AND BO.callNumber=B.callNumber");
+
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+							
+			while(rs.next()){
+				// for each row, put the data in the dto
+				// and add it to list of results
+				FineDetailedDto dto = new FineDetailedDto();
+				dto.setFid(rs.getInt("F.fid"));
+				dto.setAmount(rs.getInt("F.amount"));
+				dto.setIssuedDate(rs.getDate("F.issuedDate"));
+				dto.setPaidDate(rs.getDate("F.paidDate"));
+				dto.setBorid(rs.getInt("F.borid"));
+				dto.setCallNumber(rs.getInt("BO.callNumber"));
+				dto.setTitle(rs.getString("B.title"));
+				dto.setMainAuthor(rs.getString("B.mainAuthor"));
+				queryResult.add(dto);
+			}
 		} finally {
 			// don't forget to close the connection
 			// when you're done with it

@@ -33,7 +33,9 @@
 		                <thead>
 		                    <tr>
 		                        <td>Fine ID</td>
-		                        <td>Borrowing ID</td>
+		                        <td>Title</td>
+		                        <td>Author</td>
+		                        <td>Call Number</td>
 		                        <td>Amount Paid</td>
 		                        <td>Date Issued</td>
 		                        <td>Date Paid</td>
@@ -42,7 +44,9 @@
 		                <c:forEach var="entry" items="${paidFine}" >
 		                    <tr>
 		                        <td>${entry.fid}</td>
-		                        <td>${entry.borid}</td>
+		                        <td>${entry.title}</td>
+		                        <td>${entry.mainAuthor}</td>
+		                        <td>${entry.callNumber}</td>
 		                        <td>${entry.amount}</td>
 		                        <td>${entry.issuedDate}</td>
 		                        <td>${entry.paidDate}</td>

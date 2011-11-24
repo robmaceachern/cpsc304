@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import ca.ubc.cpsc304.r3.db.ConnectionService;
 import ca.ubc.cpsc304.r3.db.FineDao;
+import ca.ubc.cpsc304.r3.dto.FineDetailedDto;
 import ca.ubc.cpsc304.r3.dto.FineDto;
 import ca.ubc.cpsc304.r3.web.DirectorServlet.ViewAndParams;
 
@@ -32,7 +33,7 @@ public class FineController {
 			int finesPaid = daoFine.payByFineID(fid);
 			
 			// get the results of paying the fine
-			List<FineDto> paidFines = daoFine.getByFid(fid);
+			List<FineDetailedDto> paidFines = daoFine.getDetailedByFid(fid);
 			
 			// attach the results to give them to the web page
 			vp.putViewParam("paidFine", paidFines);
@@ -51,18 +52,9 @@ public class FineController {
 		@SuppressWarnings("unchecked")
 		Map<String, String[]> reqParams = request.getParameterMap();
 		String[] params = reqParams.get(key);
-		if(params.length!=1){
-			return null;
-		}
-		else{
-			try{
-				Integer i = Integer.valueOf(params[0]);
-				return i;
-			}
-			catch(NumberFormatException e){
-				return null;
-			}
-		}
+
+		Integer i = Integer.valueOf(params[0]);
+		return i;
 	}
 
 
