@@ -1,6 +1,7 @@
 package ca.ubc.cpsc304.r3.db;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,12 +21,14 @@ private ConnectionService connService;
 		List<HasAuthorDto> queryResult = new ArrayList<HasAuthorDto>();
 		Connection conn = null; 
 		try {
-			conn = connService.getConnection();
-			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(
-					"SELECT * " + 
-					"FROM hasauthor " + 
-					"WHERE author like '%"+keyword+"%'"); // matches any author that contains <keyword>
+			conn = connService.getConnection();	
+			PreparedStatement ps = conn.prepareStatement(
+					"SELECT * "+
+					"FROM hasauthor "  +
+					"WHERE author like '%?%'?"); // matches any author that contains <keyword>
+			ps.setString(1, keyword);
+			ResultSet rs = ps.executeQuery();
+			
 			while(rs.next()){
 				// for each row, put the data in the dto
 				// and add it to list of results

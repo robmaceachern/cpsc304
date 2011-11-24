@@ -69,7 +69,7 @@ public class BorrowerController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			vp.putViewParam("hasError", true);
-			vp.putViewParam("errorMsg", generateFriendlyError(e));
+			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
 			return vp;
 		}
 	}
@@ -78,36 +78,9 @@ public class BorrowerController {
 		@SuppressWarnings("unchecked")
 		Map<String, String[]> reqParams = request.getParameterMap();
 		String[] params = reqParams.get(key);
-		if(params.length!=1){
-			return null;
-		}
-		else{
-			try{
-				Integer i = Integer.valueOf(params[0]);
-				return i;
-			}
-			catch(NumberFormatException e){
-				return null;
-			}
-		}
-	}
-	
-	/**
-	 * Generates a user-friendly error message for various 
-	 * types of exceptions
-	 * @param e the exception
-	 * @return a user-friendly error messsage
-	 */
-	public static String generateFriendlyError(Exception e){
-		if(e instanceof NullPointerException){
-			return "Please ensure all required fields are completed before submitting.";
-		} else if (e instanceof NumberFormatException){
-			return "Please ensure that numeric fields contain only numbers.";
-		} else if (e instanceof SQLException){
-			return e.getMessage() + ". Please correct the error and try again.";
-		} else {
-			return "There was a a problem completing your request. " + e.getMessage();
-		}
+
+		Integer i = Integer.valueOf(params[0]);
+		return i;
 	}
 
 }

@@ -7,16 +7,16 @@
 <head>
 <jsp:include page="/jsp/fragment/head.jspf"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Check your account</title>
+<title>Pay a fine</title>
 </head>
 <body>
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
-    <h1>Check your account</h1>
-    <p>Enter your borrower ID to check the items you currently have checked out, your outstanding fines, and your current hold requests.</p>
-    <form action="/CrazyCoolLibrary/app/checkaccountsubmit" method="get">
-        <div><label for="bid">Borrower ID</label><input id="bid" name="bid" type="text"/></div>
-        <button type="submit">Check Account</button>
+    <h1>Pay a fine</h1>
+    <p>Enter the ID of the fine you wish to pay.</p>
+    <form action="/CrazyCoolLibrary/app/payfinesubmit" method="post">
+        <div><label for="fid">Fine ID</label><input id="fid" name="fid" type="text"/></div>
+        <button type="submit">Pay Fine</button>
     </form>
 </body>
 </html>

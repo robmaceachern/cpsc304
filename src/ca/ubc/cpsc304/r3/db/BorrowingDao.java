@@ -2,6 +2,7 @@ package ca.ubc.cpsc304.r3.db;
 
 //general sql imports
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -23,13 +24,16 @@ public class BorrowingDao {
 		List<BorrowingDto> queryResult = new ArrayList<BorrowingDto>();
 		Connection conn = null; 
 		try {
-			conn = connService.getConnection();
-			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(
-					"SELECT * " + 
-					"FROM borrowing " + 
+			conn = connService.getConnection();	
+			PreparedStatement ps = conn.prepareStatement(
+					"SELECT * "+
+					"FROM borrowing "  +
 					"WHERE inDate IS NULL AND " +
-					"bid="+id);	
+					"bid=?");
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			
+			
 			while(rs.next()){
 				// for each row, put the data in the dto
 				// and add it to list of results

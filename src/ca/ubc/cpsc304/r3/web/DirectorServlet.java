@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import ca.ubc.cpsc304.r3.web.responder.BorrowerController;
 import ca.ubc.cpsc304.r3.web.responder.BorrowingController;
+import ca.ubc.cpsc304.r3.web.responder.FineController;
 import ca.ubc.cpsc304.r3.web.responder.HomePageController;
 import ca.ubc.cpsc304.r3.web.responder.BookController;
 import ca.ubc.cpsc304.r3.web.responder.ReportController;
@@ -86,6 +87,9 @@ public class DirectorServlet extends HttpServlet {
 		else if(requestPath.equals("/checkaccountsubmit/")){
 			return new BorrowerController().getCheckAccountResults(request);
 		}
+		else if(requestPath.equals("/payfine/")) {
+			return new FineController().getPayFineForm();
+		}
 
 		// clerk
 		else if (requestPath.equals("/addnewborrower/")) {
@@ -125,9 +129,12 @@ public class DirectorServlet extends HttpServlet {
 		String requestPath = cleanUpPath(request.getPathInfo());
 		
 		//borrower
+		if(requestPath.equals("/payfinesubmit/")){
+			return new FineController().getPayFineResults(request);
+		}
 		
 		//clerk
-		if (requestPath.equals("/addnewborrowersubmit/")) 
+		else if (requestPath.equals("/addnewborrowersubmit/")) 
 			return new BorrowerController().addNewBorrower(request);
 		else if (requestPath.equals("/checkoutbookssubmit/"))
 			return new BorrowingController().checkOutBook(request);
