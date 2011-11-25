@@ -23,7 +23,7 @@ public class ClerkDao {
 	// offset for 1 year
 	public final long YEAR = 1000 * 60 * 60 * 24 * 356L;
 	// offset for 1 week
-	public final long WEEK = 1000 * 60 * 60 * 24 * 7L;
+	public static final long WEEK = 1000 * 60 * 60 * 24 * 7L;
 
 	public ClerkDao(ConnectionService cs){
 		connServ=cs;
