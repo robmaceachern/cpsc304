@@ -7,13 +7,32 @@
 <head>
 <jsp:include page="/jsp/fragment/head.jspf"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Borrower removed</title>
+<c:choose>
+	<c:when test="${hasError}"><title>Remove Borrower - Failure</title></c:when>
+	<c:otherwise><title>Borrower Successfully Removed</title></c:otherwise>
+</c:choose>
 </head>
 <body>
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
-	<h1>Borrower removed</h1>
-	<p>That is a lie. This hasn't been implemented yet.</p>
-	<p>If there was an error, it will be printed here</p>
+	<c:choose>
+		<c:when test="${hasError}">
+			<h1>Remove Borrower - Failure</h1>
+			<p>${errorMsg}</p>
+		</c:when>
+		<c:otherwise>
+			<c:choose>
+				<c:when test="${numBorrowersRemoved gt 0}">
+					<h1>Borrower Removed!</h1>
+					<p>You have removed the borrower with id ${borrowerId}.
+					All borrowings, hold requests, and fines associated with the borrower were also removed.</p>
+				</c:when>
+				<c:otherwise>
+					<h1>No Borrower Removed</h1>
+					<p>There were no borrowers with id ${borrowerId}, so no action was taken.</p>
+				</c:otherwise>
+			</c:choose>
+		</c:otherwise>
+	</c:choose>
 </body>
 </html>

@@ -7,13 +7,23 @@
 <head>
 <jsp:include page="/jsp/fragment/head.jspf"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>New book copy added</title>
+<c:choose>
+	<c:when test="${hasError}"><title>Add Book Copy - Failure</title></c:when>
+	<c:otherwise><title>Book Copy Successfully Removed</title></c:otherwise>
+</c:choose>
 </head>
 <body>
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
-	<h1>New book copy added</h1>
-	<p>That is a lie. This hasn't been implemented yet.</p>
-	<p>If there was an error, it will be printed here</p>
+	<c:choose>
+		<c:when test="${hasError}">
+			<h1>Add Book Copy - Failure</h1>
+			<p>${errorMsg}</p>
+		</c:when>
+		<c:otherwise>
+			<h1>Book Copy Successfully Added!</h1>
+			<p>A new book copy with call number ${callNumber} has been added to the system.</p>
+		</c:otherwise>
+	</c:choose>
 </body>
 </html>

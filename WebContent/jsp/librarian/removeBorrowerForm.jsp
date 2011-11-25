@@ -12,8 +12,7 @@
 <body>
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
-	<h1>Remove a borrower</h1>
-	<p>Not implemented yet</p>
+	<h1>Remove a Borrower</h1>
 	<form action="/CrazyCoolLibrary/app/removeborrowersubmit" method="post">
 		<div><label for="borrowerId">Borrower Id</label><input id="borrowerId" name="borrowerId" type="text"/></div>
 		<button type="submit">Remove borrower</button>

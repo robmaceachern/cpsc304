@@ -21,12 +21,13 @@
 			<p>${errorMsg}</p>
 		</c:when>
 		<c:otherwise>
-			<h1>Book Removed!</h1>
 			<c:choose>
 				<c:when test="${numBooksRemoved gt 0}">
-					<p>You have removed the book with call number ${callNumber}.</p>
+					<h1>Book Removed!</h1>
+					<p>You have removed the book with call number ${callNumber}. All copys of the book were also deleted</p>
 				</c:when>
 				<c:otherwise>
+					<h1>No Book Removed</h1>
 					<p>There were no books with call number ${callNumber}, so no action was taken.</p>
 				</c:otherwise>
 			</c:choose>

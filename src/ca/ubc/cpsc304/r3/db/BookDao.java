@@ -260,4 +260,22 @@ public class BookDao {
 		}
 		
 	}
+
+	public int addNewBookCopy(int callNumber) throws SQLException {
+		Connection conn = null;
+		try {
+			conn = this.connService.getConnection();
+			PreparedStatement ps = conn.prepareStatement(
+					"INSERT INTO bookCopy " +
+					"(callNumber) " + 
+					"VALUES(?)");
+			ps.setInt(1, callNumber);
+			return ps.executeUpdate();
+		} finally {
+			if (conn != null){
+				conn.close();
+			}
+		}
+		
+	}
 }
