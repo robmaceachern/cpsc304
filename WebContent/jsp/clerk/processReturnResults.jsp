@@ -12,11 +12,26 @@
 <body>
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
-	<h2>Books returned</h2>
-	<p>That is a lie. This hasn't been implemented yet.</p>
-	<p>If there was an error, it will be printed here</p>
-	<c:forEach var="entry" items="${returns}" >
-		<p>${entry.key} : ${entry.value[0]}</p>
-	</c:forEach>
+	<c:choose>
+		<c:when test="${hasError}">
+			<h2>Book Return Error</h2>
+			<p>${errorMsg}</p>
+		</c:when>
+		<c:otherwise>
+			<h2>Book Returned</h2>
+			<c:choose>
+				<c:when test="${DNEerror}">
+					<p>${errorMsg}</p>
+				</c:when>
+				<c:otherwise>
+					<p>The following was checked in:</p>
+					Call Number: ${returns['callNumber'][0]}<br>
+					Copy: ${returns['copyNo'][0]}
+					<p>Thank you for returning your book.</p>
+				</c:otherwise>
+			</c:choose>
+		</c:otherwise>
+	</c:choose>
+	
 </body>
 </html>

@@ -14,10 +14,13 @@
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
 	<h2>Process return</h2>
 	<form action="/CrazyCoolLibrary/app/processreturnsubmit" method="post">
+	<fieldset>
+	<legend><b>Return</b></legend>
 		<div><label for="callNumber">Call Number</label><input id="callNumber" name="callNumber" type="text"/></div>
 		<div><label for="copyNo">Copy Number</label><input id="copyNo" name="copyNo" type="text"/></div>
-		<div><label for="borrowerId">Borrower Id</label><input id="borrowerId" name="borrowerId" type="text"/></div>
-		<button type="submit">Process Return</button>
+<!-- 		<div><label for="borrowerId">Borrower Id</label><input id="borrowerId" name="borrowerId" type="text"/></div>
+ -->		<button type="submit">Return</button>
+ 	</fieldset>
 	</form>
 </body>
 </html>
