@@ -23,20 +23,20 @@ public class BookController {
 		try {
 			@SuppressWarnings("unchecked")
 			Map<String, String[]> reqParams = request.getParameterMap();
-			
+
 			BookDto dto = new BookDto();
 			dto.setIsbn(Integer.parseInt(reqParams.get("isbn")[0]));
 			dto.setMainAuthor(reqParams.get("author")[0]);
 			dto.setTitle(reqParams.get("title")[0]);
 			dto.setPublisher(reqParams.get("publisher")[0]);
 			dto.setYear(Integer.parseInt(reqParams.get("year")[0]));
-			
+
 			BookDao dao = new BookDao(ConnectionService.getInstance());
 			dao.addNewBook(dto);
-			
+
 			vp.putViewParam("bookAdded", dto);
 			return vp;
-			
+
 		} catch (Exception e){
 			e.printStackTrace();
 			vp.putViewParam("hasError", true);
@@ -45,14 +45,40 @@ public class BookController {
 		}
 	}
 
+	/**
+	 * Gets the addNewBookCopyFrom
+	 * @return the addNewBookCopyForm
+	 */
 	public ViewAndParams getNewBookCopyForm() {
 		ViewAndParams vp = new ViewAndParams("/jsp/librarian/addNewBookCopyForm.jsp");
 		return vp;
 	}
 
+	/**
+	 * Adds a new copy of a book
+	 * @param request the http request
+	 * @return the results page and params detailing the status of the operation
+	 */
 	public ViewAndParams addNewBookCopy(HttpServletRequest request) {
 		ViewAndParams vp = new ViewAndParams("/jsp/librarian/addNewBookCopyResults.jsp");
-		return vp;
+		try {
+			
+			@SuppressWarnings("unchecked")
+			Map<String, String[]> reqParams = request.getParameterMap();
+
+			int callNumber = Integer.parseInt(reqParams.get("callNumber")[0]);
+			BookDao dao = new BookDao(ConnectionService.getInstance());
+			dao.addNewBookCopy(callNumber);
+			vp.putViewParam("callNumber", callNumber);
+
+			return vp;
+
+		} catch (Exception e){
+			vp.putViewParam("hasError", true);
+			vp.putViewParam("errorMsg", generateFriendlyError(e));
+			return vp;
+		}
+
 	}
 
 	public ViewAndParams getRemoveBookForm() {
@@ -60,11 +86,38 @@ public class BookController {
 		return vp;
 	}
 
+	/**
+	 * 
+	 * From reqs:
+	 * Remove a book from the catalogue.  The librarian provides 
+	 * the catalogue number for the item and the system removes 
+	 * it from the database.
+	 * 
+	 * Note: I'm treating catalogue number as callNumber
+	 * 
+	 * @param request
+	 * @return the removeBookResults view and its view parameters
+	 */
 	public ViewAndParams removeBook(HttpServletRequest request) {
 		ViewAndParams vp = new ViewAndParams("/jsp/librarian/removeBookResults.jsp");
-		return vp;
+		try {
+
+			@SuppressWarnings("unchecked")
+			Map<String, String[]> params = request.getParameterMap();
+			BookDao dao = new BookDao(ConnectionService.getInstance());
+			int callNumber = Integer.parseInt(params.get("callNumber")[0]);
+			int numBooksRemoved = dao.removeBook(callNumber);
+
+			vp.putViewParam("numBooksRemoved", numBooksRemoved);
+			vp.putViewParam("callNumber", callNumber);
+			return vp;
+		} catch (Exception e){
+			vp.putViewParam("hasError", true);
+			vp.putViewParam("errorMsg", generateFriendlyError(e));
+			return vp;
+		}
 	}
-	
+
 	/**
 	 * Generates a user-friendly error message for various 
 	 * types of exceptions

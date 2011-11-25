@@ -1,9 +1,9 @@
 package ca.ubc.cpsc304.r3.db;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +20,14 @@ private ConnectionService connService;
 		List<HasSubjectDto> queryResult = new ArrayList<HasSubjectDto>();
 		Connection conn = null; 
 		try {
-			conn = connService.getConnection();
-			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(
-					"SELECT * " + 
-					"FROM hassubject " + 
-					"WHERE subject like '%"+keyword+"%'"); // matches any subject that contains <keyword>
+			conn = connService.getConnection();	
+			PreparedStatement ps = conn.prepareStatement(
+					"SELECT * "+
+					"FROM hassubject "  +
+					"WHERE subject like '%?%'?"); // matches any subject that contains <keyword>
+			ps.setString(1, keyword);
+			ResultSet rs = ps.executeQuery();
+			
 			while(rs.next()){
 				// for each row, put the data in the dto
 				// and add it to list of results

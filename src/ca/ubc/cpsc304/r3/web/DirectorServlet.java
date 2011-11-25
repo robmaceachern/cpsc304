@@ -10,10 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ca.ubc.cpsc304.r3.web.responder.BookController;
 import ca.ubc.cpsc304.r3.web.responder.BorrowerController;
 import ca.ubc.cpsc304.r3.web.responder.BorrowingController;
+import ca.ubc.cpsc304.r3.web.responder.FineController;
 import ca.ubc.cpsc304.r3.web.responder.HomePageController;
-import ca.ubc.cpsc304.r3.web.responder.BookController;
 import ca.ubc.cpsc304.r3.web.responder.ReportController;
 
 /**
@@ -79,6 +80,16 @@ public class DirectorServlet extends HttpServlet {
 		if (requestPath.equals("/")) {
 			return new HomePageController().getHomePage(request);
 		}
+		// borrower
+		else if(requestPath.equals("/checkaccount/")) {
+			return new BorrowerController().getCheckAccountForm();
+		}
+		else if(requestPath.equals("/checkaccountsubmit/")){
+			return new BorrowerController().getCheckAccountResults(request);
+		}
+		else if(requestPath.equals("/payfine/")) {
+			return new FineController().getPayFineForm();
+		}
 
 		// clerk
 		else if (requestPath.equals("/addnewborrower/")) {
@@ -118,9 +129,12 @@ public class DirectorServlet extends HttpServlet {
 		String requestPath = cleanUpPath(request.getPathInfo());
 		
 		//borrower
+		if(requestPath.equals("/payfinesubmit/")){
+			return new FineController().getPayFineResults(request);
+		}
 		
 		//clerk
-		if (requestPath.equals("/addnewborrowersubmit/")) 
+		else if (requestPath.equals("/addnewborrowersubmit/")) 
 			return new BorrowerController().addNewBorrower(request);
 		else if (requestPath.equals("/checkoutbookssubmit/"))
 			return new BorrowingController().checkOutBookResults(request);

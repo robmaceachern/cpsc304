@@ -55,7 +55,7 @@ DROP TABLE IF EXISTS `bookcopy`;
 CREATE TABLE `bookcopy` (
   `callNumber` int NOT NULL,
   `copyNo` int NOT NULL AUTO_INCREMENT,
-  `status` varchar(15) DEFAULT NULL,
+  `status` ENUM ('in', 'out') DEFAULT 'in',
   PRIMARY KEY (`callNumber`,`copyNo`),
   KEY (`copyNo`),
   CONSTRAINT `bookcopy_ibfk_1` FOREIGN KEY (`callNumber`) REFERENCES `book` (`callNumber`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -193,7 +193,7 @@ CREATE TABLE `hasauthor` (
   `author` varchar(30) NOT NULL,
   `callNumber` int NOT NULL,
   PRIMARY KEY (`author`,`callNumber`),
-  CONSTRAINT `callNumber` FOREIGN KEY (`callNumber`) REFERENCES `book` (`callNumber`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `callNumber` FOREIGN KEY (`callNumber`) REFERENCES `book` (`callNumber`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -217,7 +217,7 @@ CREATE TABLE `hassubject` (
   `callNumber` int NOT NULL,
   `subject` varchar(20) NOT NULL,
   PRIMARY KEY (`callNumber`,`subject`),
-  CONSTRAINT `hassubject_ibfk_1` FOREIGN KEY (`callNumber`) REFERENCES `book` (`callNumber`)
+  CONSTRAINT `hassubject_ibfk_1` FOREIGN KEY (`callNumber`) REFERENCES `book` (`callNumber`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

@@ -2,13 +2,12 @@ package ca.ubc.cpsc304.r3.db;
 
 //general sql imports
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-// import the hold request dto class
 import ca.ubc.cpsc304.r3.dto.BorrowingDto;
 
 public class BorrowingDao {
@@ -19,17 +18,20 @@ public class BorrowingDao {
 		this.connService = connService;
 	}
 	
-	public List<BorrowingDto> getUnpaidByID(int id) throws SQLException{
+	public List<BorrowingDto> getBorrowedByID(int id) throws SQLException{
 		List<BorrowingDto> queryResult = new ArrayList<BorrowingDto>();
 		Connection conn = null; 
 		try {
-			conn = connService.getConnection();
-			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(
-					"SELECT * " + 
-					"FROM borrowing " + 
-					"WHERE inDate=NULL AND " +
-					"bid="+id);	
+			conn = connService.getConnection();	
+			PreparedStatement ps = conn.prepareStatement(
+					"SELECT * "+
+					"FROM borrowing "  +
+					"WHERE inDate IS NULL AND " +
+					"bid=?");
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			
+			
 			while(rs.next()){
 				// for each row, put the data in the dto
 				// and add it to list of results

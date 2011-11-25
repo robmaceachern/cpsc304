@@ -95,13 +95,14 @@ public class BookDao {
 	public List<BookDto> getByCallNumber(int id) throws SQLException{
 		List<BookDto> queryResult = new ArrayList<BookDto>();
 		Connection conn = null; 
-		try {
-			conn = connService.getConnection();
-			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(
-					"SELECT * " + 
-					"FROM book " + 
-					"WHERE callNumber="+id);
+		try {			
+			conn = connService.getConnection();	
+			PreparedStatement ps = conn.prepareStatement(
+					"SELECT * "+
+					"FROM book "  +
+					"WHERE callNumber=?");
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				// for each row, put the data in the dto
 				// and add it to list of results
@@ -135,12 +136,14 @@ public class BookDao {
 		List<BookDto> queryResult = new ArrayList<BookDto>();
 		Connection conn = null; 
 		try {
-			conn = connService.getConnection();
-			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(
-					"SELECT * " + 
-					"FROM book " + 
-					"WHERE mainAuthor like '%"+keyword+"%'"); // matches any main author that contains <keyword>
+			conn = connService.getConnection();	
+			PreparedStatement ps = conn.prepareStatement(
+					"SELECT * "+
+					"FROM book "  +
+					"WHERE mainAuthor like '%?%'?"); // matches any main author that contains <keyword>
+			ps.setString(1, keyword);
+			ResultSet rs = ps.executeQuery();
+			
 			while(rs.next()){
 				// for each row, put the data in the dto
 				// and add it to list of results
@@ -174,12 +177,14 @@ public class BookDao {
 		List<BookDto> queryResult = new ArrayList<BookDto>();
 		Connection conn = null; 
 		try {
-			conn = connService.getConnection();
-			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(
-					"SELECT * " + 
-					"FROM book " + 
-					"WHERE title like '%"+keyword+"%'"); // matches any title that contains <keyword>
+			conn = connService.getConnection();	
+			PreparedStatement ps = conn.prepareStatement(
+					"SELECT * "+
+					"FROM book "  +
+					"WHERE title like '%?%'?"); // matches any title that contains <keyword>
+			ps.setString(1, keyword);
+			ResultSet rs = ps.executeQuery();
+			
 			while(rs.next()){
 				// for each row, put the data in the dto
 				// and add it to list of results
@@ -209,6 +214,12 @@ public class BookDao {
 		return queryResult;
 	}
 
+	/**
+	 * Adds a new book to the system
+	 * 
+	 * @param dto the book dto
+	 * @throws SQLException when a db error occurs
+	 */
 	public void addNewBook(BookDto dto) throws SQLException {
 
 		Connection conn = null;
@@ -230,5 +241,46 @@ public class BookDao {
 			}
 		}
 
+	}
+
+	/**
+	 * Removes a book given a 
+	 * @param callNumber the book's call number
+	 * @return the number of rows deleted
+	 * @throws SQLException If there was an error executing the operation
+	 */
+	public int removeBook(int callNumber) throws SQLException {
+		Connection conn = null;
+		try {
+			conn = this.connService.getConnection();
+			PreparedStatement ps = conn.prepareStatement(
+					"DELETE FROM book " + 
+					"WHERE callNumber=?");
+			ps.setInt(1, callNumber);
+			return ps.executeUpdate();
+		} finally {
+			if(conn != null){
+				conn.close();
+			}
+		}
+		
+	}
+
+	public int addNewBookCopy(int callNumber) throws SQLException {
+		Connection conn = null;
+		try {
+			conn = this.connService.getConnection();
+			PreparedStatement ps = conn.prepareStatement(
+					"INSERT INTO bookCopy " +
+					"(callNumber) " + 
+					"VALUES(?)");
+			ps.setInt(1, callNumber);
+			return ps.executeUpdate();
+		} finally {
+			if (conn != null){
+				conn.close();
+			}
+		}
+		
 	}
 }

@@ -7,15 +7,16 @@
 <head>
 <jsp:include page="/jsp/fragment/head.jspf"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Remove a Book</title>
+<title>Pay a fine</title>
 </head>
 <body>
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
-	<h1>Remove a Book</h1>
-	<form action="/CrazyCoolLibrary/app/removebooksubmit" method="post">
-		<div><label for="catalogueNumber">Call Number</label><input id="callNumber" name="callNumber" type="text"/></div>
-		<button type="submit">Remove Book</button>
-	</form>
+    <h1>Pay a fine</h1>
+    <p>Enter the ID of the fine you wish to pay.</p>
+    <form action="/CrazyCoolLibrary/app/payfinesubmit" method="post">
+        <div><label for="fid">Fine ID</label><input id="fid" name="fid" type="text"/></div>
+        <button type="submit">Pay Fine</button>
+    </form>
 </body>
 </html>
