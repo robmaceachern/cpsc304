@@ -95,13 +95,14 @@ public class BookDao {
 	public List<BookDto> getByCallNumber(int id) throws SQLException{
 		List<BookDto> queryResult = new ArrayList<BookDto>();
 		Connection conn = null; 
-		try {
-			conn = connService.getConnection();
-			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(
-					"SELECT * " + 
-					"FROM book " + 
-					"WHERE callNumber="+id);
+		try {			
+			conn = connService.getConnection();	
+			PreparedStatement ps = conn.prepareStatement(
+					"SELECT * "+
+					"FROM book "  +
+					"WHERE callNumber=?");
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				// for each row, put the data in the dto
 				// and add it to list of results
@@ -135,12 +136,14 @@ public class BookDao {
 		List<BookDto> queryResult = new ArrayList<BookDto>();
 		Connection conn = null; 
 		try {
-			conn = connService.getConnection();
-			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(
-					"SELECT * " + 
-					"FROM book " + 
-					"WHERE mainAuthor like '%"+keyword+"%'"); // matches any main author that contains <keyword>
+			conn = connService.getConnection();	
+			PreparedStatement ps = conn.prepareStatement(
+					"SELECT * "+
+					"FROM book "  +
+					"WHERE mainAuthor like '%?%'?"); // matches any main author that contains <keyword>
+			ps.setString(1, keyword);
+			ResultSet rs = ps.executeQuery();
+			
 			while(rs.next()){
 				// for each row, put the data in the dto
 				// and add it to list of results
@@ -174,12 +177,14 @@ public class BookDao {
 		List<BookDto> queryResult = new ArrayList<BookDto>();
 		Connection conn = null; 
 		try {
-			conn = connService.getConnection();
-			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(
-					"SELECT * " + 
-					"FROM book " + 
-					"WHERE title like '%"+keyword+"%'"); // matches any title that contains <keyword>
+			conn = connService.getConnection();	
+			PreparedStatement ps = conn.prepareStatement(
+					"SELECT * "+
+					"FROM book "  +
+					"WHERE title like '%?%'?"); // matches any title that contains <keyword>
+			ps.setString(1, keyword);
+			ResultSet rs = ps.executeQuery();
+			
 			while(rs.next()){
 				// for each row, put the data in the dto
 				// and add it to list of results

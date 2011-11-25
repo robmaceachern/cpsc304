@@ -2,20 +2,20 @@ package ca.ubc.cpsc304.r3.db;
 
 // general sql imports
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-// import the hold request dto class
 import ca.ubc.cpsc304.r3.dto.HoldRequestDto;
 
-public class HoldReqestDao {
+public class HoldRequestDao {
 	
 	private ConnectionService connService;
 	
-	public HoldReqestDao(ConnectionService connService){
+	public HoldRequestDao(ConnectionService connService){
 		this.connService = connService;
 	}
 	
@@ -23,12 +23,14 @@ public class HoldReqestDao {
 		List<HoldRequestDto> queryResult = new ArrayList<HoldRequestDto>();
 		Connection conn = null; 
 		try {
-			conn = connService.getConnection();
-			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(
-					"SELECT * " + 
-					"FROM holdrequest " + 
-					"WHERE bid="+id);
+			conn = connService.getConnection();	
+			PreparedStatement ps = conn.prepareStatement(
+					"SELECT * "+
+					"FROM holdrequest "  +
+					"WHERE bid=?"); 
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			
 			while(rs.next()){
 				// for each row, put the data in the dto
 				// and add it to list of results
@@ -68,6 +70,17 @@ public class HoldReqestDao {
 			st.executeQuery(
 					"insert into holdrequest(bid, callNumber, issuedDate) " + 
 					"values("+borrowerID+", "+callNo+", "+sqlNow+")");
+			
+			
+			conn = connService.getConnection();	
+			PreparedStatement ps = conn.prepareStatement(
+					"insert into holdrequest(bid, callNumber, issuedDate) " + 
+					"values(?,?,?)");
+			ps.setInt(1, borrowerID);
+			ps.setInt(1, callNo);
+			ps.setDate(3, sqlNow);
+			
+			ps.executeUpdate();
 		
 		} catch (SQLException e) {
 			// two options here. either don't catch this exception and 
