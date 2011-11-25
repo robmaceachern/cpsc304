@@ -123,7 +123,7 @@ public class DirectorServlet extends HttpServlet {
 		if (requestPath.equals("/addnewborrowersubmit/")) 
 			return new BorrowerController().addNewBorrower(request);
 		else if (requestPath.equals("/checkoutbookssubmit/"))
-			return new BorrowingController().checkOutBook(request);
+			return new BorrowingController().checkOutBookResults(request);
 		else if (requestPath.equals("/processreturnsubmit/"))
 			return new BorrowingController().processReturnResults(request);
 		

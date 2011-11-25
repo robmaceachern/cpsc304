@@ -12,11 +12,21 @@
 <body>
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
-	<h2>Book successfully checked out</h2>
-	<p>That is a lie. This hasn't been implemented yet.</p>
-	<p>If there was an error, it will be printed here</p>
-	<c:forEach var="entry" items="${bookOut}" >
-		<p>${entry.key} : ${entry.value[0]}</p>
-	</c:forEach>
+	<c:choose>
+		<c:when test="${hasError}">
+			<h2>Error Borrowing Book</h2>
+			<p>${errorMsg}</p>
+			<c:forEach items="${booksOut}" var="book">
+				"${book}" WAS successfully checked out though and will be due by ${duedate}.<br>
+			</c:forEach>
+		</c:when>
+		<c:otherwise>
+				<h2>Check Out Successful</h2>
+				<p> The following will be due by ${duedate}.</p>
+				<c:forEach items="${booksOut}" var="book">
+					${book}<br>
+				</c:forEach>
+		</c:otherwise>
+	</c:choose>
 </body>
 </html>

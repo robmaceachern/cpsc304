@@ -1,8 +1,16 @@
 package ca.ubc.cpsc304.r3.web.responder;
 
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import ca.ubc.cpsc304.r3.web.DirectorServlet.ViewAndParams;
+import ca.ubc.cpsc304.r3.dto.OverdueDto;
+import ca.ubc.cpsc304.r3.db.ClerkDao;
+import ca.ubc.cpsc304.r3.db.ConnectionService;
 
 public class ReportController {
 
@@ -57,7 +65,34 @@ public class ReportController {
 	}
 
 	public ViewAndParams getOverdueReport(HttpServletRequest request) {
+		Map<String, String[]> reqParams = new HashMap<String, String[]>();
+		ClerkDao dao = new ClerkDao(ConnectionService.getInstance());
+		try {
+			List<OverdueDto> dtos = dao.checkOverdue();
+			int size = dtos.size();
+			String[] titles = new String[size];
+			String[] borrowers = new String[size];
+			String[] emails = new String[size];
+			
+			for(int i=0; i<size; i++){
+				titles[i] = dtos.get(i).getTitle();
+				borrowers[i] = dtos.get(i).getName();
+				emails[i] = dtos.get(i).getEmail();
+			}
+			
+			reqParams.put("Title", titles);
+			reqParams.put("Name", borrowers);
+			reqParams.put("Email", emails);
+			
+			
+		} catch (SQLException e) {
+			// TODO UNABLE TO GET OVERDUE REPORT
+			e.printStackTrace();
+		}
+		
+
 		ViewAndParams vp = new ViewAndParams("/jsp/clerk/checkOverdueDisplay.jsp");
+		vp.putViewParam("overdue", reqParams);
 		return vp;
 	}
 	
