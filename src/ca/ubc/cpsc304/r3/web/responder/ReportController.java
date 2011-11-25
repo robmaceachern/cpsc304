@@ -1,22 +1,20 @@
 package ca.ubc.cpsc304.r3.web.responder;
 
 
-import java.util.Date;
-
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import ca.ubc.cpsc304.r3.db.BorrowingDao;
+import ca.ubc.cpsc304.r3.db.ClerkDao;
 import ca.ubc.cpsc304.r3.db.ConnectionService;
 import ca.ubc.cpsc304.r3.dto.CheckedOutBookDto;
-import ca.ubc.cpsc304.r3.web.DirectorServlet.ViewAndParams;
 import ca.ubc.cpsc304.r3.dto.OverdueDto;
-import ca.ubc.cpsc304.r3.db.ClerkDao;
+import ca.ubc.cpsc304.r3.web.DirectorServlet.ViewAndParams;
 
 public class ReportController {
 

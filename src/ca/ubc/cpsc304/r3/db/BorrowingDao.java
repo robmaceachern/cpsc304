@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.ubc.cpsc304.r3.DaoUtility;
 import ca.ubc.cpsc304.r3.dto.BorrowingDto;
 import ca.ubc.cpsc304.r3.dto.CheckedOutBookDto;
 
@@ -105,7 +106,7 @@ public class BorrowingDao {
 				int timeLimitWeeks = Integer.parseInt(rs.getString("BT.bookTimeLimit"));
 				
 				// dueDate = checkoutDate + (num of weeks allowed * length of week)
-				dto.setDueDate(new Date(outDate.getTime() + (timeLimitWeeks * ClerkDao.WEEK)));
+				dto.setDueDate(new Date(outDate.getTime() + (timeLimitWeeks * DaoUtility.WEEK)));
 				
 				// add it to list
 				results.add(dto);

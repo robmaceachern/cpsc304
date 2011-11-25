@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-// import the hold request dto class
 import ca.ubc.cpsc304.r3.dto.HoldRequestDto;
 
 public class HoldReqestDao {
