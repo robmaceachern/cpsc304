@@ -10,8 +10,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import ca.ubc.cpsc304.r3.db.BorrowingDao;
-import ca.ubc.cpsc304.r3.db.ClerkDao;
 import ca.ubc.cpsc304.r3.db.ConnectionService;
+import ca.ubc.cpsc304.r3.db.OverdueDao;
 import ca.ubc.cpsc304.r3.dto.CheckedOutBookDto;
 import ca.ubc.cpsc304.r3.dto.OverdueDto;
 import ca.ubc.cpsc304.r3.web.DirectorServlet.ViewAndParams;
@@ -38,10 +38,10 @@ public class ReportController {
 	public ViewAndParams getCheckedOutBooksReport(HttpServletRequest request) {
 		ViewAndParams vp = new ViewAndParams("/jsp/librarian/reportCheckedOutBooksDisplay.jsp");
 		try{
-			
+	
 			@SuppressWarnings("unchecked")
 			Map<String, String[]> reqParams = request.getParameterMap();
-			
+		
 			String subject = reqParams.get("subject")[0];
 			BorrowingDao dao = new BorrowingDao(ConnectionService.getInstance());
 			List<CheckedOutBookDto> checkedOutBooks = dao.generateCheckedOutBooksReport(subject);
@@ -94,12 +94,19 @@ public class ReportController {
 		return vp;
 	}
 
-	public ViewAndParams getOverdueReport(HttpServletRequest request) {
-		Map<String, String[]> reqParams = new HashMap<String, String[]>();
-		ClerkDao dao = new ClerkDao(ConnectionService.getInstance());
+	public ViewAndParams getOverdueReportResults(HttpServletRequest request) {
+		ViewAndParams vp = new ViewAndParams("/jsp/clerk/checkOverdueDisplay.jsp");
+		Map<String, String[]> outPut = new HashMap<String, String[]>();
+		OverdueDao odao = new OverdueDao(ConnectionService.getInstance());
 		try {
-			List<OverdueDto> dtos = dao.checkOverdue();
+			List<OverdueDto> dtos = odao.checkOverdue();
 			int size = dtos.size();
+			System.out.println(size);
+			if(size <= 0){
+				vp.putViewParam("noOverdue", "Yay! There are no overdue books!");
+				vp.putViewParam("overdues", dtos);
+				return vp;
+			}
 			String[] titles = new String[size];
 			String[] borrowers = new String[size];
 			String[] emails = new String[size];
@@ -110,19 +117,22 @@ public class ReportController {
 				emails[i] = dtos.get(i).getEmail();
 			}
 			
-			reqParams.put("Title", titles);
-			reqParams.put("Name", borrowers);
-			reqParams.put("Email", emails);
+			outPut.put("Title", titles);
+			outPut.put("Name", borrowers);
+			outPut.put("Email", emails);
 			
 			
 		} catch (SQLException e) {
 			// TODO UNABLE TO GET OVERDUE REPORT
 			e.printStackTrace();
+		} catch (Exception e){
+			//bad exception
+			e.printStackTrace();
 		}
 		
-
-		ViewAndParams vp = new ViewAndParams("/jsp/clerk/checkOverdueDisplay.jsp");
-		vp.putViewParam("overdue", reqParams);
+		
+		System.out.println(outPut.get("Name")[0]);
+		vp.putViewParam("overdue", outPut);
 		return vp;
 	}
 	

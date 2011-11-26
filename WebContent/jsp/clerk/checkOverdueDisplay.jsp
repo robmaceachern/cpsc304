@@ -12,11 +12,35 @@
 <body>
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
+<script language="javascript">
+function sendEmail(name, email){
+		alert('Email has bee sent to '+name+' at '+email+'.');
+	}
+</script>"
 	<h2>Overdue items</h2>
-	<p>That is a lie. This hasn't been implemented yet.</p>
-	<p>If there was an error, it will be printed here</p>
-	<c:forEach var="entry" items="${overdues}" >
-		<p>${entry.key} : ${entry.value[0]}</p>
-	</c:forEach>
+	<p>${noOverdue}</p>
+	<table>
+		<thead>
+			<tr>
+				<td>Name</td>
+				<td>Email</td>
+				<td>Book</td>
+				<td></td>
+			</tr>
+		</thead>
+		<tbody>
+				<c:forEach var="v" items="${overdue['Name']}" varStatus="stat">
+				<tr>
+					<c:set var="name" value ="${overdue['Name'][stat.count-1]}" scope="session"/>
+					<c:set var="email" value ="${overdue['Email'][stat.count-1]}" scope="session"/>
+					<c:set var="book" value ="${overdue['Title'][stat.count-1]}" scope="session"/>
+					<td>${name}  </td>
+					<td>${email}  </td>
+					<td>${book}  </td>
+					<td><input type=button value="Notify" onclick="alert('Email sent.')"></td>
+				</tr>
+				</c:forEach>
+		</tbody>
+	</table>
 </body>
 </html>

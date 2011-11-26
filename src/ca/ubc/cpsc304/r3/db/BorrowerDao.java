@@ -6,20 +6,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import ca.ubc.cpsc304.r3.DaoUtility;
 import ca.ubc.cpsc304.r3.dto.BorrowerDto;
-import ca.ubc.cpsc304.r3.dto.OverdueDto;
 
-public class ClerkDao {
+public class BorrowerDao {
 	private ConnectionService connServ;
 
-	public ClerkDao() {
+	public BorrowerDao() {
 	}
 
-	public ClerkDao(ConnectionService cs) {
+	public BorrowerDao(ConnectionService cs) {
 		connServ = cs;
 	}
 
@@ -44,73 +41,6 @@ public class ClerkDao {
 			conn.close();
 	}
 
-	// Checks for all overdue items
-	public List<OverdueDto> checkOverdue() throws SQLException {
-
-		Connection conn = null;
-		conn = connServ.getConnection();
-		Statement st = conn.createStatement();
-		ResultSet rs = null;
-		List<OverdueDto> queryResults = new ArrayList<OverdueDto>();
-
-		// Students with overdue
-		Date overDate = DaoUtility.makeDate(-2 * DaoUtility.WEEK);
-		String overDateS = DaoUtility.convertToSQLvalue(overDate);
-		rs = st.executeQuery("SELECT B.callNumber, L.borid, U.name, U.btype, B.title, U.emailAddress "
-				+ "FROM Book B, Borrower U, Borrowing L "
-				+ "WHERE U.btype='student' AND U.bid=L.bid AND B.callnumber=L.callNumber AND L.outDate <"
-				+ overDateS);
-		while (rs.next()) {
-			OverdueDto dto = new OverdueDto();
-			dto.setCallNumber(rs.getInt("callNumber"));
-			dto.setBorid(rs.getInt("borid"));
-			dto.setName(rs.getString("name"));
-			dto.setType(rs.getString("btype"));
-			dto.setTitle(rs.getString("title"));
-			dto.setEmail(rs.getString("emailAddress"));
-			queryResults.add(dto);
-		}
-
-		// Faculty with overdue
-		overDate = DaoUtility.makeDate(-6 * DaoUtility.WEEK);
-		overDateS = DaoUtility.convertToSQLvalue(overDate);
-		rs = st.executeQuery("SELECT B.callNumber, L.borid, U.name, U.btype, B.title, U.emailAddress "
-				+ "FROM Book B, Borrower U, Borrowing L "
-				+ "WHERE U.btype='faculty' AND U.bid=L.bid AND B.callnumber=L.callNumber AND L.outDate <"
-				+ overDateS);
-		while (rs.next()) {
-			OverdueDto dto = new OverdueDto();
-			dto.setCallNumber(rs.getInt("callNumber"));
-			dto.setBorid(rs.getInt("borid"));
-			dto.setName(rs.getString("name"));
-			dto.setType(rs.getString("btype"));
-			dto.setTitle(rs.getString("title"));
-			dto.setEmail(rs.getString("emailAddress"));
-			queryResults.add(dto);
-		}
-
-		// Staff with overdue
-		overDate = DaoUtility.makeDate(-12 * DaoUtility.WEEK);
-		overDateS = DaoUtility.convertToSQLvalue(overDate);
-		rs = st.executeQuery("SELECT B.callNumber, L.borid, U.name, U.btype, B.title, U.emailAddress "
-				+ "FROM Book B, Borrower U, Borrowing L "
-				+ "WHERE U.btype='staff' AND U.bid=L.bid AND B.callnumber=L.callNumber AND L.outDate <"
-				+ overDateS);
-		DaoUtility.printResults(rs, 6);
-		while (rs.next()) {
-			OverdueDto dto = new OverdueDto();
-			dto.setCallNumber(rs.getInt("callNumber"));
-			dto.setBorid(rs.getInt("borid"));
-			dto.setName(rs.getString("name"));
-			dto.setType(rs.getString("btype"));
-			dto.setTitle(rs.getString("title"));
-			dto.setEmail(rs.getString("emailAddress"));
-			queryResults.add(dto);
-		}
-		if (conn != null)
-			conn.close();
-		return queryResults;
-	}
 
 	/*
 	 * Check-out items borrowed by a borrower. To borrow items, borrowers

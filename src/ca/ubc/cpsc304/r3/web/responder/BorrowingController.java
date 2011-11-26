@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import ca.ubc.cpsc304.r3.DNEException;
 import ca.ubc.cpsc304.r3.db.BookDao;
-import ca.ubc.cpsc304.r3.db.ClerkDao;
+import ca.ubc.cpsc304.r3.db.BorrowerDao;
 import ca.ubc.cpsc304.r3.db.ConnectionService;
 import ca.ubc.cpsc304.r3.db.ReturnDao;
 import ca.ubc.cpsc304.r3.dto.BookCopyDto;
@@ -21,7 +21,7 @@ public class BorrowingController {
 	public ViewAndParams checkOutBookResults(HttpServletRequest request) {
 		ViewAndParams vp = new ViewAndParams("/jsp/clerk/checkOutResults.jsp");
 		Map<String, String[]> reqParams = request.getParameterMap();
-		ClerkDao clerk = new ClerkDao(ConnectionService.getInstance());
+		BorrowerDao clerk = new BorrowerDao(ConnectionService.getInstance());
 		ArrayList<String> books = listStrings(reqParams.get("callNumber")[0]);
 		ArrayList<String> bookNames = new ArrayList<String>();
 		BookDao bdao = new BookDao(ConnectionService.getInstance());

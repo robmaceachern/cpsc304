@@ -117,7 +117,7 @@ public class DirectorServlet extends HttpServlet {
 		} else if (requestPath.equals("/viewmostpopularbooksreport/")) {
 			return new ReportController().getMostPopularBooksReport(request);
 		} else if (requestPath.equals("/viewcheckoverduereport/")){
-			return new ReportController().getOverdueReport(request);
+			return new ReportController().getOverdueReportResults(request);
 		} else if (requestPath.equals("/removebook/")){
 			return new BookController().getRemoveBookForm();
 		}
