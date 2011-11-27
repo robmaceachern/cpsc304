@@ -99,9 +99,8 @@ public class ReportController {
 		Map<String, String[]> outPut = new HashMap<String, String[]>();
 		OverdueDao odao = new OverdueDao(ConnectionService.getInstance());
 		try {
-			List<OverdueDto> dtos = odao.checkOverdue();
+			List<OverdueDto> dtos = odao.checkOverdue(request.getParameter("bid"));
 			int size = dtos.size();
-			System.out.println(size);
 			if(size <= 0){
 				vp.putViewParam("noOverdue", "Yay! There are no overdue books!");
 				vp.putViewParam("overdues", dtos);
@@ -130,8 +129,6 @@ public class ReportController {
 			e.printStackTrace();
 		}
 		
-		
-		System.out.println(outPut.get("Name")[0]);
 		vp.putViewParam("overdue", outPut);
 		return vp;
 	}

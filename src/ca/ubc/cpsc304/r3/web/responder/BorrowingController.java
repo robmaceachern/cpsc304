@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import ca.ubc.cpsc304.r3.DNEException;
 import ca.ubc.cpsc304.r3.db.BookDao;
-import ca.ubc.cpsc304.r3.db.BorrowerDao;
+import ca.ubc.cpsc304.r3.db.BorrowingDao;
 import ca.ubc.cpsc304.r3.db.ConnectionService;
 import ca.ubc.cpsc304.r3.db.ReturnDao;
 import ca.ubc.cpsc304.r3.dto.BookCopyDto;
@@ -20,21 +20,28 @@ public class BorrowingController {
 
 	public ViewAndParams checkOutBookResults(HttpServletRequest request) {
 		ViewAndParams vp = new ViewAndParams("/jsp/clerk/checkOutResults.jsp");
+		boolean hasError = false;
 		Map<String, String[]> reqParams = request.getParameterMap();
-		BorrowerDao clerk = new BorrowerDao(ConnectionService.getInstance());
-		ArrayList<String> books = listStrings(reqParams.get("callNumber")[0]);
+		String bid = reqParams.get("bid")[0];
+		String callNums = reqParams.get("callNumber")[0];
+		if(callNums.equals("") || bid.equals(""))
+		{
+			hasError=true;
+			vp.putViewParam("hasError", hasError);
+			vp.putViewParam("errorMsg", "Please enter valid input for all fields.");
+			return vp;
+		}
+		BorrowingDao clerk = new BorrowingDao(ConnectionService.getInstance());
+		ArrayList<String> books = listStrings(callNums);
 		ArrayList<String> bookNames = new ArrayList<String>();
 		BookDao bdao = new BookDao(ConnectionService.getInstance());
 		java.sql.Date duedate = new java.sql.Date(0);
-		String error = "";
-		boolean hasError = false;
-		int i;
-		for (i = 0; i < books.size(); i++) {
+		for (int i = 0; i < books.size(); i++) {
 			System.out.println(Integer.parseInt(reqParams.get("bid")[0]) + " "
 					+ Integer.parseInt(books.get(i)));
 			try {
 				duedate = clerk.borrowItem(
-						Integer.parseInt(reqParams.get("bid")[0]),
+						Integer.parseInt(bid),
 						Integer.parseInt(books.get(i)));
 				bookNames.add(bdao
 						.getByCallNumber(Integer.parseInt(books.get(i))).get(0)
@@ -43,12 +50,15 @@ public class BorrowingController {
 				System.out.println("NOT A NUMBER!");
 				hasError = true;
 				vp.putViewParam("errorMsg", numErrorMsg);
+			} catch (SQLException e){
+				hasError=true;
+				vp.putViewParam("errorMsg", e.getMessage());
 			} catch (Exception e) {
-				hasError = true;
-				error = error + e.getMessage() + " for call number "
-						+ books.get(i) + ".<br>";
-				vp.putViewParam("errorMsg", error);
-				// e.printStackTrace();
+//				hasError = true;
+//				error = error + e.getMessage() + " for call number "
+//						+ books.get(i) + ".<br>";
+//				vp.putViewParam("errorMsg", error);
+				 e.printStackTrace();
 			}
 		}
 		vp.putViewParam("hasError", hasError);
@@ -72,9 +82,18 @@ public class BorrowingController {
 		BookCopyDto bcd = new BookCopyDto();
 		boolean hasError = false;
 		boolean DNEerror = false;
+		String copy = reqParams.get("copyNo")[0];
+		String callNum = reqParams.get("callNumber")[0];
+		if(callNum.equals("") || copy.equals(""))
+		{
+			hasError=true;
+			vp.putViewParam("hasError", hasError);
+			vp.putViewParam("errorMsg", "Please enter valid input for all fields.");
+			return vp;
+		}
 		try {
-			bcd.setCallNumber(Integer.valueOf(reqParams.get("callNumber")[0]));
-			bcd.setCopyNo(Integer.valueOf(reqParams.get("copyNo")[0]));
+			bcd.setCallNumber(Integer.valueOf(copy));
+			bcd.setCopyNo(Integer.valueOf(callNum));
 			ReturnDto rdto = rdao.processReturn(bcd);
 
 			// Notify requester if on hold
@@ -91,8 +110,10 @@ public class BorrowingController {
 			if (fine > 0) {
 
 				System.out
-						.println("This is overdue! To check out any more books you must pay a fine of $"
+						.println("This was overdue! To check out any more books you must pay a fine of $"
 								+ fine);
+				hasError=true;
+				vp.putViewParam("hasError", "You have a fine of $" + fine);
 				// TODO display fine message
 			}
 
@@ -101,7 +122,6 @@ public class BorrowingController {
 			hasError = true;
 			vp.putViewParam("errorMsg", numErrorMsg);
 		} catch (DNEException dne) {
-			System.out.println(dne.getMessage());
 			DNEerror = true;
 			vp.putViewParam("errorMsg", dne.getMessage());
 		} catch (SQLException e) {

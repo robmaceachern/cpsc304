@@ -16,31 +16,48 @@
 function sendEmail(name, email){
 		alert('Email has bee sent to '+name+' at '+email+'.');
 	}
-</script>"
-	<h2>Overdue items</h2>
-	<p>${noOverdue}</p>
-	<table>
-		<thead>
-			<tr>
-				<td>Name</td>
-				<td>Email</td>
-				<td>Book</td>
-				<td></td>
-			</tr>
-		</thead>
-		<tbody>
-				<c:forEach var="v" items="${overdue['Name']}" varStatus="stat">
-				<tr>
-					<c:set var="name" value ="${overdue['Name'][stat.count-1]}" scope="session"/>
-					<c:set var="email" value ="${overdue['Email'][stat.count-1]}" scope="session"/>
-					<c:set var="book" value ="${overdue['Title'][stat.count-1]}" scope="session"/>
-					<td>${name}  </td>
-					<td>${email}  </td>
-					<td>${book}  </td>
-					<td><input type=button value="Notify" onclick="alert('Email sent.')"></td>
-				</tr>
-				</c:forEach>
-		</tbody>
-	</table>
+function sendEmail2(row){
+	var name2 = document.getElementById("bname" + row);
+	var email2 = document.getElementById("email"+row);
+	alert('Email has been sent to ' +name2+' at '+email2+'.');
+}
+</script>
+	<h2>Overdue Items</h2>
+	<c:choose>
+		<c:when test="${noOverdue != null}">
+			<p>${noOverdue}</p>
+		</c:when>
+		<c:otherwise>
+			<table>
+				<thead>
+					<tr>
+						<td><b>Name </b></td>
+						<td></td>
+						<td><b>Email </b></td>
+						<td></td>
+						<td><b>Book </b></td>
+						<td></td>
+						<td> </td>
+					</tr>
+				</thead>
+				<tbody>
+						<c:forEach var="v" items="${overdue['Name']}" varStatus="stat">
+						<tr>
+							<c:set var="name" value ="${overdue['Name'][stat.count-1]}" scope="session"/>
+							<c:set var="email" value ="${overdue['Email'][stat.count-1]}" scope="session"/>
+							<c:set var="book" value ="${overdue['Title'][stat.count-1]}" scope="session"/>
+							<td id="bname${stat.count}">${name}    </td>
+							<td>  </td>
+							<td id="email${stat.count}">${email}    </td>
+							<td>  </td>
+							<td>${book}    </td>
+							<td>  </td>
+							<td><input type=button value="Notify" onclick="alert('Email Sent')"></td>
+						</tr>
+						</c:forEach>
+				</tbody>
+			</table>
+		</c:otherwise>
+	</c:choose>
 </body>
 </html>

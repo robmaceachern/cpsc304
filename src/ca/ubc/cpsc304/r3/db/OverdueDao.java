@@ -18,22 +18,33 @@ public class OverdueDao {
 		connServ=instance;
 	}
 
-	// Checks for all overdue items
-	public List<OverdueDto> checkOverdue() throws SQLException {
+	/** Checks for all overdue items
+	 * If user provides input id then that only overdue items for that user will be shown.
+	 * 
+	 * @param bid bid of borrower
+	 * @return List of overdue items
+	 * @throws SQLException excetion thrown if errors arise in query
+	 */
+	
+	public List<OverdueDto> checkOverdue(String bid) throws SQLException {
 		
 		Connection conn = null;
 		conn = connServ.getConnection();
 		Statement st = conn.createStatement();
 		ResultSet rs = null;
 		List<OverdueDto> queryResults = new ArrayList<OverdueDto>();
-
+	
+		String checkBid = bid;
+		if(!bid.equals(""))
+			checkBid= " AND U.bid="+DaoUtility.convertToSQLvalue(bid);
+		
 		// Students with overdue 
 		Date overDate = DaoUtility.makeDate(-2 * DaoUtility.WEEK);
 		String overDateS = DaoUtility.convertToSQLvalue(overDate);
 		rs = st.executeQuery("SELECT B.callNumber, L.borid, U.name, U.btype, B.title, U.emailAddress "
 				+ "FROM Book B, Borrower U, Borrowing L "
 				+ "WHERE U.btype='student' AND U.bid=L.bid AND B.callnumber=L.callNumber AND L.outDate <"
-				+ overDateS);
+				+ overDateS + checkBid);
 		while (rs.next()) {
 			OverdueDto dto = new OverdueDto();
 			dto.setCallNumber(rs.getInt("callNumber"));
@@ -51,7 +62,7 @@ public class OverdueDao {
 		rs = st.executeQuery("SELECT B.callNumber, L.borid, U.name, U.btype, B.title, U.emailAddress "
 				+ "FROM Book B, Borrower U, Borrowing L "
 				+ "WHERE U.btype='faculty' AND U.bid=L.bid AND B.callnumber=L.callNumber AND L.outDate <"
-				+ overDateS);
+				+ overDateS + checkBid);
 		while (rs.next()) {
 			OverdueDto dto = new OverdueDto();
 			dto.setCallNumber(rs.getInt("callNumber"));
@@ -69,7 +80,7 @@ public class OverdueDao {
 		rs = st.executeQuery("SELECT B.callNumber, L.borid, U.name, U.btype, B.title, U.emailAddress "
 				+ "FROM Book B, Borrower U, Borrowing L "
 				+ "WHERE U.btype='staff' AND U.bid=L.bid AND B.callnumber=L.callNumber AND L.outDate <"
-				+ overDateS);
+				+ overDateS +checkBid);
 		DaoUtility.printResults(rs, 6);
 		while (rs.next()) {
 			OverdueDto dto = new OverdueDto();

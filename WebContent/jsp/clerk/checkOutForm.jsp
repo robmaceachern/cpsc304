@@ -12,12 +12,12 @@
 <body>
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
-	<h2>Check out book(s)</h2>
+	<h2>Checkout Book(s)</h2>
 	<form action="/CrazyCoolLibrary/app/checkoutbookssubmit" method="post">
 	<fieldset>
-	<legend>Check out book(s):</legend>
+	<legend><b>Borrow book(s):</b></legend>
 		<label for="callNumber">Call Number(s)</label><input id="callNumber" name="callNumber" type="text"/><br />
-		<label for="borrowerId">Borrower Id</label><input id="bid" name="bid" type="text"/><br />
+		<label for="bid">Borrower Id</label><input id="bid" name="bid" type="text"/><br />
 		<button type="submit">Check Out</button>
 	</fieldset>
 	</form>

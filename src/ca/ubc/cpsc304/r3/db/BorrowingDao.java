@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,5 +124,99 @@ public class BorrowingDao {
 			}
 		}
 	}
+	
+	/**
+	 * Check-out items borrowed by a borrower. To borrow items, borrowers
+	 * provide their card number and a list with the call numbers of the items
+	 * they want to check out. The system determines if the borrower's account
+	 * is valid and if the library items are available for borrowing. Then it
+	 * registers the items as "out", adding them to the list of library
+	 * materials that are on-loan by that borrower and prints a note with the
+	 * item's details and the due day.
+	 */
+
+	public Date borrowItem(int bid, int callNo) throws Exception {
+
+		Connection conn = null;
+		try {
+			conn = connService.getConnection();
+			Statement st = conn.createStatement();
+			ResultSet rs = null;
+			PreparedStatement ps = null;
+
+			// Check if has overdue book
+			rs = st.executeQuery("SELECT amount FROM Fine F, Borrowing B "
+					+ "WHERE F.amount > 0 AND B.borid=F.borid AND B.bid="
+					+ DaoUtility.convertToSQLvalue(bid));
+			if (rs.next()) {
+				int fine = rs.getInt("amount");
+				System.out.println("You currently have a fine of "
+						+ fine);
+				throw new SQLException("You currently have a fine of $" +fine+" and have been blocked from borrowing.");
+			}
+
+			// get an available copy
+			int copy = findAvailableCopy(callNo);
+			if (copy == -1) {
+				// prompt user to request hold
+				System.out.println("Sorry, there are no available copies ");
+				throw new SQLException("No available copies for call number " + callNo + ".<br>");
+			}
+
+			// Create new borrowing record
+			ps = conn
+					.prepareStatement("INSERT into Borrowing(bid, callNumber, copyNo, outDate) "
+							+ "values (?,?,?,?)");
+			ps.setInt(1, bid);
+			ps.setInt(2, callNo);
+			ps.setInt(3, copy);
+			ps.setDate(4, DaoUtility.makeDate(0));
+
+			// Update book copy to "out"
+			ps.executeUpdate();
+			ps = conn.prepareStatement("UPDATE BookCopy "
+					+ "SET status='out' WHERE callNumber="
+					+ DaoUtility.convertToSQLvalue(callNo) + " AND copyNo="
+					+ DaoUtility.convertToSQLvalue(copy));
+			ps.executeUpdate();
+
+			rs = st.executeQuery("SELECT bookTimeLimit FROM Borrower, BorrowerType WHERE bid="
+					+ bid);
+			if (!rs.next())
+				throw new SQLException("BID "+bid+" not found.");
+
+			return DaoUtility.makeDate(DaoUtility.calcBorrowLimit(rs
+					.getString("bookTimeLimit")));
+		} finally {
+			if (conn != null)
+				conn.close();
+		}
+	}
+
+	// Helper to find first available copy of a book.
+	// returns -1 if no copies are available.
+	public int findAvailableCopy(int callNum) throws SQLException {
+		Connection conn = null;
+		try {
+			conn = connService.getConnection();
+
+			Statement st = conn.createStatement();
+			ResultSet rs = null;
+			rs = st.executeQuery("SELECT copyNo FROM bookCopy "
+					+ "WHERE status='in' AND callNumber="
+					+ DaoUtility.convertToSQLvalue(callNum));
+			if (rs.next()) {
+				int i = rs.getInt(1);
+				if (conn != null)
+					conn.close();
+				return i;
+			}
+			return -1;
+		} finally {
+			if (conn != null)
+				conn.close();
+		}
+	}
+
 }
 

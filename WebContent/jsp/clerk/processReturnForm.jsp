@@ -12,7 +12,7 @@
 <body>
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
-	<h2>Process return</h2>
+	<h2>Process Return</h2>
 	<form action="/CrazyCoolLibrary/app/processreturnsubmit" method="post">
 	<fieldset>
 	<legend><b>Return</b></legend>

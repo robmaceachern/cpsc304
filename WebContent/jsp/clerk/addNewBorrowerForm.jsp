@@ -12,20 +12,23 @@
 <body>
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
-	<h2>Add a new borrower</h2>
+	<h2>Add New borrower</h2>
 	<form action="/CrazyCoolLibrary/app/addnewborrowersubmit" method="post">
+	<fieldset>
+		<legend><b>New Borrower</b></legend>
 		<div><label for="name">Name </label><input id="name" name="name" type="text"/></div>
 		<div><label for="password">Password </label><input id="password" name="password" type="password"/></div>
 		<div><label for="address">Address </label><input id="address" name="address" type="text"/></div>
 		<div><label for="phone">Phone </label><input id="phone" name="phone" type="text"/></div>
 		<div><label for="email">Email </label><input id="email" name="email" type="text"/></div>
 		<div><label for="sin">SIN or Student# </label><input id="sin" name="sin" type="text"/></div>
-		<div><label for="type">Type </label><select id="type">
-												<option>Student</option>
-												<option>Faculty</option>
-												<option>Staff</option>
+		<div><label>Type </label><select name="btype" id="btype">
+												<option value="student">Student</option>
+												<option value="faculty">Faculty</option>
+												<option value="staff">Staff</option>
 											</select></div>
 		<button type="submit">Add borrower</button>
+	</fieldset>
 	</form>
 </body>
 </html>

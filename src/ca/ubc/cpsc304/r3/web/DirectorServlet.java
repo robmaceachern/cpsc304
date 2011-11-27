@@ -93,7 +93,7 @@ public class DirectorServlet extends HttpServlet {
 
 		// clerk
 		else if (requestPath.equals("/addnewborrower/")) {
-			return new BorrowerController().getNewBorrowerForm();
+			return new BorrowerController().getAddNewBorrowerForm();
 		} else if (requestPath.equals("/checkoutbooks/")) {
 			return new BorrowingController().checkOutBookForm();
 		} else if (requestPath.equals("/processreturn/")) {

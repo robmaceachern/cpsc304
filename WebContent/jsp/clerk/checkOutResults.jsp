@@ -14,15 +14,15 @@
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
 	<c:choose>
 		<c:when test="${hasError}">
-			<h2>Error Borrowing Book</h2>
+			<h2>Error Borrowing Books</h2>
 			<p>${errorMsg}</p>
 			<c:forEach items="${booksOut}" var="book">
 				"${book}" WAS successfully checked out though and will be due by ${duedate}.<br>
 			</c:forEach>
 		</c:when>
 		<c:otherwise>
-				<h2>Check Out Successful</h2>
-				<p> The following will be due by ${duedate}.</p>
+				<h2>Checkout Successful</h2>
+				<p> The following will be due by ${duedate}:</p>
 				<c:forEach items="${booksOut}" var="book">
 					${book}<br>
 				</c:forEach>
