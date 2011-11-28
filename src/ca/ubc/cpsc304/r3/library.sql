@@ -25,8 +25,8 @@ DROP TABLE IF EXISTS `book`;
 CREATE TABLE `book` (
   `callNumber` int NOT NULL AUTO_INCREMENT,
   `isbn` int UNIQUE NOT NULL,
-  `title` varchar(45) DEFAULT NULL,
-  `mainAuthor` varchar(45) DEFAULT NULL,
+  `title` varchar(55) DEFAULT NULL,
+  `mainAuthor` varchar(55) DEFAULT NULL,
   `publisher` varchar(45) DEFAULT NULL,
   `year` int NOT NULL,
   PRIMARY KEY (`callNumber`),
@@ -55,7 +55,7 @@ DROP TABLE IF EXISTS `bookcopy`;
 CREATE TABLE `bookcopy` (
   `callNumber` int NOT NULL,
   `copyNo` int NOT NULL AUTO_INCREMENT,
-  `status` ENUM ('in', 'out') DEFAULT 'in',
+  `status` ENUM ('in', 'out', 'on hold') DEFAULT 'in',
   PRIMARY KEY (`callNumber`,`copyNo`),
   KEY (`copyNo`),
   CONSTRAINT `bookcopy_ibfk_1` FOREIGN KEY (`callNumber`) REFERENCES `book` (`callNumber`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -80,11 +80,11 @@ DROP TABLE IF EXISTS `borrower`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `borrower` (
   `bid` int NOT NULL AUTO_INCREMENT,
-  `password` varchar(20) DEFAULT NULL,
-  `name` varchar(30) DEFAULT NULL,
-  `address` varchar(50) DEFAULT NULL,
+  `password` varchar(30) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `address` varchar(70) DEFAULT NULL,
   `phone` int DEFAULT NULL,
-  `emailAddress` varchar(20) DEFAULT NULL,
+  `emailAddress` varchar(50) DEFAULT NULL,
   `sinOrStNo` int UNIQUE NOT NULL,
   `expiryDate` date NOT NULL,
   `btype` ENUM ('student', 'faculty', 'staff'),
@@ -190,7 +190,7 @@ DROP TABLE IF EXISTS `hasauthor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hasauthor` (
-  `author` varchar(30) NOT NULL,
+  `author` varchar(50) NOT NULL,
   `callNumber` int NOT NULL,
   PRIMARY KEY (`author`,`callNumber`),
   CONSTRAINT `callNumber` FOREIGN KEY (`callNumber`) REFERENCES `book` (`callNumber`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -215,7 +215,7 @@ DROP TABLE IF EXISTS `hassubject`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hassubject` (
   `callNumber` int NOT NULL,
-  `subject` varchar(20) NOT NULL,
+  `subject` varchar(30) NOT NULL,
   PRIMARY KEY (`callNumber`,`subject`),
   CONSTRAINT `hassubject_ibfk_1` FOREIGN KEY (`callNumber`) REFERENCES `book` (`callNumber`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

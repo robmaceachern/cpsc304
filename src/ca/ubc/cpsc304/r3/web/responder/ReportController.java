@@ -2,6 +2,7 @@ package ca.ubc.cpsc304.r3.web.responder;
 
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -111,8 +112,9 @@ public class ReportController {
 		ViewAndParams vp = new ViewAndParams("/jsp/clerk/checkOverdueDisplay.jsp");
 		Map<String, String[]> outPut = new HashMap<String, String[]>();
 		OverdueDao odao = new OverdueDao(ConnectionService.getInstance());
+		List<OverdueDto> dtos = new ArrayList();;
 		try {
-			List<OverdueDto> dtos = odao.checkOverdue(request.getParameter("bid"));
+			dtos = odao.checkOverdue(request.getParameter("bid"));
 			int size = dtos.size();
 			if(size <= 0){
 				vp.putViewParam("noOverdue", "Yay! There are no overdue books!");

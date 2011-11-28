@@ -12,14 +12,21 @@
 <body>
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
+
 <script language="javascript">
 function sendEmail(name, email){
-		alert('Email has bee sent to '+name+' at '+email+'.');
-	}
-function sendEmail2(row){
-	var name2 = document.getElementById("bname" + row);
-	var email2 = document.getElementById("email"+row);
-	alert('Email has been sent to ' +name2+' at '+email2+'.');
+	document.
+	alert('Email has bee sent to '+name+' at '+email+'.');
+}
+function sendEmails(){
+// var names = ${overdue['Name']};
+	var nameList = 'Emails have ben sent to ';
+//	for(i=0; i< names.size(); i++){
+	//	if(nameList.search(names[i]) == -1)
+	//		nameList = names[i] + ' \n';
+//	}
+	alert(nameList);
+	
 }
 </script>
 	<h2>Overdue Items</h2>
@@ -43,14 +50,15 @@ function sendEmail2(row){
 							<c:set var="name" value ="${overdue['Name'][stat.count-1]}" scope="session"/>
 							<c:set var="email" value ="${overdue['Email'][stat.count-1]}" scope="session"/>
 							<c:set var="book" value ="${overdue['Title'][stat.count-1]}" scope="session"/>
-							<td id="bname${stat.count}">${name}</td>
-							<td id="email${stat.count}">${email}</td>
+							<td>${name}</td>
+							<td>${email}</td>
 							<td>${book}</td>
-							<td><input type=button value="Notify" onclick="alert('Email sent to ${name} at ${email}')"></td>
+							<td><input type=button value="Notify" onclick="alert('Email has been sent to ${name} at ${email}')"></td>
 						</tr>
 						</c:forEach>
 				</tbody>
 			</table>
+			<input type=button value="Notify all" onclick="alert('Emails have been sent to all borrowers.')">
 		</c:otherwise>
 	</c:choose>
 </body>
