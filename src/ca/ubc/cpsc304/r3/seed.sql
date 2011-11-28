@@ -47,10 +47,12 @@ values(1, 'password1', 'Riley Chang', '123 Oak Street', 1234567, 'riley@cpsc304.
 -- Populate the borrowing table with some example entries
 -- 
 insert into borrowing(borid, bid, callNumber, copyNo, outDate, inDate)
-values(1, 1, 10001, 1, 20111115, 20111129),
-      (2, 2, 10002, 2, 20111115, 20111129),
-      (3, 3, 10003, 1, 20111115, 20111129),
-      (4, 3, 10004, 2, 20111001, 20111021);
+values(1, 1, 10001, 1, '2011-11-15', null),
+      (2, 2, 10002, 2, '2011-11-15', null),
+      (3, 3, 10003, 1, '2011-11-15', null),
+      (4, 3, 10004, 2, '2011-10-01', '2011-10-21'),
+      (5, 3, 10002, 2, '2011-01-02', '2011-01-16'),
+      (6, 1, 10001, 2, '2010-04-02', '2010-05-01');
  
 --
 -- Populate the fine table with some example entries

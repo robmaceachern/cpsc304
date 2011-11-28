@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import ca.ubc.cpsc304.r3.db.BorrowingDao;
 import ca.ubc.cpsc304.r3.db.ConnectionService;
 import ca.ubc.cpsc304.r3.db.OverdueDao;
+import ca.ubc.cpsc304.r3.dto.BookCheckoutReportDto;
 import ca.ubc.cpsc304.r3.dto.CheckedOutBookDto;
 import ca.ubc.cpsc304.r3.dto.OverdueDto;
 import ca.ubc.cpsc304.r3.web.DirectorServlet.ViewAndParams;
@@ -38,25 +39,25 @@ public class ReportController {
 	public ViewAndParams getCheckedOutBooksReport(HttpServletRequest request) {
 		ViewAndParams vp = new ViewAndParams("/jsp/librarian/reportCheckedOutBooksDisplay.jsp");
 		try{
-	
+
 			@SuppressWarnings("unchecked")
 			Map<String, String[]> reqParams = request.getParameterMap();
-		
+
 			String subject = reqParams.get("subject")[0];
 			BorrowingDao dao = new BorrowingDao(ConnectionService.getInstance());
 			List<CheckedOutBookDto> checkedOutBooks = dao.generateCheckedOutBooksReport(subject);
-			
+
 			vp.putViewParam("checkedOutBooks", checkedOutBooks);
 			vp.putViewParam("now", new Date());
-			
+
 			return vp;
-			
+
 		} catch (Exception e){
-			
+
 			vp.putViewParam("hasError", true);
 			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
 			return vp;
-			
+
 		}
 
 
@@ -79,14 +80,26 @@ public class ReportController {
 	 */
 	public ViewAndParams getMostPopularBooksReport(HttpServletRequest request) {
 		ViewAndParams vp = new ViewAndParams("/jsp/librarian/reportMostPopularBooksDisplay.jsp");
-		
 
-		
-		// filter by year and limit by n
-		// order by number of times borrowed
-		// list callNumber, book title, mainAuthor, and number of times borrowed
-		
-		return vp;
+		try {
+
+			@SuppressWarnings("unchecked")
+			Map<String, String[]> reqParams = request.getParameterMap();
+			
+			int year = Integer.parseInt(reqParams.get("year")[0]);
+			int limit = Integer.parseInt(reqParams.get("limit")[0]);
+
+			BorrowingDao dao = new BorrowingDao(ConnectionService.getInstance());
+			List<BookCheckoutReportDto> mostPopularBooks = dao.generateMostPopularBooksReport(year, limit);
+			
+			vp.putViewParam("mostPopularBooks", mostPopularBooks);
+			return vp;
+			
+		} catch (Exception e) {
+			vp.putViewParam("hasError", true);
+			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
+			return vp;
+		}
 	}
 
 	public ViewAndParams getOverdueReportForm() {
@@ -109,18 +122,18 @@ public class ReportController {
 			String[] titles = new String[size];
 			String[] borrowers = new String[size];
 			String[] emails = new String[size];
-			
+
 			for(int i=0; i<size; i++){
 				titles[i] = dtos.get(i).getTitle();
 				borrowers[i] = dtos.get(i).getName();
 				emails[i] = dtos.get(i).getEmail();
 			}
-			
+
 			outPut.put("Title", titles);
 			outPut.put("Name", borrowers);
 			outPut.put("Email", emails);
-			
-			
+
+
 		} catch (SQLException e) {
 			// TODO UNABLE TO GET OVERDUE REPORT
 			e.printStackTrace();
@@ -128,10 +141,10 @@ public class ReportController {
 			//bad exception
 			e.printStackTrace();
 		}
-		
+
 		vp.putViewParam("overdue", outPut);
 		return vp;
 	}
-	
-	
+
+
 }

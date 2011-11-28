@@ -8,9 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import ca.ubc.cpsc304.r3.DaoUtility;
+import ca.ubc.cpsc304.r3.dto.BookCheckoutReportDto;
 import ca.ubc.cpsc304.r3.dto.BorrowingDto;
 import ca.ubc.cpsc304.r3.dto.CheckedOutBookDto;
 
@@ -75,7 +78,7 @@ public class BorrowingDao {
 			
 			String query =  "SELECT DISTINCT BC.callNumber, BC.copyNo, BK.title, BORRWRING.outDate, BT.bookTimeLimit " +
 							"FROM bookcopy BC, borrowing BORRWRING, borrower B, book BK, hassubject HS, borrowertype BT " + 
-							"WHERE BC.status='out' AND BC.callNumber=BORRWRING.callNumber AND BC.copyNo=BORRWRING.copyNo AND BORRWRING.bid=B.bid AND B.btype=BT.btype AND BK.callNumber=BC.callNumber ";
+							"WHERE BC.status='out' AND BC.callNumber=BORRWRING.callNumber AND BC.copyNo=BORRWRING.copyNo AND BORRWRING.bid=B.bid AND B.btype=BT.btype AND BK.callNumber=BC.callNumber AND BORRWRING.inDate IS NULL ";
 			if(hasSubject){
 				query = query +
 							"AND BC.callNumber=HS.callNumber AND HS.subject=? ";
@@ -215,6 +218,72 @@ public class BorrowingDao {
 		} finally {
 			if (conn != null)
 				conn.close();
+		}
+	}
+
+	/**
+	 * Generates a collection of the most popular books that have been 
+	 * checked out during the given year.
+	 * 
+	 * The query:
+	 *  - filters by year (starting Jan 1 and ending just prior to Jan 1 of the following year)
+	 *  - orders by number of times borrowed
+	 *  
+	 * @param year the year in which to filter by
+	 * @param limit the maximum number of results to return
+	 * @return a list of BookCheckOutReportDto's, sorted by the number
+	 * 		of times the book has been checked out during the year (descending).
+	 * 		The size of the collection will always be <= limit.
+	 * @throws SQLException
+	 */
+	public List<BookCheckoutReportDto> generateMostPopularBooksReport(int year, int limit) throws SQLException {
+
+		Connection conn = null;
+		
+		try {
+			
+			conn = connService.getConnection();
+			
+			// gets the first day of the year specified
+			Date yearStart = new Date(new GregorianCalendar(year, Calendar.JANUARY, 1).getTime().getTime());
+			
+			// gets the very first day of the next year.
+			// the query will be:   yearStart <= validResult < yearEnd
+			Date yearEnd = new Date(new GregorianCalendar(year + 1, Calendar.JANUARY, 1).getTime().getTime());
+			
+			
+			PreparedStatement ps = conn.prepareStatement(
+					"SELECT book.callNumber, book.title, book.mainAuthor, COUNT(*) AS borrCount " +
+					"FROM borrowing, book " +
+					"WHERE borrowing.outdate >= ? AND borrowing.outdate < ? AND borrowing.callNumber=book.callNumber " +
+					"GROUP BY book.callNumber " + 
+					"ORDER BY borrCount DESC " +
+					"LIMIT ?");
+			
+			ps.setDate(1, yearStart);
+			ps.setDate(2, yearEnd);
+			ps.setInt(3, limit);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			List<BookCheckoutReportDto> results = new ArrayList<BookCheckoutReportDto>();
+			while(rs.next()){
+				
+				BookCheckoutReportDto dto = new BookCheckoutReportDto();
+				dto.setCallNumber(rs.getInt("book.callNumber"));
+				dto.setTitle(rs.getString("book.title"));
+				dto.setMainAuthor(rs.getString("book.mainAuthor"));
+				dto.setBorrowedCount(rs.getInt("borrCount"));
+				
+				results.add(dto);
+			}
+			
+			return results;
+
+		} finally {
+			if(conn != null){
+				conn.close();
+			}
 		}
 	}
 
