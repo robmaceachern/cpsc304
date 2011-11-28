@@ -8,8 +8,8 @@
 <jsp:include page="/jsp/fragment/head.jspf"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <c:choose>
-        <c:when test="${hasError}">Pay Fine Error</c:when>
-        <c:otherwise>Paid Fine</c:otherwise>
+        <c:when test="${hasError}"><title>Pay Fine Error</title></c:when>
+        <c:otherwise><title>Paid Fine</title></c:otherwise>
     </c:choose>
 </head>
 <body>
@@ -25,7 +25,7 @@
             <c:choose>
                 <c:when test="${numFinesPaid eq 0}">
                     <h1>Pay Fine Error</h1>
-                    <p>No fine with the specified ID found</p>
+                    <p>No unpaid fine with the specified ID found</p>
                 </c:when>
                 <c:otherwise>
 		            <h1>Fine Paid</h1>

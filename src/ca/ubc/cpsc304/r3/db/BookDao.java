@@ -132,16 +132,19 @@ public class BookDao {
 		return queryResult;
 	}
 
-	public List<BookDto> searchMainAuthorByKeyword(String keyword) throws SQLException{
+	public List<BookDto> searchAuthorByKeyword(String keyword) throws SQLException{
 		List<BookDto> queryResult = new ArrayList<BookDto>();
 		Connection conn = null; 
 		try {
 			conn = connService.getConnection();	
+			String modKeyword = "%"+keyword+"%";
+			
+			// look in main authors
 			PreparedStatement ps = conn.prepareStatement(
 					"SELECT * "+
 					"FROM book "  +
-					"WHERE mainAuthor like '%?%'?"); // matches any main author that contains <keyword>
-			ps.setString(1, keyword);
+					"WHERE mainAuthor like ?"); // matches any main author that contains <keyword>
+			ps.setString(1, modKeyword);
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()){
@@ -155,6 +158,71 @@ public class BookDao {
 				dto.setPublisher(rs.getString("publisher"));
 				dto.setYear(rs.getInt("year"));
 				queryResult.add(dto);
+			}
+				
+			// look in additional authors
+			PreparedStatement ps2 = conn.prepareStatement(
+					"SELECT B.callNumber, B.isbn, B.title, B.mainAuthor, B.publisher, B.year "+
+					"FROM book B, hasauthor H "  +
+					"WHERE B.callNumber=H.callNumber AND H.author like ?"); // matches any main author that contains <keyword>
+			ps2.setString(1, modKeyword);
+			ResultSet rs2 = ps2.executeQuery();
+			
+			while(rs2.next()){
+				// for each row, put the data in the dto
+				// and add it to list of results
+				BookDto dto2 = new BookDto();
+				dto2.setCallNumber(rs2.getInt("B.callNumber"));
+				dto2.setIsbn(rs2.getInt("B.isbn"));
+				dto2.setTitle(rs2.getString("B.title"));
+				dto2.setMainAuthor(rs2.getString("B.mainAuthor"));
+				dto2.setPublisher(rs2.getString("B.publisher"));
+				dto2.setYear(rs2.getInt("B.year"));
+				queryResult.add(dto2);
+			}
+		} catch (SQLException e) {
+			// two options here. either don't catch this exception and 
+			// make the caller handle it, or wrap it in a more 
+			// descriptive exception depending on the situation.
+			// I'll just throw it
+			throw e;
+
+		} finally {
+			// don't forget to close the connection
+			// when you're done with it
+			if(conn != null){
+				conn.close();
+			}
+		}
+		return queryResult;
+	}
+	
+	public List<BookDto> searchSubjectByKeyword(String keyword) throws SQLException{
+		List<BookDto> queryResult = new ArrayList<BookDto>();
+		Connection conn = null; 
+		try {
+			conn = connService.getConnection();	
+			String modKeyword = "%"+keyword+"%";
+				
+			// look for a matching subject
+			PreparedStatement ps2 = conn.prepareStatement(
+					"SELECT B.callNumber, B.isbn, B.title, B.mainAuthor, B.publisher, B.year "+
+					"FROM book B, hassubject S "  +
+					"WHERE B.callNumber=S.callNumber AND S.subject like ?"); // matches any main author that contains <keyword>
+			ps2.setString(1, modKeyword);
+			ResultSet rs2 = ps2.executeQuery();
+			
+			while(rs2.next()){
+				// for each row, put the data in the dto
+				// and add it to list of results
+				BookDto dto2 = new BookDto();
+				dto2.setCallNumber(rs2.getInt("B.callNumber"));
+				dto2.setIsbn(rs2.getInt("B.isbn"));
+				dto2.setTitle(rs2.getString("B.title"));
+				dto2.setMainAuthor(rs2.getString("B.mainAuthor"));
+				dto2.setPublisher(rs2.getString("B.publisher"));
+				dto2.setYear(rs2.getInt("B.year"));
+				queryResult.add(dto2);
 			}
 		} catch (SQLException e) {
 			// two options here. either don't catch this exception and 
@@ -177,12 +245,13 @@ public class BookDao {
 		List<BookDto> queryResult = new ArrayList<BookDto>();
 		Connection conn = null; 
 		try {
+			String modKeyword = "%"+keyword+"%";
 			conn = connService.getConnection();	
 			PreparedStatement ps = conn.prepareStatement(
 					"SELECT * "+
 					"FROM book "  +
-					"WHERE title like '%?%'?"); // matches any title that contains <keyword>
-			ps.setString(1, keyword);
+					"WHERE title like ?"); // matches any title that contains <keyword>
+			ps.setString(1, modKeyword);
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()){
@@ -213,6 +282,8 @@ public class BookDao {
 		}
 		return queryResult;
 	}
+	
+	
 
 	/**
 	 * Adds a new book to the system

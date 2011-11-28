@@ -90,6 +90,12 @@ public class DirectorServlet extends HttpServlet {
 		else if(requestPath.equals("/payfine/")) {
 			return new FineController().getPayFineForm();
 		}
+		else if(requestPath.equals("/searchforbook/")) {
+			return new BookController().getBookSearchForm();
+		}
+		else if(requestPath.equals("/searchbookssubmit/")){
+			return new BookController().getBookSearchResults(request);
+		}
 
 		// clerk
 		else if (requestPath.equals("/addnewborrower/")) {
