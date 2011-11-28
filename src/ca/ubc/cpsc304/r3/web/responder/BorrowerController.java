@@ -7,11 +7,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import ca.ubc.cpsc304.r3.DNEException;
+import ca.ubc.cpsc304.r3.db.BookDao;
 import ca.ubc.cpsc304.r3.db.BorrowerDao;
 import ca.ubc.cpsc304.r3.db.BorrowingDao;
 import ca.ubc.cpsc304.r3.db.ConnectionService;
 import ca.ubc.cpsc304.r3.db.FineDao;
 import ca.ubc.cpsc304.r3.db.HoldRequestDao;
+import ca.ubc.cpsc304.r3.dto.BookDto;
 import ca.ubc.cpsc304.r3.dto.BorrowerDto;
 import ca.ubc.cpsc304.r3.dto.BorrowingDto;
 import ca.ubc.cpsc304.r3.dto.FineDto;
@@ -152,6 +154,47 @@ public class BorrowerController {
 
 		Integer i = Integer.valueOf(params[0]);
 		return i;
+	}
+	
+	public ViewAndParams getHoldRequestForm() {
+		ViewAndParams vp = new ViewAndParams(
+				"/jsp/borrower/holdRequestForm.jsp");
+		return vp;
+	}
+
+	public ViewAndParams placeHoldRequestResults(HttpServletRequest request) {
+		ViewAndParams vp = new ViewAndParams("/jsp/borrower/holdRequestResults.jsp");
+		try {
+			@SuppressWarnings("unchecked")
+			HoldRequestDao dao = new HoldRequestDao(ConnectionService.getInstance());
+			Map<String, String[]> reqParams = request.getParameterMap();
+			
+			Integer callNo = Integer.valueOf(reqParams.get("callNumber")[0]);
+			Integer borId = Integer.valueOf(reqParams.get("bid")[0]);
+			
+			BookDao daoB = new BookDao(ConnectionService.getInstance());
+			List<BookDto> books =daoB.getByCallNumber(callNo);
+			
+			BorrowerDao daoBo = new BorrowerDao(ConnectionService.getInstance());
+			
+			if(books.size()!=1){
+				Exception badCallNo = new Exception("Invalid call number entered");
+				throw badCallNo;
+			}
+			else if(!daoBo.checkValidBorid(borId)){
+				Exception badBorid = new Exception("Invalid borrower ID entered");
+				throw badBorid;
+			}
+			else{
+				dao.placeByCallNumberAndID(callNo, borId);
+			}
+		} catch (Exception e){
+			vp.putViewParam("hasError", true);
+			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
+			return vp;
+		}
+
+		return vp;
 	}
 
 }

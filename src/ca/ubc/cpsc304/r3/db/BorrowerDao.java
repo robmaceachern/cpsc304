@@ -85,5 +85,43 @@ public class BorrowerDao {
 				conn.close();
 		}
 	}
+	
+	public boolean checkValidBorid(int id) throws SQLException{
+		Connection conn = null; 
+		try {			
+			conn = connService.getConnection();	
+			PreparedStatement ps = conn.prepareStatement(
+					"SELECT * "+
+					"FROM borrower "  +
+					"WHERE bid=?");
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			
+			// get the number of rows in the result set
+			rs.last();
+			int num = rs.getRow();
+			
+			// should be 1 if this is a valid borrower ID
+			if(num==1){
+				return true;
+			}
+			else{
+				return false;
+			}
+		} catch (SQLException e) {
+			// two options here. either don't catch this exception and 
+			// make the caller handle it, or wrap it in a more 
+			// descriptive exception depending on the situation.
+			// I'll just throw it
+			throw e;
+
+		} finally {
+			// don't forget to close the connection
+			// when you're done with it
+			if(conn != null){
+				conn.close();
+			}
+		}
+	}
 
 }

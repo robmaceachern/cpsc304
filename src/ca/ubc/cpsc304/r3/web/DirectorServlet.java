@@ -96,7 +96,10 @@ public class DirectorServlet extends HttpServlet {
 		else if(requestPath.equals("/searchbookssubmit/")){
 			return new BookController().getBookSearchResults(request);
 		}
-
+		else if(requestPath.equals("/placehold/")){
+			return new BorrowerController().getHoldRequestForm();
+		}
+		
 		// clerk
 		else if (requestPath.equals("/addnewborrower/")) {
 			return new BorrowerController().getAddNewBorrowerForm();
@@ -137,6 +140,9 @@ public class DirectorServlet extends HttpServlet {
 		//borrower
 		if(requestPath.equals("/payfinesubmit/")){
 			return new FineController().getPayFineResults(request);
+		}
+		else if(requestPath.equals("/placeholdsubmit/")){
+			return new BorrowerController().placeHoldRequestResults(request);
 		}
 		
 		//clerk
