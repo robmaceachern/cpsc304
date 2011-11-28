@@ -32,12 +32,9 @@ function sendEmail2(row){
 				<thead>
 					<tr>
 						<td><b>Name </b></td>
-						<td></td>
 						<td><b>Email </b></td>
-						<td></td>
 						<td><b>Book </b></td>
 						<td></td>
-						<td> </td>
 					</tr>
 				</thead>
 				<tbody>
@@ -46,13 +43,10 @@ function sendEmail2(row){
 							<c:set var="name" value ="${overdue['Name'][stat.count-1]}" scope="session"/>
 							<c:set var="email" value ="${overdue['Email'][stat.count-1]}" scope="session"/>
 							<c:set var="book" value ="${overdue['Title'][stat.count-1]}" scope="session"/>
-							<td id="bname${stat.count}">${name}    </td>
-							<td>  </td>
-							<td id="email${stat.count}">${email}    </td>
-							<td>  </td>
-							<td>${book}    </td>
-							<td>  </td>
-							<td><input type=button value="Notify" onclick="alert('Email Sent')"></td>
+							<td id="bname${stat.count}">${name}</td>
+							<td id="email${stat.count}">${email}</td>
+							<td>${book}</td>
+							<td><input type=button value="Notify" onclick="alert('Email sent to ${name} at ${email}')"></td>
 						</tr>
 						</c:forEach>
 				</tbody>
