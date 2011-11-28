@@ -2,6 +2,7 @@ package ca.ubc.cpsc304.r3.db;
 
 // general sql imports
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -28,6 +29,16 @@ public class HoldReqestDao {
 					"SELECT * " + 
 					"FROM holdrequest " + 
 					"WHERE bid="+id);
+			
+			conn = connService.getConnection();	
+			PreparedStatement ps = conn.prepareStatement(
+					"SELECT * " + 
+					"FROM holdrequest " + 
+					"WHERE bid=?");
+			
+			ps.setInt(1, id);
+			ps.executeQuery();
+			
 			while(rs.next()){
 				// for each row, put the data in the dto
 				// and add it to list of results
@@ -62,11 +73,16 @@ public class HoldReqestDao {
 			java.util.Date now = new java.util.Date();
 			java.sql.Date sqlNow = new java.sql.Date(now.getTime());
 			
-			conn = connService.getConnection();
-			Statement st = conn.createStatement();
-			st.executeQuery(
-					"insert into holdrequest(bid, callNumber, issuedDate) " + 
-					"values("+borrowerID+", "+callNo+", "+sqlNow+")");
+			conn = connService.getConnection();	
+			PreparedStatement ps = conn.prepareStatement(
+					"insert into holdrequest(bid, callNumber, issuedDate) " +
+					"values(?, ?, ?)");
+			
+			ps.setInt(1, borrowerID);
+			ps.setInt(2, callNo);
+			ps.setDate(3, sqlNow);
+
+			ps.executeUpdate();
 		
 		} catch (SQLException e) {
 			// two options here. either don't catch this exception and 

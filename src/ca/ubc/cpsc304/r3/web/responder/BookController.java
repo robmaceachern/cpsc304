@@ -1,6 +1,7 @@
 package ca.ubc.cpsc304.r3.web.responder;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -133,6 +134,62 @@ public class BookController {
 			return e.getMessage() + ". Please correct the error and try again.";
 		} else {
 			return "There was a a problem completing your request. " + e.getMessage();
+		}
+	}
+	
+	public ViewAndParams getBookSearchForm(){
+		ViewAndParams vp = new ViewAndParams("/jsp/borrower/searchBooksForm.jsp");
+		return vp;
+	}
+	
+	public ViewAndParams getBookSearchResults(HttpServletRequest request) {
+		ViewAndParams vp = new ViewAndParams("/jsp/borrower/searchBooksResults.jsp");
+		try {
+			@SuppressWarnings("unchecked")
+			Map<String, String[]> reqParams = request.getParameterMap();
+
+			String keyword = reqParams.get("keyword")[0];
+			String stype = reqParams.get("stype")[0];
+			
+			if(stype.equals("titles")){
+				BookDao dao = new BookDao(ConnectionService.getInstance());
+				List<BookDto> dto = dao.searchTitleByKeyword(keyword);
+				if(dto.size()==0){
+					Exception e = new Exception("No books found with a title matching that keyword.");
+					throw e;
+				}
+				vp.putViewParam("books", dto);
+				return vp;
+			}
+			else if(stype.equals("authors")){
+				BookDao dao = new BookDao(ConnectionService.getInstance());
+				List<BookDto> dto = dao.searchAuthorByKeyword(keyword);
+				if(dto.size()==0){
+					Exception e = new Exception("No books found with an author matching that keyword.");
+					throw e;
+				}
+				vp.putViewParam("books", dto);
+				return vp;
+			}
+			else if(stype.equals("subjects")){
+				BookDao dao = new BookDao(ConnectionService.getInstance());
+				List<BookDto> dto = dao.searchSubjectByKeyword(keyword);
+				if(dto.size()==0){
+					Exception e = new Exception("No books found with a subject matching that keyword.");
+					throw e;
+				}
+				vp.putViewParam("books", dto);
+				return vp;
+			}
+			else{
+				Exception e = new Exception("Unrecognized keyword search type");
+				throw e;
+			}
+
+		} catch (Exception e){
+			vp.putViewParam("hasError", true);
+			vp.putViewParam("errorMsg", generateFriendlyError(e));
+			return vp;
 		}
 	}
 }

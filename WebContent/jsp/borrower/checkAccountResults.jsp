@@ -8,14 +8,13 @@
 <jsp:include page="/jsp/fragment/head.jspf"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <c:choose>
-        <c:when test="${hasError}">Check Account Error</c:when>
-        <c:otherwise>Check Account</c:otherwise>
+        <c:when test="${hasError}"><title>Check Account Error</title></c:when>
+        <c:otherwise><title>Check Account</title></c:otherwise>
     </c:choose>
 </head>
 <body>
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
-
     <c:choose>
         <c:when test="${hasError}">
             <h1>Check Account - Error</h1>

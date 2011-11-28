@@ -153,7 +153,7 @@ public class FineDao {
 			PreparedStatement ps = conn.prepareStatement(
 					"UPDATE fine " + 
 					"SET paidDate=?" +
-					" WHERE fid=?");
+					" WHERE fid=? AND paidDate is NULL");
 
 			ps.setDate(1, sqlNow);
 			ps.setInt(2, id);

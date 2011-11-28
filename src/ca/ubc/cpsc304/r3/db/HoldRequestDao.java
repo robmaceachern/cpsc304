@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,22 +64,16 @@ public class HoldRequestDao {
 			java.util.Date now = new java.util.Date();
 			java.sql.Date sqlNow = new java.sql.Date(now.getTime());
 			
-			conn = connService.getConnection();
-			Statement st = conn.createStatement();
-			st.executeQuery(
-					"insert into holdrequest(bid, callNumber, issuedDate) " + 
-					"values("+borrowerID+", "+callNo+", "+sqlNow+")");
-			
-			
 			conn = connService.getConnection();	
 			PreparedStatement ps = conn.prepareStatement(
 					"insert into holdrequest(bid, callNumber, issuedDate) " + 
 					"values(?,?,?)");
 			ps.setInt(1, borrowerID);
-			ps.setInt(1, callNo);
+			ps.setInt(2, callNo);
 			ps.setDate(3, sqlNow);
 			
 			ps.executeUpdate();
+
 		
 		} catch (SQLException e) {
 			// two options here. either don't catch this exception and 
