@@ -17,12 +17,12 @@
 	<h1>Add New Borrower</h1>
 	<p>Enter all information of the new borrower.</p>
 	<form action="/CrazyCoolLibrary/app/addnewborrowersubmit" method="post">
-		<div><label for="name">Name </label><input id="name" name="name" type="text"/></div>
-		<div><label for="password">Password </label><input id="password" name="password" type="password"/></div>
-		<div><label for="address">Address </label><input id="address" name="address" type="text"/></div>
-		<div><label for="phone">Phone </label><input id="phone" name="phone" type="text"/></div>
-		<div><label for="email">Email </label><input id="email" name="email" type="text"/></div>
-		<div><label for="sin">SIN or Student# </label><input id="sin" name="sin" type="text"/></div>
+		<div><label for="name">Name<em>*</em></label><input id="name" name="name" type="text"/></div>
+		<div><label for="password">Password<em>*</em></label><input id="password" name="password" type="password"/></div>
+		<div><label for="address">Address<em>*</em></label><input id="address" name="address" type="text"/></div>
+		<div><label for="phone">Phone<em>*</em></label><input id="phone" name="phone" type="text"/></div>
+		<div><label for="email">Email<em>*</em></label><input id="email" name="email" type="text"/></div>
+		<div><label for="sin">SIN or Student#<em>*</em></label><input id="sin" name="sin" type="text"/></div>
 		<div>
 			<label>Type</label>
 			<select name="btype" id="btype">

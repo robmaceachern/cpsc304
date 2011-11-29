@@ -17,11 +17,11 @@
 	<h1>Add New Book</h1>
 	<p>Enter all info for the new book.</p>
 	<form action="/CrazyCoolLibrary/app/addnewbooksubmit" method="post">
-		<div><label for="isbn"><span>ISBN</span></label><input id="isbn" name="isbn" type="text"/></div>
-		<div><label for="title"><span>Title</span></label><input id="title" name="title" type="text"/></div>
-		<div><label for="author"><span>Author</span></label><input id="author" name="author" type="text"/></div>
-		<div><label for="publisher"><span>Publisher</span></label><input id="publisher" name="publisher" type="text"/></div>
-		<div><label for="year"><span>Year</span></label><input id="year" name="year" type="text"/></div>
+		<div><label for="isbn"><span>ISBN<em>*</em></span></label><input id="isbn" name="isbn" type="text"/></div>
+		<div><label for="title"><span>Title<em>*</em></span></label><input id="title" name="title" type="text"/></div>
+		<div><label for="author"><span>Author<em>*</em></span></label><input id="author" name="author" type="text"/></div>
+		<div><label for="publisher"><span>Publisher<em>*</em></span></label><input id="publisher" name="publisher" type="text"/></div>
+		<div><label for="year"><span>Year<em>*</em></span></label><input id="year" name="year" type="text"/></div>
 		<button type="submit">Add book</button>
 	</form>
 	</div>

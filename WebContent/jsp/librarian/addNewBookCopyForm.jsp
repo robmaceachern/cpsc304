@@ -17,7 +17,7 @@
 	<h1>Add a New Book Copy</h1>
 	<p>Enter the call number of the book to make a new copy of.</p>
 	<form action="/CrazyCoolLibrary/app/addnewbookcopysubmit" method="post">
-		<div><label for="callNumber">Call Number</label><input id="callNumber" name="callNumber" type="text"/></div>
+		<div><label for="callNumber">Call Number<em>*</em></label><input id="callNumber" name="callNumber" type="text"/></div>
 		<button type="submit">Add book copy</button>
 	</form>
 	</div>

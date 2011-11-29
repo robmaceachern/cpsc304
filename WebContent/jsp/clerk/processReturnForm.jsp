@@ -17,8 +17,8 @@
 	<h1>Process Return</h1>
 	<p>Enter the catalogue number of the book to return.</p>
 	<form action="/CrazyCoolLibrary/app/processreturnsubmit" method="post">
-		<div><label for="callNumber">Call Number</label><input id="callNumber" name="callNumber" type="text"/></div>
-		<div><label for="copyNo">Copy Number</label><input id="copyNo" name="copyNo" type="text"/></div>
+		<div><label for="callNumber">Call Number<em>*</em></label><input id="callNumber" name="callNumber" type="text"/></div>
+		<div><label for="copyNo">Copy Number<em>*</em></label><input id="copyNo" name="copyNo" type="text"/></div>
 <!-- 		<div><label for="borrowerId">Borrower Id</label><input id="borrowerId" name="borrowerId" type="text"/></div>
  -->		<button type="submit">Return</button>
 	</form>

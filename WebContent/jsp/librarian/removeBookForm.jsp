@@ -17,7 +17,7 @@
 	<h1>Remove a Book</h1>
 	<p>Enter the call number fo the book.</p>
 	<form action="/CrazyCoolLibrary/app/removebooksubmit" method="post">
-		<div><label for="catalogueNumber">Call Number</label><input id="callNumber" name="callNumber" type="text"/></div>
+		<div><label for="catalogueNumber">Call Number<em>*</em></label><input id="callNumber" name="callNumber" type="text"/></div>
 		<button type="submit">Remove Book</button>
 	</form>
 	</div>

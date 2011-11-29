@@ -17,7 +17,7 @@
 	<h1>Overdue Items</h1>
 	<p>Optionally enter a Borrower ID to filter the results.</p>
 	<form action="/CrazyCoolLibrary/app/viewcheckoverduereport" method="get">
-		<div><label for="borrowerId">Borrower Id</label><input id="borrowerId" name="bid" type="text"/></div>
+		<div><label for="borrowerId">Borrower Id<em>*</em></label><input id="borrowerId" name="bid" type="text"/></div>
 		<button type="submit">Get Overdue Books</button>
 	</form>
 	</div>

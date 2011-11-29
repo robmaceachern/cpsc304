@@ -17,7 +17,7 @@
     <h1>Check Your Account</h1>
     <p>Enter your borrower ID to check the items you currently have checked out, your outstanding fines, and your current hold requests.</p>
     <form action="/CrazyCoolLibrary/app/checkaccountsubmit" method="get">
-        <div><label for="bid">Borrower ID</label><input id="bid" name="bid" type="text"/></div>
+        <div><label for="bid">Borrower ID<em>*</em></label><input id="bid" name="bid" type="text"/></div>
         <button type="submit">Check Account</button>
     </form>
     </div>

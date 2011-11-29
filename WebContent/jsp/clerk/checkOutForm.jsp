@@ -17,8 +17,8 @@
 	<h1>Checkout Book(s)</h1>
 	<p>Enter the Borrower ID and a list of call numbers separated by commas.</p> 
 	<form action="/CrazyCoolLibrary/app/checkoutbookssubmit" method="post">
-		<div><label for="callNumber">Call Number(s)</label><input id="callNumber" name="callNumber" type="text"/></div>
-		<div><label for="bid">Borrower Id</label><input id="bid" name="bid" type="text"/></div>
+		<div><label for="callNumber">Call Number(s)<em>*</em></label><input id="callNumber" name="callNumber" type="text"/></div>
+		<div><label for="bid">Borrower Id<em>*</em></label><input id="bid" name="bid" type="text"/></div>
 		<button type="submit">Check Out</button>
 	</form>
 	</div>

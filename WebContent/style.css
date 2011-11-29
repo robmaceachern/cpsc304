@@ -115,3 +115,7 @@ form select {
 	width: 275px;
 	font: normal 1.4em "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
+
+form em {
+	color: red;
+}

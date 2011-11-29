@@ -17,7 +17,7 @@
     <h1>Pay Fine</h1>
     <p>Enter the ID of the fine you wish to pay.</p>
     <form action="/CrazyCoolLibrary/app/payfinesubmit" method="post">
-        <div><label for="fid">Fine ID</label><input id="fid" name="fid" type="text"/></div>
+        <div><label for="fid">Fine ID<em>*</em></label><input id="fid" name="fid" type="text"/></div>
         <button type="submit">Pay Fine</button>
     </form>
     </div>

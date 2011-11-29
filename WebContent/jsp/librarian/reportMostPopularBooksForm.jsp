@@ -19,8 +19,8 @@
 	<!-- I'm using GET for this form because we're not changing the server state 
 			based on the year or limit. It's just a filtering mechanism. -->
 	<form action="/CrazyCoolLibrary/app/viewmostpopularbooksreport" method="get">
-		<div><label for="year">Year</label><input id="year" name="year" type="text"/></div>
-		<div><label for="limit">Results limit</label><input id="limit" name="limit" type="text"/></div>
+		<div><label for="year">Year<em>*</em></label><input id="year" name="year" type="text"/></div>
+		<div><label for="limit">Results limit<em>*</em></label><input id="limit" name="limit" type="text"/></div>
 		<button type="submit">Generate report</button>
 	</form>
 	</div>

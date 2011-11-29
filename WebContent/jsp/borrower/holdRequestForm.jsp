@@ -17,9 +17,9 @@
     <h1>Place Hold Request</h1>
     <p>Enter your Borrower ID and the call number of the book to request.</p>
     <form action="/CrazyCoolLibrary/app/placeholdsubmit" method="post">
-        <div><label for="callNumber">Call Number</label><input id="callNumber" name="callNumber" type="text"/></div>
-        <div><label for="bid">Borrower ID</label><input id="bid" name="bid" type="text"/></div>
-        <button type="submit">Place Hold Request</button>
+        <div><label for="callNumber">Call Number<em>*</em></label><input id="callNumber" name="callNumber" type="text"/></div>
+        <div><label for="bid">Borrower ID<em>*</em></label><input id="bid" name="bid" type="text"/></div>
+        <button type="submit">Place Hold Request<em>*</em></button>
     </form>
     </div>
 </div>

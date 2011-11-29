@@ -17,7 +17,7 @@
     <h1>Search For Books</h1>
     <p>Enter the keyword and select the search category to be used.</p>
     <form action="/CrazyCoolLibrary/app/searchbookssubmit" method="get">
-        <div><label for="keyword">Keyword</label><input id="keyword" name="keyword" type="text"/></div>
+        <div><label for="keyword">Keyword<em>*</em></label><input id="keyword" name="keyword" type="text"/></div>
         <div><label for="stype">Search By</label>
         	<select name="stype" id="stype">
 		  		<option value="titles">Title</option>
