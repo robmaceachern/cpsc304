@@ -164,6 +164,7 @@ public class BorrowerController {
 		@SuppressWarnings("unchecked")
 		Map<String, String[]> reqParams = request.getParameterMap();
 		String[] params = reqParams.get(key);
+		FormUtils.checkForBadInput(reqParams);
 
 		Integer i = Integer.valueOf(params[0]);
 		return i;
@@ -181,6 +182,7 @@ public class BorrowerController {
 			HoldRequestDao dao = new HoldRequestDao(ConnectionService.getInstance());
 			@SuppressWarnings("unchecked")
 			Map<String, String[]> reqParams = request.getParameterMap();
+			FormUtils.checkForBadInput(reqParams);
 			
 			Integer callNo = Integer.valueOf(reqParams.get("callNumber")[0]);
 			Integer borId = Integer.valueOf(reqParams.get("bid")[0]);
@@ -199,7 +201,8 @@ public class BorrowerController {
 				throw badBorid;
 			}
 			else{
-				dao.placeByCallNumberAndID(callNo, borId);
+				int numHeld = dao.placeByCallNumberAndID(callNo, borId);
+				vp.putViewParam("numHeld", numHeld);
 			}
 		} catch (Exception e){
 			vp.putViewParam("hasError", true);

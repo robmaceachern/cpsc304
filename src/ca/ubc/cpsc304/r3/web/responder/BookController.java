@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import ca.ubc.cpsc304.r3.db.BookDao;
 import ca.ubc.cpsc304.r3.db.ConnectionService;
+import ca.ubc.cpsc304.r3.dto.BookDetailedDto;
 import ca.ubc.cpsc304.r3.dto.BookDto;
 import ca.ubc.cpsc304.r3.util.FormUtils;
 import ca.ubc.cpsc304.r3.web.DirectorServlet.ViewAndParams;
@@ -131,13 +132,14 @@ public class BookController {
 		try {
 			@SuppressWarnings("unchecked")
 			Map<String, String[]> reqParams = request.getParameterMap();
+			FormUtils.checkForBadInput(reqParams);
 
 			String keyword = reqParams.get("keyword")[0];
 			String stype = reqParams.get("stype")[0];
 			
 			if(stype.equals("titles")){
 				BookDao dao = new BookDao(ConnectionService.getInstance());
-				List<BookDto> dto = dao.searchTitleByKeyword(keyword);
+				List<BookDetailedDto> dto = dao.searchTitleByKeyword(keyword);
 				if(dto.size()==0){
 					Exception e = new Exception("No books found with a title matching that keyword.");
 					throw e;
@@ -147,7 +149,7 @@ public class BookController {
 			}
 			else if(stype.equals("authors")){
 				BookDao dao = new BookDao(ConnectionService.getInstance());
-				List<BookDto> dto = dao.searchAuthorByKeyword(keyword);
+				List<BookDetailedDto> dto = dao.searchAuthorByKeyword(keyword);
 				if(dto.size()==0){
 					Exception e = new Exception("No books found with an author matching that keyword.");
 					throw e;
@@ -157,7 +159,7 @@ public class BookController {
 			}
 			else if(stype.equals("subjects")){
 				BookDao dao = new BookDao(ConnectionService.getInstance());
-				List<BookDto> dto = dao.searchSubjectByKeyword(keyword);
+				List<BookDetailedDto> dto = dao.searchSubjectByKeyword(keyword);
 				if(dto.size()==0){
 					Exception e = new Exception("No books found with a subject matching that keyword.");
 					throw e;

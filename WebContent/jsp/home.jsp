@@ -9,8 +9,10 @@
 <title>Home Sweet Home</title>
 </head>
 <body>
+<div id="wrap">
 <jsp:include page="/jsp/fragment/header.jspf"/>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
+<div id="main_content">
 <h1>Welcome to the CrazyCoolLibrary</h1>
 <p>This is the craziest and coolest library that has ever existed. You will not be disappointed!
 Select an action from the navigation panel to start exploring the library</p>
@@ -26,5 +28,7 @@ Select an action from the navigation panel to start exploring the library</p>
 		</ul>
 	</c:when>
 </c:choose>
+</div>
+</div>
 </body>
 </html>

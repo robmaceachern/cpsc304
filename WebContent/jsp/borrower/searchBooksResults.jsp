@@ -33,6 +33,8 @@
                         <th>ISBN</th>
                         <th>Publisher</th>
                         <th>Year</th>
+                        <th>Copies In</th>
+                        <th>Copies Out</th>
                     </tr>
                 </thead>
                 <c:forEach var="entry" items="${books}" >
@@ -43,6 +45,8 @@
                         <td>${entry.isbn}</td>
                         <td>${entry.publisher}</td>
                         <td>${entry.year}</td>
+                        <td>${entry.numCopiesIn}</td>
+                        <td>${entry.numCopiesOut}</td>
                     </tr>
                 </c:forEach>
             </table>

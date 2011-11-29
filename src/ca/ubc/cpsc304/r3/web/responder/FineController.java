@@ -51,6 +51,7 @@ public class FineController {
 		@SuppressWarnings("unchecked")
 		Map<String, String[]> reqParams = request.getParameterMap();
 		String[] params = reqParams.get(key);
+		FormUtils.checkForBadInput(reqParams);
 
 		Integer i = Integer.valueOf(params[0]);
 		return i;
