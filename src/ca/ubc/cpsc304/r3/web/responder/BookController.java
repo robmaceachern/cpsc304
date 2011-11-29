@@ -132,6 +132,7 @@ public class BookController {
 		try {
 			@SuppressWarnings("unchecked")
 			Map<String, String[]> reqParams = request.getParameterMap();
+			FormUtils.checkForBadInput(reqParams);
 
 			String keyword = reqParams.get("keyword")[0];
 			String stype = reqParams.get("stype")[0];
