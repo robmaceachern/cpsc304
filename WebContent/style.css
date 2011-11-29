@@ -40,7 +40,7 @@ form > div {
 
 h1 {
 	font-size: 200%;
-	margin-bottom: 15px;
+	margin-bottom: 20px;
 }
 
 #navigation {
@@ -101,4 +101,17 @@ td, th {
 
 #main_content p {
 	margin-top: 10px;
+	margin-left: 20px;
+}
+
+form button {
+	margin-left:20px;
+	font: normal 1.4em "Trebuchet MS", Arial, Helvetica, sans-serif;
+	padding: 8px;
+}
+
+form select {
+	margin-left: -4px;
+	width: 275px;
+	font: normal 1.4em "Trebuchet MS", Arial, Helvetica, sans-serif;
 }

@@ -14,8 +14,9 @@
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
 <div id="main_content">
 <h1>Welcome to the CrazyCoolLibrary</h1>
-<p>This is the craziest and coolest library that has ever existed. You will not be disappointed!
-Select an action from the navigation panel to start exploring the library</p>
+<p style="width: 565px;">This is the craziest and coolest library that has ever existed. You will not be disappointed!
+Select an action from the navigation panel to start exploring the library.</p>
+<p>Created by Riley Chang, Robert Woff, and Rob MacEachern.</p>
 
 <c:choose>
 	<c:when test="${not empty stats}">

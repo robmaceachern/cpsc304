@@ -1,4 +1,4 @@
 <header>
-<h1><a href="/CrazyCoolLibrary">CrazyCoolLibrary</a></h1>
-<span>It's so cool, it's crazy!</span>
+<a href="/CrazyCoolLibrary"><img src="/CrazyCoolLibrary/images/logo.png"/></a>
+<span style="font-style:italic;">It's so cool, it's crazy!</span>
 </header>

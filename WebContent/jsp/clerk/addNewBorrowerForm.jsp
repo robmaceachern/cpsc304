@@ -23,11 +23,13 @@
 		<div><label for="phone">Phone </label><input id="phone" name="phone" type="text"/></div>
 		<div><label for="email">Email </label><input id="email" name="email" type="text"/></div>
 		<div><label for="sin">SIN or Student# </label><input id="sin" name="sin" type="text"/></div>
-		<div><label>Type </label><select name="btype" id="btype">
-												<option value="student">Student</option>
-												<option value="faculty">Faculty</option>
-												<option value="staff">Staff</option>
-											</select></div>
+		<div>
+			<label>Type</label>
+			<select name="btype" id="btype">
+				<option value="student">Student</option>
+				<option value="faculty">Faculty</option>
+				<option value="staff">Staff</option>
+			</select></div>
 		<button type="submit">Add borrower</button>
 	</form>
 	</div>

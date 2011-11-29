@@ -18,12 +18,15 @@
     <p>Enter the keyword and select the search category to be used.</p>
     <form action="/CrazyCoolLibrary/app/searchbookssubmit" method="get">
         <div><label for="keyword">Keyword</label><input id="keyword" name="keyword" type="text"/></div>
+        <div><label for="stype">Search By</label>
+        	<select name="stype" id="stype">
+		  		<option value="titles">Title</option>
+		  		<option value="authors">Author</option>
+		  		<option value="subjects">Subject</option>
+			</select> 
+        </div>
         <button type="submit">Search for books</button>
-        <select name="stype" id="stype">
-		  <option value="titles">Titles</option>
-		  <option value="authors">Authors</option>
-		  <option value="subjects">Subjects</option>
-		</select> 
+
     </form>
     </div>
 </div>
