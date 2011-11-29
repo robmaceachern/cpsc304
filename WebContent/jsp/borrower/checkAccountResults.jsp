@@ -23,59 +23,94 @@
         <c:otherwise>
 		    <h1>Results of Check Account</h1>
 		    <p>Items Currently Borrowed:</p>
-		    <table>
-		        <thead>
-		            <tr>
-		                <td>Borrowing ID</td>
-		                <td>Call Number</td>
-		                <td>Copy Number</td>
-		                <td>Check Out Date</td>
-		            </tr>
-		        </thead>
-		        <c:forEach var="entry" items="${borrowedItems}" >
-			        <tr>
-				        <td>${entry.borid}</td>
-				        <td>${entry.callNumber}</td>
-				        <td>${entry.copyNo}</td>
-				        <td>${entry.outDate}</td>
-			        </tr>
-			    </c:forEach>
-		    </table>
+		    <c:choose>
+			    <c:when test="${numBorrowedItems eq 0}">
+		               <p>There are no currently borrowed items</p>
+		           </c:when>
+		           <c:otherwise>
+				    <table>
+				        <thead>
+				            <tr>
+				                <td>Title</td>
+				                <td>Author</td>
+				                <td>Call Number</td>
+				                <td>Copy Number</td>
+				                <td>Check Out Date</td>
+				                <td>Borrowing ID</td>
+				            </tr>
+				        </thead>
+				        <c:forEach var="entry" items="${borrowedItems}" >
+					        <tr>
+					            <td>${entry.title}</td>
+					            <td>${entry.mainAuthor}</td>
+						        <td>${entry.callNumber}</td>
+						        <td>${entry.copyNo}</td>
+						        <td>${entry.outDate}</td>
+						        <td>${entry.borid}</td>
+					        </tr>
+					    </c:forEach>
+				    </table>
+				</c:otherwise>
+		    </c:choose>
 		    <p>Outstanding Fines:</p>
-            <table>
-                <thead>
-                    <tr>
-                        <td>Fine ID</td>
-                        <td>Amount Owing</td>
-                        <td>Issued Date</td>
-                    </tr>
-                </thead>
-                <c:forEach var="entry" items="${outstandingFines}" >
-                    <tr>
-                        <td>${entry.fid}</td>
-                        <td>${entry.amount}</td>
-                        <td>${entry.issuedDate}</td>
-                    </tr>
-                </c:forEach>
-            </table>
+		    <c:choose>
+			    <c:when test="${numOutstandingFines eq 0}">
+	                <p>There are no out standing fines</p>
+	            </c:when>
+	            <c:otherwise>
+		            <table>
+		                <thead>
+		                    <tr>
+		                        <td>Title</td>
+                                <td>Author</td>
+                                <td>Call Number</td>
+		                        <td>Amount Owing</td>
+		                        <td>Issued Date</td>
+		                        <td>Fine ID</td>
+		                    </tr>
+		                </thead>
+		                <c:forEach var="entry" items="${outstandingFines}" >
+		                    <tr>
+		                        <td>${entry.title}</td>
+                                <td>${entry.mainAuthor}</td>
+                                <td>${entry.callNumber}</td>
+		                        <td>${entry.amount}</td>
+		                        <td>${entry.issuedDate}</td>
+		                        <td>${entry.fid}</td>
+		                    </tr>
+		                </c:forEach>
+		            </table>
+	            </c:otherwise>
+	        </c:choose>
             <p>Current Hold Requests:</p>
-            <table>
-                <thead>
-                    <tr>
-                        <td>Hold Request ID</td>
-                        <td>Call Number</td>
-                        <td>Issued Date</td>
-                    </tr>
-                </thead>
-                <c:forEach var="entry" items="${currentHolds}" >
-                    <tr>
-                        <td>${entry.hid}</td>
-                        <td>${entry.callNumber}</td>
-                        <td>${entry.issuedDate}</td>
-                    </tr>
-                </c:forEach>
-            </table>
+            <c:choose>
+	            <c:when test="${numCurrentHolds eq 0}">
+	                <p>There are no current hold requests</p>
+	            </c:when>
+	            <c:otherwise>
+		            <table>
+		                <thead>
+		                    <tr>
+		                        <td>Title</td>
+                                <td>Author</td>
+		                        <td>Call Number</td>
+		                        <td>Issued Date</td>
+		                        <td>Hold Request ID</td>
+		                    </tr>
+		                </thead>
+		                <c:forEach var="entry" items="${currentHolds}" >
+		                    <tr>
+		                        <td>${entry.title}</td>
+                                <td>${entry.mainAuthor}</td>
+		                        <td>${entry.callNumber}</td>
+		                        <td>${entry.issuedDate}</td>
+		                        <td>${entry.hid}</td>
+		                    </tr>
+		                </c:forEach>
+		            </table>
+	             </c:otherwise>
+	         </c:choose>
 	    </c:otherwise>
-   </c:choose>
+    </c:choose>
 </body>
 </html>
