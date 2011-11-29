@@ -1,12 +1,10 @@
 package ca.ubc.cpsc304.r3.web.responder;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import ca.ubc.cpsc304.r3.DNEException;
 import ca.ubc.cpsc304.r3.db.BookDao;
 import ca.ubc.cpsc304.r3.db.BorrowerDao;
 import ca.ubc.cpsc304.r3.db.BorrowingDao;
@@ -16,16 +14,12 @@ import ca.ubc.cpsc304.r3.db.HoldRequestDao;
 import ca.ubc.cpsc304.r3.dto.BookDto;
 import ca.ubc.cpsc304.r3.dto.BorrowerDto;
 import ca.ubc.cpsc304.r3.dto.BorrowingDetailedDto;
-import ca.ubc.cpsc304.r3.dto.BorrowingDto;
 import ca.ubc.cpsc304.r3.dto.FineDetailedDto;
-import ca.ubc.cpsc304.r3.dto.FineDto;
 import ca.ubc.cpsc304.r3.dto.HoldRequestDetailedDto;
-import ca.ubc.cpsc304.r3.dto.HoldRequestDto;
 import ca.ubc.cpsc304.r3.util.FormUtils;
 import ca.ubc.cpsc304.r3.web.DirectorServlet.ViewAndParams;
 
 public class BorrowerController {
-	private String numErrorMsg = "Please make sure you enter valid numbers.";
 
 	/**
 	 * From requirements: Remove a borrower from the library. The borrow id is
@@ -71,11 +65,14 @@ public class BorrowerController {
 		ViewAndParams vp = new ViewAndParams(
 				"/jsp/clerk/addNewBorrowerResults.jsp");
 		boolean hasError = false;
+		@SuppressWarnings("unchecked")
+		Map<String, String[]> reqParams = request.getParameterMap();
 
 		try {
+			
 			BorrowerDao bdao = new BorrowerDao(ConnectionService.getInstance());
 			BorrowerDto bdto = new BorrowerDto();
-			Map<String, String[]> reqParams = request.getParameterMap();
+			FormUtils.checkForBadInput(reqParams);
 			bdto.setAddress(reqParams.get("address")[0]);
 			bdto.setName(reqParams.get("name")[0]);
 			bdto.setEmail(reqParams.get("email")[0]);
@@ -88,18 +85,7 @@ public class BorrowerController {
 			vp.putViewParam("bid", bid);
 		} catch (Exception e) {
 			hasError = true;
-			e.printStackTrace();
-			if (e instanceof NumberFormatException)
-				vp.putViewParam("errorMsg", numErrorMsg);
-			else if (e instanceof DNEException)
-				vp.putViewParam("errorMsg", e.getMessage());
-			else if(e instanceof SQLException)
-				vp.putViewParam("error", e.getMessage());
-			else
-				vp.putViewParam(
-						"errorMeg",
-						"There was an error adding the borrower.<br>"
-								+ "Please make sure all values are entered correctly.");
+			vp.putViewParam("errorMsg", FormUtils.generateFriendlyError(e));
 		}
 		finally {
 			vp.putViewParam("hasError", hasError);
@@ -192,8 +178,8 @@ public class BorrowerController {
 	public ViewAndParams placeHoldRequestResults(HttpServletRequest request) {
 		ViewAndParams vp = new ViewAndParams("/jsp/borrower/holdRequestResults.jsp");
 		try {
-			@SuppressWarnings("unchecked")
 			HoldRequestDao dao = new HoldRequestDao(ConnectionService.getInstance());
+			@SuppressWarnings("unchecked")
 			Map<String, String[]> reqParams = request.getParameterMap();
 			
 			Integer callNo = Integer.valueOf(reqParams.get("callNumber")[0]);

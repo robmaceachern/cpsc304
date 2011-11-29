@@ -111,7 +111,7 @@ DROP TABLE IF EXISTS `borrowertype`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `borrowertype` (
   `btype` ENUM ('student', 'faculty', 'staff'),
-  `bookTimeLimit` ENUM ('2', '6', '12'),  
+  `bookTimeLimit` ENUM ('2', '12', '6'),  
   PRIMARY KEY (`btype`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

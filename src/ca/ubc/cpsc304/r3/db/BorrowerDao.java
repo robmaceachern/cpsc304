@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import ca.ubc.cpsc304.r3.DNEException;
-import ca.ubc.cpsc304.r3.DaoUtility;
 import ca.ubc.cpsc304.r3.dto.BorrowerDto;
+import ca.ubc.cpsc304.r3.util.DNEException;
+import ca.ubc.cpsc304.r3.util.DaoUtility;
 
 public class BorrowerDao {
 	private ConnectionService connService;
@@ -72,6 +72,7 @@ public class BorrowerDao {
 			ps.setString(8, bd.getType());
 			ps.executeUpdate();
 
+			//Get new bid to return
 			ResultSet rs = conn.createStatement().executeQuery(
 					"SELECT bid FROM Borrower WHERE sinOrStNo="
 							+ DaoUtility.convertToSQLvalue(bd.getSin()));

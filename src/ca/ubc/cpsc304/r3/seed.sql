@@ -35,8 +35,8 @@ values(10001, 1, 'out'),
 --
 insert into borrowerType(btype, bookTimeLimit)
 values('student', '2'),
-      ('faculty', '6'),
-      ('staff', '12');
+      ('faculty', '12'),
+      ('staff', '6');
       
 --
 -- Populate the borrower table with some example entries
@@ -66,7 +66,7 @@ values(1, 1, 10001, 1, '2011-11-15', null),
 -- 
 insert into fine(fid, amount, issuedDate, paidDate, borid)
 values(1, 10, 20111021, 20111022, 4),
-	  (2, 300, 20110530, null, 7);
+	  (2, 300, 20110530, null, 8);
 
 --
 -- Populate the hasauthor table with some example entries
@@ -94,9 +94,9 @@ values('Database', 10005),
 -- Populate the holdrequest table with some example entries
 -- 
 insert into holdrequest(hid, bid, callNumber, issuedDate)
-values(1, 1, 10001, 20111029),
+values(1, 3, 10001, 20111029),
       (2, 2, 10002, 20111030),
-      (3, 3, 10001, 20111031);
+      (3, 4, 10001, 20111031);
       
       
       

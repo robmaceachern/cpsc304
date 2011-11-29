@@ -1,8 +1,6 @@
 package ca.ubc.cpsc304.r3.web.responder;
 
 
-import java.security.InvalidParameterException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -118,7 +116,8 @@ public class ReportController {
 		ViewAndParams vp = new ViewAndParams("/jsp/clerk/checkOverdueDisplay.jsp");
 		Map<String, String[]> outPut = new HashMap<String, String[]>();
 		OverdueDao odao = new OverdueDao(ConnectionService.getInstance());
-		List<OverdueDto> dtos = new ArrayList();;
+		List<OverdueDto> dtos = new ArrayList<OverdueDto>();;
+		boolean hasError = false;
 		try {
 			dtos = odao.checkOverdue(request.getParameter("bid"));
 			int size = dtos.size();
@@ -130,26 +129,26 @@ public class ReportController {
 			String[] titles = new String[size];
 			String[] borrowers = new String[size];
 			String[] emails = new String[size];
+			String[] dates = new String[size];
 
 			for(int i=0; i<size; i++){
 				titles[i] = dtos.get(i).getTitle();
 				borrowers[i] = dtos.get(i).getName();
 				emails[i] = dtos.get(i).getEmail();
+				dates[i] = dtos.get(i).getDuedate().toString();
 			}
 
 			outPut.put("Title", titles);
 			outPut.put("Name", borrowers);
 			outPut.put("Email", emails);
+			outPut.put("Date", dates);
 
-
-		} catch (SQLException e) {
-			// TODO UNABLE TO GET OVERDUE REPORT
-			e.printStackTrace();
 		} catch (Exception e){
-			//bad exception
-			e.printStackTrace();
+			hasError=true;
+			vp.putViewParam("errorMsg", FormUtils.generateFriendlyError(e));
 		}
 
+		vp.putViewParam("hasError", hasError);
 		vp.putViewParam("overdue", outPut);
 		return vp;
 	}
