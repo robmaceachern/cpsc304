@@ -25,7 +25,17 @@
         </c:when>
         <c:otherwise>
            <h1>Hold Request Placed</h1>
-           <p>A hold request has been placed for the specified book and borrower.</p>
+           <p>A hold request has been placed for the specified book.</p>
+           <c:choose>
+	           <c:when test="${numHeld eq 0}">
+	               <p>There are no copies of this book currently available in the library.</p>
+	               <p>You will be notified by email when a copy is returned.</p>
+	           </c:when>
+	           <c:otherwise>
+	               <p>There is a copy of this book currently in the library.</p>
+	               <p>It has been placed on hold and is ready for pick up.</p>
+	           </c:otherwise>
+	       </c:choose>
         </c:otherwise>
    </c:choose>
    </div>
