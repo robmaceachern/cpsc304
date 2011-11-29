@@ -13,8 +13,10 @@
     </c:choose>
 </head>
 <body>
+<div id="wrap">
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
+	<div id="main_content">
     <c:choose>
         <c:when test="${hasError}">
             <h1>Check Account - Error</h1>
@@ -112,5 +114,7 @@
 	         </c:choose>
 	    </c:otherwise>
     </c:choose>
+    </div>
+</div>
 </body>
 </html>

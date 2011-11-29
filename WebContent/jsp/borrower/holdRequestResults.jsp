@@ -13,8 +13,10 @@
     </c:choose>
 </head>
 <body>
+<div id="wrap">
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
+	<div id="main_content">
 
     <c:choose>
         <c:when test="${hasError}">
@@ -26,5 +28,7 @@
            <p>A hold request has been placed for the specified book and borrower.</p>
         </c:otherwise>
    </c:choose>
+   </div>
+</div>
 </body>
 </html>

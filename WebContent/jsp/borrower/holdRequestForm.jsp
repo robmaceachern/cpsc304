@@ -10,8 +10,10 @@
 <title>Place Hold Request</title>
 </head>
 <body>
+<div id="wrap">
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
+	<div id="main_content">
     <h2>Place Hold Request</h2>
     <form action="/CrazyCoolLibrary/app/placeholdsubmit" method="post">
     <fieldset>
@@ -21,5 +23,7 @@
         <button type="submit">Place Hold Request</button>
     </fieldset>
     </form>
+    </div>
+</div>
 </body>
 </html>

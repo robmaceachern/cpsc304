@@ -51,6 +51,7 @@ h1 {
 #main_content {
 	float: left;
 	padding: 20px;
+	width: 645px;
 }
 
 header {

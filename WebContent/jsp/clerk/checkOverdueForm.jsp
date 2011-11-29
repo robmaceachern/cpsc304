@@ -10,12 +10,16 @@
 <title>Checking Overdue</title>
 </head>
 <body>
+<div id="wrap">
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
+	<div id="main_content">
 	<h2>Overdue Items</h2>
 	<form action="/CrazyCoolLibrary/app/viewcheckoverduereport" method="get">
 		<div><label for="borrowerId">Borrower Id</label><input id="borrowerId" name="bid" type="text"/></div>
 		<button type="submit">Get Overdue Books</button>
 	</form>
+	</div>
+</div>
 </body>
 </html>

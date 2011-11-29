@@ -10,8 +10,10 @@
 <title>Add New Borrower</title>
 </head>
 <body>
+<div id="wrap">
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
+	<div id="main_content">
 	<h2>Add New borrower</h2>
 	<form action="/CrazyCoolLibrary/app/addnewborrowersubmit" method="post">
 	<fieldset>
@@ -30,5 +32,7 @@
 		<button type="submit">Add borrower</button>
 	</fieldset>
 	</form>
+	</div>
+</div>
 </body>
 </html>

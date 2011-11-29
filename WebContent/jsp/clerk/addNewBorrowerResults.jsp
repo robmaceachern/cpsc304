@@ -10,8 +10,10 @@
 <title>Add New Borrower</title>
 </head>
 <body>
+<div id="wrap">
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
+	<div id="main_content">
 	<c:choose>
 		<c:when test="${hasError}">
 			<h2>Error Adding Borrower</h2>
@@ -22,5 +24,7 @@
 			<p>${btype}New borrower ${bname}'s Borrower ID is ${bid}</p>
 		</c:otherwise>
 	</c:choose>
+	</div>
+</div>
 </body>
 </html>

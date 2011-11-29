@@ -10,8 +10,10 @@
 <title>Check Out</title>
 </head>
 <body>
+<div id="wrap">
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
+	<div id="main_content">
 	<h2>Checkout Book(s)</h2>
 	<form action="/CrazyCoolLibrary/app/checkoutbookssubmit" method="post">
 	<fieldset>
@@ -21,5 +23,7 @@
 		<button type="submit">Check Out</button>
 	</fieldset>
 	</form>
+	</div>
+</div>
 </body>
 </html>

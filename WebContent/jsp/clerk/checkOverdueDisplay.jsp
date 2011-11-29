@@ -10,8 +10,10 @@
 <title>Checking Overdue</title>
 </head>
 <body>
+<div id="wrap">
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
+<div id="main_content">
 
 <script language="javascript">
 function sendEmails(){
@@ -58,5 +60,7 @@ function sendEmails(){
 			<input type=button value="Notify all" onclick="alert('Emails have been sent to all borrowers.')">
 		</c:otherwise>
 	</c:choose>
+	</div>
+</div>
 </body>
 </html>

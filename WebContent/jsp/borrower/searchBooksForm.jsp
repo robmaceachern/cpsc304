@@ -10,8 +10,10 @@
 <title>Search for books</title>
 </head>
 <body>
+<div id="wrap">
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
+	<div id="main_content">
     <h1>Search for books</h1>
     <p>Enter the keyword and select the search category to be used.</p>
     <form action="/CrazyCoolLibrary/app/searchbookssubmit" method="get">
@@ -23,6 +25,8 @@
 		  <option value="subjects">Subjects</option>
 		</select> 
     </form>
+    </div>
+</div>
 </body>
 </html>
 
