@@ -129,6 +129,7 @@ public class BookController {
 	 * @return a user-friendly error messsage
 	 */
 	public static String generateFriendlyError(Exception e){
+		e.printStackTrace();
 		if (e instanceof NumberFormatException){
 			return "Please ensure that numeric fields contain only numbers.";
 		} else if (e instanceof DNEException){

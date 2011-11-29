@@ -1,13 +1,10 @@
 package ca.ubc.cpsc304.r3.web.responder;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import ca.ubc.cpsc304.r3.DNEException;
-import ca.ubc.cpsc304.r3.db.BookDao;
 import ca.ubc.cpsc304.r3.db.BorrowingDao;
 import ca.ubc.cpsc304.r3.db.ConnectionService;
 import ca.ubc.cpsc304.r3.db.ReturnDao;
@@ -16,41 +13,34 @@ import ca.ubc.cpsc304.r3.dto.ReturnDto;
 import ca.ubc.cpsc304.r3.web.DirectorServlet.ViewAndParams;
 
 public class BorrowingController {
-	private String numErrorMsg = "Please make sure you enter valid numbers.";
 
 	public ViewAndParams checkOutBookResults(HttpServletRequest request) {
 		ViewAndParams vp = new ViewAndParams("/jsp/clerk/checkOutResults.jsp");
 		boolean hasError = false;
+		@SuppressWarnings("unchecked")
 		Map<String, String[]> reqParams = request.getParameterMap();
 
 		try {
 			BookController.checkForBadInput(reqParams);
-			String bid = reqParams.get("bid")[0];
+			int bid = Integer.parseInt(reqParams.get("bid")[0]);
 			String callNums = reqParams.get("callNumber")[0];
 			BorrowingDao clerk = new BorrowingDao(
 					ConnectionService.getInstance());
 			ArrayList<String> books = listStrings(callNums);
 			ArrayList<String> bookNames = new ArrayList<String>();
-			BookDao bdao = new BookDao(ConnectionService.getInstance());
 			java.sql.Date duedate = new java.sql.Date(0);
 			for (int i = 0; i < books.size(); i++) {
-				try {
-					duedate = clerk.borrowItem(Integer.parseInt(bid),
-							Integer.parseInt(books.get(i)));
-					bookNames.add(bdao
-							.getByCallNumber(Integer.parseInt(books.get(i)))
-							.get(0).getTitle());
 
-					vp.putViewParam("booksOut", bookNames);
-					vp.putViewParam("duedate", duedate);
-				} catch (Exception e) {
-					hasError = true;
-					vp.putViewParam("errorMsg",
-							BookController.generateFriendlyError(e));
-				}
+				bookNames.add(clerk
+						.findBookByCallNum(Integer.parseInt(books.get(i)), bid)
+						.getTitle());
 			}
+			for (int i = 0; i < books.size(); i++) {
+				duedate = clerk.borrowItem(bid, Integer.parseInt(books.get(i)));
+			}
+			vp.putViewParam("booksOut", bookNames);
+			vp.putViewParam("duedate", duedate);
 		} catch (Exception e) {
-			e.printStackTrace();
 			hasError = true;
 			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
 		}
@@ -68,6 +58,7 @@ public class BorrowingController {
 	public ViewAndParams processReturnResults(HttpServletRequest request) {
 		ViewAndParams vp = new ViewAndParams(
 				"/jsp/clerk/processReturnResults.jsp");
+		@SuppressWarnings("unchecked")
 		Map<String, String[]> reqParams = request.getParameterMap();
 		boolean hasError = false;
 		// boolean DNEerror = false;
@@ -90,12 +81,11 @@ public class BorrowingController {
 			// Display fine if overdue
 			int fine = rdto.getFine();
 			if (fine > 0) {
-				vp.putViewParam("fineMsg", "This book was overdue. You now have a fine of $" + fine
-						+ " so your account has been frozen.");
+				vp.putViewParam("fineMsg",
+						"This book was overdue. You now have a fine of $"
+								+ fine + " so your account has been frozen.");
 			}
-
 		} catch (Exception e) {
-			e.printStackTrace();
 			hasError = true;
 			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
 		}
@@ -114,7 +104,7 @@ public class BorrowingController {
 	private ArrayList<String> listStrings(String s) {
 		if (s == null)
 			return null;
-		int count = countChars(s, ',', 0);	
+		int count = countChars(s, ',', 0);
 		ArrayList<String> sList = new ArrayList<String>();
 		return listStringsHelper(s, count, sList, 0);
 	}

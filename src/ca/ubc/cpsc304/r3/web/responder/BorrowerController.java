@@ -1,12 +1,10 @@
 package ca.ubc.cpsc304.r3.web.responder;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import ca.ubc.cpsc304.r3.DNEException;
 import ca.ubc.cpsc304.r3.db.BookDao;
 import ca.ubc.cpsc304.r3.db.BorrowerDao;
 import ca.ubc.cpsc304.r3.db.BorrowingDao;
@@ -21,7 +19,6 @@ import ca.ubc.cpsc304.r3.dto.HoldRequestDto;
 import ca.ubc.cpsc304.r3.web.DirectorServlet.ViewAndParams;
 
 public class BorrowerController {
-	private String numErrorMsg = "Please make sure you enter valid numbers.";
 
 	/**
 	 * From requirements: Remove a borrower from the library. The borrow id is
@@ -66,6 +63,7 @@ public class BorrowerController {
 		ViewAndParams vp = new ViewAndParams(
 				"/jsp/clerk/addNewBorrowerResults.jsp");
 		boolean hasError = false;
+		@SuppressWarnings("unchecked")
 		Map<String, String[]> reqParams = request.getParameterMap();
 
 		try {
@@ -169,8 +167,8 @@ public class BorrowerController {
 	public ViewAndParams placeHoldRequestResults(HttpServletRequest request) {
 		ViewAndParams vp = new ViewAndParams("/jsp/borrower/holdRequestResults.jsp");
 		try {
-			@SuppressWarnings("unchecked")
 			HoldRequestDao dao = new HoldRequestDao(ConnectionService.getInstance());
+			@SuppressWarnings("unchecked")
 			Map<String, String[]> reqParams = request.getParameterMap();
 			
 			Integer callNo = Integer.valueOf(reqParams.get("callNumber")[0]);

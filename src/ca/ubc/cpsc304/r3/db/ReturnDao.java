@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Calendar;
 
 import ca.ubc.cpsc304.r3.DNEException;
@@ -34,16 +33,11 @@ public class ReturnDao {
 
 		Connection conn = null;
 		conn = connServ.getConnection();
-		Statement st = conn.createStatement();
 		ResultSet rs = null;
 		PreparedStatement ps = null;
 		int callNo = bcd.getCallNumber();
 		int copyNo = bcd.getCopyNo();
-
 		ReturnDto rdto = new ReturnDto();
-
-		String callString = DaoUtility.convertToSQLvalue(callNo);
-		String copyString = DaoUtility.convertToSQLvalue(copyNo);
 
 		// Check to see if it was checked out
 		ps = conn.prepareStatement("SELECT status FROM BookCopy "
@@ -53,16 +47,16 @@ public class ReturnDao {
 		rs = ps.executeQuery();
 
 		if (rs.next() && rs.getString(1).equals("out")) {
-			// ASSUMING hold requests are deleted after they have been
-			// fulfilled
-			rs = st.executeQuery("SELECT name, emailAddress, hid FROM Borrower B, HoldRequest H"
-					+ " WHERE H.bid=B.bid AND H.callNumber="
-					+ callString
-					+ " AND H.issuedDate < ALL "
-					+ "(SELECT issuedDate FROM HoldRequest H2 "
-					+ "WHERE H.hid<> H2.hid AND H2.callNumber="
-					+ callString
-					+ ")");
+			// ASSUMING hold requests are deleted after borrower has checked out
+			// book
+			ps = conn
+					.prepareStatement("SELECT name, emailAddress, hid FROM Borrower B, HoldRequest H"
+							+ " WHERE H.bid=B.bid AND H.callNumber=? AND H.issuedDate < ALL "
+							+ "(SELECT issuedDate FROM HoldRequest H2 "
+							+ "WHERE H.hid<> H2.hid AND H2.callNumber=?)");
+			ps.setInt(1, callNo);
+			ps.setInt(2, callNo);
+			rs = ps.executeQuery();
 
 			// check if there is a request for this book
 			if (rs.next()) {
@@ -79,11 +73,9 @@ public class ReturnDao {
 
 				// update this copy to be on hold
 				ps = conn
-						.prepareStatement("UPDATE BookCopy set status='on hold' WHERE callNumber="
-								+ callString + " AND copyNo=" + copyString);
-				ps.executeUpdate();
-				ps = conn.prepareStatement("DELETE FROM HoldRequest WHERE hid="
-						+ DaoUtility.convertToSQLvalue(hid));
+						.prepareStatement("UPDATE BookCopy set status='on hold' WHERE callNumber=? AND copyNo=?");
+				ps.setInt(1, callNo);
+				ps.setInt(2, copyNo);
 				ps.executeUpdate();
 			}
 
@@ -91,18 +83,18 @@ public class ReturnDao {
 			else {
 				// update this copy to be in
 				ps = conn.prepareStatement("UPDATE BookCopy set status='in' "
-						+ "WHERE callNumber=" + callString + " AND copyNo="
-						+ copyString);
+						+ "WHERE callNumber=? AND copyNo=?");
+				ps.setInt(1, callNo);
+				ps.setInt(2, copyNo);
 				ps.executeUpdate();
-				System.out.println("UPDATED bookCopy table");
 			}
 
 			// Check if was overdue
-			rs = st.executeQuery("SELECT bid, borid, outDate FROM Borrowing WHERE callNumber="
-					+ callString
-					+ " AND copyNo="
-					+ copyString
-					+ " AND inDate IS NULL");
+			ps = conn
+					.prepareStatement("SELECT bid, borid, outDate FROM Borrowing WHERE callNumber=? AND copyNo=? AND inDate IS NULL");
+			ps.setInt(1, callNo);
+			ps.setInt(2, copyNo);
+			rs = ps.executeQuery();
 
 			// Should never happen
 			if (!rs.next())
@@ -112,8 +104,10 @@ public class ReturnDao {
 			int bid = rs.getInt("bid");
 			int borid = rs.getInt("borid");
 			Date out = rs.getDate("outDate");
-			rs = st.executeQuery("SELECT bookTimeLimit, B.name FROM Borrower B, BorrowerType T WHERE B.btype=T.btype AND bid="
-					+ DaoUtility.convertToSQLvalue(bid));
+			ps = conn
+					.prepareStatement("SELECT bookTimeLimit, B.name FROM Borrower B, BorrowerType T WHERE B.btype=T.btype AND bid=?");
+			ps.setInt(1, bid);
+			rs = ps.executeQuery();
 
 			// Should never happen
 			if (!rs.next())
@@ -130,11 +124,10 @@ public class ReturnDao {
 			if (diff > limit) {
 				ps = conn
 						.prepareStatement("INSERT into Fine(amount, issuedDate, borid)"
-								+ "values("
-								+ fine
-								+ ", "
-								+ DaoUtility.convertToSQLvalue(DaoUtility
-										.makeDate(0)) + ", " + borid + ")");
+								+ "values(?,?,?)");
+				ps.setInt(1, fine);
+				ps.setDate(2, DaoUtility.makeDate(0));
+				ps.setInt(3, borid);
 				ps.executeUpdate();
 
 				rdto.setFine(fine);

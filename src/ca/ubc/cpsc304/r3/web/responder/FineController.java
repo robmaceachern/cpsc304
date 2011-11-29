@@ -21,7 +21,6 @@ public class FineController {
 		ViewAndParams vp = new ViewAndParams("/jsp/borrower/payFineResults.jsp");
 		
 		try {
-			@SuppressWarnings("unchecked")
 		
 			Integer fid = getIntFromParams("fid", request);
 

@@ -5,9 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import ca.ubc.cpsc304.r3.DaoUtility;
@@ -37,7 +35,6 @@ public class OverdueDao {
 		Connection conn = null;
 		try {
 			conn = connServ.getConnection();
-			Statement st = conn.createStatement();
 			PreparedStatement ps = null;
 			ResultSet rs = null;
 			long borLim = 0;
@@ -83,7 +80,7 @@ public class OverdueDao {
 			}
 
 			// Faculty with overdue
-			borLim = 6 * DaoUtility.WEEK;
+			borLim = 12 * DaoUtility.WEEK;
 			overDate = DaoUtility.makeDate(-1 * borLim);
 			ps = conn
 					.prepareStatement("SELECT L.outDate AS dueDate, B.callNumber, L.borid, U.name, U.btype, B.title, U.emailAddress "
@@ -107,7 +104,7 @@ public class OverdueDao {
 			}
 
 			// Staff with overdue
-			borLim = 12 * DaoUtility.WEEK;
+			borLim = 6 * DaoUtility.WEEK;
 			overDate = DaoUtility.makeDate(-1 * borLim);
 			ps = conn
 					.prepareStatement("SELECT L.outDate AS dueDate, B.callNumber, L.borid, U.name, U.btype, B.title, U.emailAddress "

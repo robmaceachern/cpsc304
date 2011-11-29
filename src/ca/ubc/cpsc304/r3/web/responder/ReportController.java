@@ -1,8 +1,6 @@
 package ca.ubc.cpsc304.r3.web.responder;
 
 
-import java.security.InvalidParameterException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -117,7 +115,7 @@ public class ReportController {
 		ViewAndParams vp = new ViewAndParams("/jsp/clerk/checkOverdueDisplay.jsp");
 		Map<String, String[]> outPut = new HashMap<String, String[]>();
 		OverdueDao odao = new OverdueDao(ConnectionService.getInstance());
-		List<OverdueDto> dtos = new ArrayList();;
+		List<OverdueDto> dtos = new ArrayList<OverdueDto>();;
 		boolean hasError = false;
 		try {
 			dtos = odao.checkOverdue(request.getParameter("bid"));
