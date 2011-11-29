@@ -12,8 +12,6 @@
 		}});
 	});
 </script>
-
-<p>Below is the navigation. We'll set it up prettier later.</p>
 <div id="navigation">
 	<h3><a href="#">Borrower</a></h3>
 	<div>
