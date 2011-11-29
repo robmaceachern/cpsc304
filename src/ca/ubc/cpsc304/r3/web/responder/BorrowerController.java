@@ -18,6 +18,7 @@ import ca.ubc.cpsc304.r3.dto.BorrowerDto;
 import ca.ubc.cpsc304.r3.dto.BorrowingDto;
 import ca.ubc.cpsc304.r3.dto.FineDto;
 import ca.ubc.cpsc304.r3.dto.HoldRequestDto;
+import ca.ubc.cpsc304.r3.util.FormUtils;
 import ca.ubc.cpsc304.r3.web.DirectorServlet.ViewAndParams;
 
 public class BorrowerController {
@@ -39,6 +40,7 @@ public class BorrowerController {
 
 			@SuppressWarnings("unchecked")
 			Map<String, String[]> reqParams = request.getParameterMap();
+			FormUtils.checkForBadInput(reqParams);
 			int borrowerId = Integer.parseInt(reqParams.get("borrowerId")[0]);
 
 			BorrowerDao dao = new BorrowerDao(ConnectionService.getInstance());
@@ -50,7 +52,7 @@ public class BorrowerController {
 		} catch (Exception e) {
 
 			vp.putViewParam("hasError", true);
-			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
+			vp.putViewParam("errorMsg", FormUtils.generateFriendlyError(e));
 			return vp;
 		}
 
@@ -155,7 +157,7 @@ public class BorrowerController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			vp.putViewParam("hasError", true);
-			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
+			vp.putViewParam("errorMsg", FormUtils.generateFriendlyError(e));
 			return vp;
 		}
 	}
@@ -203,7 +205,7 @@ public class BorrowerController {
 			}
 		} catch (Exception e){
 			vp.putViewParam("hasError", true);
-			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
+			vp.putViewParam("errorMsg", FormUtils.generateFriendlyError(e));
 			return vp;
 		}
 

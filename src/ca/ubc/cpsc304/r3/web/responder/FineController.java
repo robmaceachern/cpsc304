@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import ca.ubc.cpsc304.r3.db.ConnectionService;
 import ca.ubc.cpsc304.r3.db.FineDao;
 import ca.ubc.cpsc304.r3.dto.FineDetailedDto;
+import ca.ubc.cpsc304.r3.util.FormUtils;
 import ca.ubc.cpsc304.r3.web.DirectorServlet.ViewAndParams;
 
 public class FineController {
@@ -42,7 +43,7 @@ public class FineController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			vp.putViewParam("hasError", true);
-			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
+			vp.putViewParam("errorMsg", FormUtils.generateFriendlyError(e));
 			return vp;
 		}
 	}
