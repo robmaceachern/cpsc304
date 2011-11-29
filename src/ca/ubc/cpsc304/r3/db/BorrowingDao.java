@@ -257,7 +257,7 @@ public class BorrowingDao {
 			// Check if has overdue book
 			ps = conn
 					.prepareStatement("SELECT amount FROM Fine F, Borrowing B "
-							+ "WHERE F.amount > 0 AND B.borid=F.borid AND B.bid=?");
+							+ "WHERE F.paidDate IS NULL AND B.borid=F.borid AND B.bid=?");
 			ps.setInt(1, bid);
 			rs = ps.executeQuery();
 
