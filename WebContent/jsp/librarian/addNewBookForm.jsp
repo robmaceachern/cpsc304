@@ -15,6 +15,7 @@
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
 	<div id="main_content">
 	<h1>Add New Book</h1>
+	<p>Enter all info for the new book.</p>
 	<form action="/CrazyCoolLibrary/app/addnewbooksubmit" method="post">
 		<div><label for="isbn"><span>ISBN</span></label><input id="isbn" name="isbn" type="text"/></div>
 		<div><label for="title"><span>Title</span></label><input id="title" name="title" type="text"/></div>

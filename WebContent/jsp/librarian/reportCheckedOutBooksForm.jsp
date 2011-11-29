@@ -14,7 +14,8 @@
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
 	<div id="main_content">
-	<h1>Checked out books report</h1>
+	<h1>Checked Out Books Report</h1>
+	<p>Optionally enter a subject to filter the results.</p>
 	<!-- I'm using GET for this form because we're not changing the server state 
 			based on the subject. It's just a filtering mechanism. -->
 	<form action="/CrazyCoolLibrary/app/viewcheckedoutbooksreport" method="get">

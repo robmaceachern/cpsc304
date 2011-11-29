@@ -15,6 +15,7 @@
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
 	<div id="main_content">
 	<h1>Remove a Borrower</h1>
+	<p>Enter the Borrower ID.</p>
 	<form action="/CrazyCoolLibrary/app/removeborrowersubmit" method="post">
 		<div><label for="borrowerId">Borrower Id</label><input id="borrowerId" name="borrowerId" type="text"/></div>
 		<button type="submit">Remove borrower</button>
