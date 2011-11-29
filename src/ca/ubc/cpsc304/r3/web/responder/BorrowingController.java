@@ -10,6 +10,7 @@ import ca.ubc.cpsc304.r3.db.ConnectionService;
 import ca.ubc.cpsc304.r3.db.ReturnDao;
 import ca.ubc.cpsc304.r3.dto.BookCopyDto;
 import ca.ubc.cpsc304.r3.dto.ReturnDto;
+import ca.ubc.cpsc304.r3.util.FormUtils;
 import ca.ubc.cpsc304.r3.web.DirectorServlet.ViewAndParams;
 
 public class BorrowingController {
@@ -21,7 +22,7 @@ public class BorrowingController {
 		Map<String, String[]> reqParams = request.getParameterMap();
 
 		try {
-			BookController.checkForBadInput(reqParams);
+			FormUtils.checkForBadInput(reqParams);
 			int bid = Integer.parseInt(reqParams.get("bid")[0]);
 			String callNums = reqParams.get("callNumber")[0];
 			BorrowingDao clerk = new BorrowingDao(
@@ -39,10 +40,11 @@ public class BorrowingController {
 				duedate = clerk.borrowItem(bid, Integer.parseInt(books.get(i)));
 			}
 			vp.putViewParam("booksOut", bookNames);
+			
 			vp.putViewParam("duedate", duedate);
 		} catch (Exception e) {
 			hasError = true;
-			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
+			vp.putViewParam("errorMsg", FormUtils.generateFriendlyError(e));
 		}
 
 		vp.putViewParam("hasError", hasError);
@@ -64,7 +66,7 @@ public class BorrowingController {
 		// boolean DNEerror = false;
 
 		try {
-			BookController.checkForBadInput(reqParams);
+			FormUtils.checkForBadInput(reqParams);
 			ReturnDao rdao = new ReturnDao(ConnectionService.getInstance());
 			BookCopyDto bcd = new BookCopyDto();
 			String copy = reqParams.get("copyNo")[0];
@@ -87,7 +89,7 @@ public class BorrowingController {
 			}
 		} catch (Exception e) {
 			hasError = true;
-			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
+			vp.putViewParam("errorMsg", FormUtils.generateFriendlyError(e));
 		}
 
 		vp.putViewParam("hasError", hasError);

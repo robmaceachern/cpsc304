@@ -15,6 +15,7 @@ import ca.ubc.cpsc304.r3.db.OverdueDao;
 import ca.ubc.cpsc304.r3.dto.BookCheckoutReportDto;
 import ca.ubc.cpsc304.r3.dto.CheckedOutBookDto;
 import ca.ubc.cpsc304.r3.dto.OverdueDto;
+import ca.ubc.cpsc304.r3.util.FormUtils;
 import ca.ubc.cpsc304.r3.web.DirectorServlet.ViewAndParams;
 
 public class ReportController {
@@ -55,7 +56,7 @@ public class ReportController {
 		} catch (Exception e){
 
 			vp.putViewParam("hasError", true);
-			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
+			vp.putViewParam("errorMsg", FormUtils.generateFriendlyError(e));
 			return vp;
 
 		}
@@ -101,7 +102,7 @@ public class ReportController {
 			
 		} catch (Exception e) {
 			vp.putViewParam("hasError", true);
-			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
+			vp.putViewParam("errorMsg", FormUtils.generateFriendlyError(e));
 			return vp;
 		}
 	}
@@ -144,7 +145,7 @@ public class ReportController {
 
 		} catch (Exception e){
 			hasError=true;
-			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
+			vp.putViewParam("errorMsg", FormUtils.generateFriendlyError(e));
 		}
 
 		vp.putViewParam("hasError", hasError);

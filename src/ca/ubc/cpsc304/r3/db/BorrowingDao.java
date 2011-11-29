@@ -11,12 +11,13 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import ca.ubc.cpsc304.r3.DNEException;
-import ca.ubc.cpsc304.r3.DaoUtility;
 import ca.ubc.cpsc304.r3.dto.BookCheckoutReportDto;
 import ca.ubc.cpsc304.r3.dto.BookDto;
+import ca.ubc.cpsc304.r3.dto.BorrowingDetailedDto;
 import ca.ubc.cpsc304.r3.dto.BorrowingDto;
 import ca.ubc.cpsc304.r3.dto.CheckedOutBookDto;
+import ca.ubc.cpsc304.r3.util.DNEException;
+import ca.ubc.cpsc304.r3.util.DaoUtility;
 
 public class BorrowingDao {
 
@@ -60,6 +61,44 @@ public class BorrowingDao {
 			// don't forget to close the connection
 			// when you're done with it
 			if (conn != null) {
+				conn.close();
+			}
+		}
+		return queryResult;
+	}
+	
+	public List<BorrowingDetailedDto> getBorrowedDetailedByID(int id) throws SQLException{
+		List<BorrowingDetailedDto> queryResult = new ArrayList<BorrowingDetailedDto>();
+		Connection conn = null; 
+		try {
+			conn = connService.getConnection();	
+			PreparedStatement ps = conn.prepareStatement(
+					"SELECT BO.borid, BO.bid, BO.callNumber, BO.copyNo, BO.outDate, BO.inDate, B.title, B.mainAuthor "+
+					"FROM borrowing BO, book B "  +
+					"WHERE BO.inDate IS NULL AND BO.callNumber=B.callNumber AND " +
+					"BO.bid=?");
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			
+			
+			while(rs.next()){
+				// for each row, put the data in the dto
+				// and add it to list of results
+				BorrowingDetailedDto dto = new BorrowingDetailedDto();
+				dto.setBorid(rs.getInt("BO.borid"));
+				dto.setBid(rs.getInt("BO.bid"));
+				dto.setCallNumber(rs.getInt("BO.callNumber"));
+				dto.setCopyNo(rs.getInt("BO.copyNo"));
+				dto.setOutDate(rs.getDate("BO.outDate"));
+				dto.setInDate(rs.getDate("BO.inDate"));
+				dto.setMainAuthor(rs.getString("B.mainAuthor"));
+				dto.setTitle(rs.getString("B.title"));
+				queryResult.add(dto);
+			}
+		} finally {
+			// don't forget to close the connection
+			// when you're done with it
+			if(conn != null){
 				conn.close();
 			}
 		}

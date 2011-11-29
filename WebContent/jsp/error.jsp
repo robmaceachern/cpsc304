@@ -7,8 +7,9 @@
 <title>Error!!1!</title>
 </head>
 <body>
-<h1>ERROR PAGE!</h1>
-<h3>--Insert error message--</h3>
-<h1>We can't find the page you're looking for. Try again, fool!</h1>
+<h1>We can't find the page you're looking for. There might be a configuration problem, 
+or you might be trying to access something that doesn't exist.</h1>
+<img alt="gangstas" src="/CrazyCoolLibrary/images/error.jpg">
+<iframe width="420" height="315" src="http://www.youtube.com/embed/TMZi25Pq3T8" frameborder="0" allowfullscreen></iframe>
 </body>
 </html>

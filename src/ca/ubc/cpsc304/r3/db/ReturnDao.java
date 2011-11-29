@@ -7,10 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 
-import ca.ubc.cpsc304.r3.DNEException;
-import ca.ubc.cpsc304.r3.DaoUtility;
 import ca.ubc.cpsc304.r3.dto.BookCopyDto;
 import ca.ubc.cpsc304.r3.dto.ReturnDto;
+import ca.ubc.cpsc304.r3.util.DNEException;
+import ca.ubc.cpsc304.r3.util.DaoUtility;
 
 public class ReturnDao {
 	private ConnectionService connServ;

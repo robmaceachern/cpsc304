@@ -13,9 +13,10 @@ import ca.ubc.cpsc304.r3.db.FineDao;
 import ca.ubc.cpsc304.r3.db.HoldRequestDao;
 import ca.ubc.cpsc304.r3.dto.BookDto;
 import ca.ubc.cpsc304.r3.dto.BorrowerDto;
-import ca.ubc.cpsc304.r3.dto.BorrowingDto;
-import ca.ubc.cpsc304.r3.dto.FineDto;
-import ca.ubc.cpsc304.r3.dto.HoldRequestDto;
+import ca.ubc.cpsc304.r3.dto.BorrowingDetailedDto;
+import ca.ubc.cpsc304.r3.dto.FineDetailedDto;
+import ca.ubc.cpsc304.r3.dto.HoldRequestDetailedDto;
+import ca.ubc.cpsc304.r3.util.FormUtils;
 import ca.ubc.cpsc304.r3.web.DirectorServlet.ViewAndParams;
 
 public class BorrowerController {
@@ -36,6 +37,7 @@ public class BorrowerController {
 
 			@SuppressWarnings("unchecked")
 			Map<String, String[]> reqParams = request.getParameterMap();
+			FormUtils.checkForBadInput(reqParams);
 			int borrowerId = Integer.parseInt(reqParams.get("borrowerId")[0]);
 
 			BorrowerDao dao = new BorrowerDao(ConnectionService.getInstance());
@@ -47,7 +49,7 @@ public class BorrowerController {
 		} catch (Exception e) {
 
 			vp.putViewParam("hasError", true);
-			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
+			vp.putViewParam("errorMsg", FormUtils.generateFriendlyError(e));
 			return vp;
 		}
 
@@ -70,7 +72,7 @@ public class BorrowerController {
 			
 			BorrowerDao bdao = new BorrowerDao(ConnectionService.getInstance());
 			BorrowerDto bdto = new BorrowerDto();
-			BookController.checkForBadInput(reqParams);
+			FormUtils.checkForBadInput(reqParams);
 			bdto.setAddress(reqParams.get("address")[0]);
 			bdto.setName(reqParams.get("name")[0]);
 			bdto.setEmail(reqParams.get("email")[0]);
@@ -83,7 +85,7 @@ public class BorrowerController {
 			vp.putViewParam("bid", bid);
 		} catch (Exception e) {
 			hasError = true;
-			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
+			vp.putViewParam("errorMsg", FormUtils.generateFriendlyError(e));
 		}
 		finally {
 			vp.putViewParam("hasError", hasError);
@@ -129,22 +131,31 @@ public class BorrowerController {
 			else{
 
 				// get the results of the 3 queries
-				List<BorrowingDto> borrowedItems = daoBorrowing
-						.getBorrowedByID(bid);
-				List<FineDto> outstandingFines = daoFine.getUnpaidByID(bid);
-				List<HoldRequestDto> currentHolds = daoHoldRequest.getByID(bid);
+				List<BorrowingDetailedDto> borrowedItems = daoBorrowing.getBorrowedDetailedByID(bid);
+				List<FineDetailedDto> outstandingFines = daoFine.getDetailedUnpaid(bid);
+				List<HoldRequestDetailedDto> currentHolds = daoHoldRequest.getDetailedByID(bid);
+				
+				// get the number of elements in each of the lists
+				int numBorrowedItems = borrowedItems.size();
+				int numOutstandingFines = outstandingFines.size();
+				int numCurrentHolds = currentHolds.size();
 	
 				// attach the results to give them to the web page
 				vp.putViewParam("borrowedItems", borrowedItems);
+				vp.putViewParam("numBorrowedItems", numBorrowedItems);
+				
 				vp.putViewParam("outstandingFines", outstandingFines);
+				vp.putViewParam("numOutstandingFines", numOutstandingFines);
+				
 				vp.putViewParam("currentHolds", currentHolds);
+				vp.putViewParam("numCurrentHolds", numCurrentHolds);
 	
 				return vp;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			vp.putViewParam("hasError", true);
-			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
+			vp.putViewParam("errorMsg", FormUtils.generateFriendlyError(e));
 			return vp;
 		}
 	}
@@ -192,7 +203,7 @@ public class BorrowerController {
 			}
 		} catch (Exception e){
 			vp.putViewParam("hasError", true);
-			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
+			vp.putViewParam("errorMsg", FormUtils.generateFriendlyError(e));
 			return vp;
 		}
 

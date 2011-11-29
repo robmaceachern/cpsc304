@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ubc.cpsc304.r3.DaoUtility;
 import ca.ubc.cpsc304.r3.dto.OverdueDto;
+import ca.ubc.cpsc304.r3.util.DaoUtility;
 
 public class OverdueDao {
 	private ConnectionService connServ;

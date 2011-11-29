@@ -1,4 +1,4 @@
-package ca.ubc.cpsc304.r3;
+package ca.ubc.cpsc304.r3.util;
 
 import java.sql.Date;
 import java.sql.ResultSet;
