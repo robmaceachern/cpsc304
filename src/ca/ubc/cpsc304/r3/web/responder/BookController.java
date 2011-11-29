@@ -40,7 +40,6 @@ public class BookController {
 			return vp;
 
 		} catch (Exception e){
-			e.printStackTrace();
 			vp.putViewParam("hasError", true);
 			vp.putViewParam("errorMsg", FormUtils.generateFriendlyError(e));
 			return vp;
