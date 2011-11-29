@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.ubc.cpsc304.r3.dto.HoldRequestDetailedDto;
 import ca.ubc.cpsc304.r3.dto.HoldRequestDto;
 
 public class HoldRequestDao {
@@ -38,6 +39,47 @@ public class HoldRequestDao {
 				dto.setHid_(rs.getInt("hid"));
 				dto.setCallNumber(rs.getInt("callNumber"));
 				dto.setIssuedDate(rs.getDate("issuedDate"));
+				queryResult.add(dto);
+			}
+		} catch (SQLException e) {
+			// two options here. either don't catch this exception and 
+			// make the caller handle it, or wrap it in a more 
+			// descriptive exception depending on the situation.
+			// I'll just throw it
+			throw e;
+			
+		} finally {
+			// don't forget to close the connection
+			// when you're done with it
+			if(conn != null){
+				conn.close();
+			}
+		}
+		return queryResult;
+	}
+	
+	public List<HoldRequestDetailedDto> getDetailedByID(int id) throws SQLException{
+		List<HoldRequestDetailedDto> queryResult = new ArrayList<HoldRequestDetailedDto>();
+		Connection conn = null; 
+		try {
+			conn = connService.getConnection();	
+			PreparedStatement ps = conn.prepareStatement(
+					"SELECT H.bid, H.hid, H.callNumber, H.issuedDate, B.mainAuthor, B.title "+
+					"FROM holdrequest H, book B "  +
+					"WHERE H.bid=? AND H.callNumber=B.callNumber"); 
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()){
+				// for each row, put the data in the dto
+				// and add it to list of results
+				HoldRequestDetailedDto dto = new HoldRequestDetailedDto();
+				dto.setBid(rs.getInt("bid"));
+				dto.setHid_(rs.getInt("hid"));
+				dto.setCallNumber(rs.getInt("callNumber"));
+				dto.setIssuedDate(rs.getDate("issuedDate"));
+				dto.setMainAuthor(rs.getString("mainAuthor"));
+				dto.setTitle(rs.getString("title"));
 				queryResult.add(dto);
 			}
 		} catch (SQLException e) {

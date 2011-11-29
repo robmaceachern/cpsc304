@@ -15,8 +15,11 @@ import ca.ubc.cpsc304.r3.db.FineDao;
 import ca.ubc.cpsc304.r3.db.HoldRequestDao;
 import ca.ubc.cpsc304.r3.dto.BookDto;
 import ca.ubc.cpsc304.r3.dto.BorrowerDto;
+import ca.ubc.cpsc304.r3.dto.BorrowingDetailedDto;
 import ca.ubc.cpsc304.r3.dto.BorrowingDto;
+import ca.ubc.cpsc304.r3.dto.FineDetailedDto;
 import ca.ubc.cpsc304.r3.dto.FineDto;
+import ca.ubc.cpsc304.r3.dto.HoldRequestDetailedDto;
 import ca.ubc.cpsc304.r3.dto.HoldRequestDto;
 import ca.ubc.cpsc304.r3.util.FormUtils;
 import ca.ubc.cpsc304.r3.web.DirectorServlet.ViewAndParams;
@@ -142,15 +145,24 @@ public class BorrowerController {
 			else{
 
 				// get the results of the 3 queries
-				List<BorrowingDto> borrowedItems = daoBorrowing
-						.getBorrowedByID(bid);
-				List<FineDto> outstandingFines = daoFine.getUnpaidByID(bid);
-				List<HoldRequestDto> currentHolds = daoHoldRequest.getByID(bid);
+				List<BorrowingDetailedDto> borrowedItems = daoBorrowing.getBorrowedDetailedByID(bid);
+				List<FineDetailedDto> outstandingFines = daoFine.getDetailedUnpaid(bid);
+				List<HoldRequestDetailedDto> currentHolds = daoHoldRequest.getDetailedByID(bid);
+				
+				// get the number of elements in each of the lists
+				int numBorrowedItems = borrowedItems.size();
+				int numOutstandingFines = outstandingFines.size();
+				int numCurrentHolds = currentHolds.size();
 	
 				// attach the results to give them to the web page
 				vp.putViewParam("borrowedItems", borrowedItems);
+				vp.putViewParam("numBorrowedItems", numBorrowedItems);
+				
 				vp.putViewParam("outstandingFines", outstandingFines);
+				vp.putViewParam("numOutstandingFines", numOutstandingFines);
+				
 				vp.putViewParam("currentHolds", currentHolds);
+				vp.putViewParam("numCurrentHolds", numCurrentHolds);
 	
 				return vp;
 			}

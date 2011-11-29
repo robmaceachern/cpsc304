@@ -178,7 +178,17 @@ public class BookDao {
 				dto2.setMainAuthor(rs2.getString("B.mainAuthor"));
 				dto2.setPublisher(rs2.getString("B.publisher"));
 				dto2.setYear(rs2.getInt("B.year"));
-				queryResult.add(dto2);
+				
+				// make sure that we get no duplicate results in our search
+				int numDuplicates = 0;
+				for(int i = 0; i < queryResult.size(); i++){
+					if(queryResult.get(i).getCallNumber()==rs2.getInt("B.callNumber")){
+						numDuplicates++;
+					}
+				}
+				if(numDuplicates==0){
+					queryResult.add(dto2);
+				}
 			}
 		} catch (SQLException e) {
 			// two options here. either don't catch this exception and 

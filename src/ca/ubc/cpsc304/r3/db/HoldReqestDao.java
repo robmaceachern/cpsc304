@@ -22,14 +22,7 @@ public class HoldReqestDao {
 	public List<HoldRequestDto> getByID(int id) throws SQLException{
 		List<HoldRequestDto> queryResult = new ArrayList<HoldRequestDto>();
 		Connection conn = null; 
-		try {
-			conn = connService.getConnection();
-			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(
-					"SELECT * " + 
-					"FROM holdrequest " + 
-					"WHERE bid="+id);
-			
+		try {		
 			conn = connService.getConnection();	
 			PreparedStatement ps = conn.prepareStatement(
 					"SELECT * " + 
@@ -37,7 +30,7 @@ public class HoldReqestDao {
 					"WHERE bid=?");
 			
 			ps.setInt(1, id);
-			ps.executeQuery();
+			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()){
 				// for each row, put the data in the dto
