@@ -17,11 +17,11 @@
 <div id="main_content">
 <c:choose>
 	<c:when test="${hasError}">
-		<h2>Error Generating Overdue Report</h2>
+		<h1>Error Generating Overdue Report</h1>
 		<p>${errorMsg}</p>
 	</c:when>
 	<c:otherwise>
-		<h2>Overdue Items</h2>
+		<h1>Overdue Items</h1>
 		<c:choose>
 			<c:when test="${noOverdue != null}">
 				<p>${noOverdue}</p>
@@ -30,11 +30,11 @@
 				<table>
 					<thead>
 						<tr>
-							<td><b>Name </b></td>
-							<td><b>Email </b></td>
-							<td><b>Book </b></td>
-							<td><b>Was Due </b></td>
-							<td></td>
+							<th><b>Name </b></th>
+							<th><b>Email </b></th>
+							<th><b>Book </b></th>
+							<th><b>Was Due </b></th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>

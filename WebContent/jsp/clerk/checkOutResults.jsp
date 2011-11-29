@@ -16,14 +16,14 @@
 	<div id="main_content">
 	<c:choose>
 		<c:when test="${hasError}">
-			<h2>Error Borrowing Books</h2>
+			<h1>Borrowing Books Error</h1>
 			<p>${errorMsg}</p>
 			<c:forEach items="${booksOut}" var="book">
 				"${book}" WAS successfully checked out though and will be due by ${duedate}.<br>
 			</c:forEach>
 		</c:when>
 		<c:otherwise>
-				<h2>Checkout Successful</h2>
+				<h1>Checkout Successful</h1>
 				<p> The following will be due by ${duedate}:</p>
 				<c:forEach items="${booksOut}" var="book">
 					${book}<br>

@@ -7,14 +7,14 @@
 <head>
 <jsp:include page="/jsp/fragment/head.jspf"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Search for books</title>
+<title>Search For books</title>
 </head>
 <body>
 <div id="wrap">
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
 	<div id="main_content">
-    <h1>Search for books</h1>
+    <h1>Search For Books</h1>
     <p>Enter the keyword and select the search category to be used.</p>
     <form action="/CrazyCoolLibrary/app/searchbookssubmit" method="get">
         <div><label for="keyword">Keyword</label><input id="keyword" name="keyword" type="text"/></div>

@@ -20,13 +20,13 @@
 
     <c:choose>
         <c:when test="${hasError}">
-            <h1>Pay Fine - Error</h1>
+            <h1>Pay Fine Error</h1>
             <p>${errorMsg}</p>
         </c:when>
         <c:otherwise>
             <c:choose>
                 <c:when test="${numFinesPaid eq 0}">
-                    <h1>Pay Fine - Error</h1>
+                    <h1>Pay Fine Error</h1>
                     <p>No unpaid fine with the specified ID found</p>
                 </c:when>
                 <c:otherwise>
@@ -34,13 +34,13 @@
 		            <table>
 		                <thead>
 		                    <tr>
-		                        <td>Fine ID</td>
-		                        <td>Title</td>
-		                        <td>Author</td>
-		                        <td>Call Number</td>
-		                        <td>Amount Paid</td>
-		                        <td>Date Issued</td>
-		                        <td>Date Paid</td>
+		                        <th>Fine ID</th>
+		                        <th>Title</th>
+		                        <th>Author</th>
+		                        <th>Call Number</th>
+		                        <th>Amount Paid</th>
+		                        <th>Date Issued</th>
+		                        <th>Date Paid</th>
 		                    </tr>
 		                </thead>
 		                <c:forEach var="entry" items="${paidFine}" >

@@ -14,14 +14,12 @@
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
 	<div id="main_content">
-	<h2>Checkout Book(s)</h2>
+	<h1>Checkout Book(s)</h1>
+	<p>Enter the Borrower ID and a list of call numbers separated by commas.</p> 
 	<form action="/CrazyCoolLibrary/app/checkoutbookssubmit" method="post">
-	<fieldset>
-	<legend><b>Borrow book(s):</b></legend>
-		<label for="callNumber">Call Number(s)</label><input id="callNumber" name="callNumber" type="text"/><br />
-		<label for="bid">Borrower Id</label><input id="bid" name="bid" type="text"/><br />
+		<div><label for="callNumber">Call Number(s)</label><input id="callNumber" name="callNumber" type="text"/></div>
+		<div><label for="bid">Borrower Id</label><input id="bid" name="bid" type="text"/></div>
 		<button type="submit">Check Out</button>
-	</fieldset>
 	</form>
 	</div>
 </div>

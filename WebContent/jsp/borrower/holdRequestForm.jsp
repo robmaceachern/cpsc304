@@ -14,14 +14,11 @@
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
 	<div id="main_content">
-    <h2>Place Hold Request</h2>
+    <h1>Place Hold Request</h1>
     <form action="/CrazyCoolLibrary/app/placeholdsubmit" method="post">
-    <fieldset>
-        <legend><b>New Hold Request</b></legend>
         <div><label for="callNumber">Call Number</label><input id="callNumber" name="callNumber" type="text"/></div>
         <div><label for="bid">Borrower ID</label><input id="bid" name="bid" type="text"/></div>
         <button type="submit">Place Hold Request</button>
-    </fieldset>
     </form>
     </div>
 </div>

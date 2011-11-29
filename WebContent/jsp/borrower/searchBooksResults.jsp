@@ -8,7 +8,7 @@
 <jsp:include page="/jsp/fragment/head.jspf"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <c:choose>
-        <c:when test="${hasError}"><title>Book Search - Error</title></c:when>
+        <c:when test="${hasError}"><title>Book Search Error</title></c:when>
         <c:otherwise><title>Book Search</title></c:otherwise>
     </c:choose>
 </head>
@@ -19,7 +19,7 @@
 	<div id="main_content">
     <c:choose>
         <c:when test="${hasError}">
-            <h1>Book Search - Error</h1>
+            <h1>Book Search Error</h1>
             <p>${errorMsg}</p>
         </c:when>
         <c:otherwise>
@@ -27,12 +27,12 @@
             <table>
                 <thead>
                     <tr>
-                        <td>Title</td>
-                        <td>Main Author</td>
-                        <td>Call Number</td>
-                        <td>ISBN</td>
-                        <td>Publisher</td>
-                        <td>Year</td>
+                        <th>Title</th>
+                        <th>Main Author</th>
+                        <th>Call Number</th>
+                        <th>ISBN</th>
+                        <th>Publisher</th>
+                        <th>Year</th>
                     </tr>
                 </thead>
                 <c:forEach var="entry" items="${books}" >

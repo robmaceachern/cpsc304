@@ -7,14 +7,14 @@
 <head>
 <jsp:include page="/jsp/fragment/head.jspf"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Check your account</title>
+<title>Check Your Account</title>
 </head>
 <body>
 <div id="wrap">
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
 	<div id="main_content">
-    <h1>Check your account</h1>
+    <h1>Check Your Account</h1>
     <p>Enter your borrower ID to check the items you currently have checked out, your outstanding fines, and your current hold requests.</p>
     <form action="/CrazyCoolLibrary/app/checkaccountsubmit" method="get">
         <div><label for="bid">Borrower ID</label><input id="bid" name="bid" type="text"/></div>

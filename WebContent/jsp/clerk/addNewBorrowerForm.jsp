@@ -14,10 +14,9 @@
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
 	<div id="main_content">
-	<h2>Add New borrower</h2>
+	<h1>Add New Borrower</h1>
+	<p>Enter all information of the new borrower.</p>
 	<form action="/CrazyCoolLibrary/app/addnewborrowersubmit" method="post">
-	<fieldset>
-		<legend><b>New Borrower</b></legend>
 		<div><label for="name">Name </label><input id="name" name="name" type="text"/></div>
 		<div><label for="password">Password </label><input id="password" name="password" type="password"/></div>
 		<div><label for="address">Address </label><input id="address" name="address" type="text"/></div>
@@ -30,7 +29,6 @@
 												<option value="staff">Staff</option>
 											</select></div>
 		<button type="submit">Add borrower</button>
-	</fieldset>
 	</form>
 	</div>
 </div>

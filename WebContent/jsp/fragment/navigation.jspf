@@ -31,7 +31,7 @@
 			<li><a href="/CrazyCoolLibrary/app/checkoverduereport">Check overdue items</a></li>
 			<!-- The following keep the navigation blocks in sync, but does not display any links -->
 			<li style="display:none;"><a href="/CrazyCoolLibrary/app/addnewborrowersubmit"></a>
-			<li style="display:none;"><a href="/CrazyCoolLibrary/app/checkoutbooksubmit"></a>
+			<li style="display:none;"><a href="/CrazyCoolLibrary/app/checkoutbookssubmit"></a>
 			<li style="display:none;"><a href="/CrazyCoolLibrary/app/processreturnsubmit"></a>
 			<li style="display:none;"><a href="/CrazyCoolLibrary/app/viewcheckoverduereport"></a>
 		</ul>

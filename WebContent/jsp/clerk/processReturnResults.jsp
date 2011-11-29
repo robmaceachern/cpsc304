@@ -16,11 +16,11 @@
 	<div id="main_content">
 	<c:choose>
 		<c:when test="${hasError}">
-			<h2>Book Return Error</h2>
+			<h1>Book Return Error</h1>
 			<p>${errorMsg}</p>
 		</c:when>
 		<c:otherwise>
-			<h2>Book Returned</h2>
+			<h1>Book Returned</h1>
 			<c:if test="${onHold}">
 				<script language="javascript">
 				$(document).ready(function(){

@@ -19,7 +19,7 @@
 	<div id="main_content">
     <c:choose>
         <c:when test="${hasError}">
-            <h1>Check Account - Error</h1>
+            <h1>Check Account Error</h1>
             <p>${errorMsg}</p>
         </c:when>
         <c:otherwise>
@@ -33,12 +33,12 @@
 				    <table>
 				        <thead>
 				            <tr>
-				                <td>Title</td>
-				                <td>Author</td>
-				                <td>Call Number</td>
-				                <td>Copy Number</td>
-				                <td>Check Out Date</td>
-				                <td>Borrowing ID</td>
+				                <th>Title</th>
+				                <th>Author</th>
+				                <th>Call Number</th>
+				                <th>Copy Number</th>
+				                <th>Check Out Date</th>
+				                <th>Borrowing ID</th>
 				            </tr>
 				        </thead>
 				        <c:forEach var="entry" items="${borrowedItems}" >

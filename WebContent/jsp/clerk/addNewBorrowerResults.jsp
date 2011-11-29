@@ -16,11 +16,11 @@
 	<div id="main_content">
 	<c:choose>
 		<c:when test="${hasError}">
-			<h2>Error Adding Borrower</h2>
+			<h1>Add Borrower Error</h1>
 			<p>${errorMsg}</p>
 		</c:when>
 		<c:otherwise>
-			<h2>New Borrower Successfully Added</h2>
+			<h1>New Borrower Successfully Added</h1>
 			<p>${btype}New borrower ${bname}'s Borrower ID is ${bid}</p>
 		</c:otherwise>
 	</c:choose>

@@ -20,7 +20,7 @@
 
     <c:choose>
         <c:when test="${hasError}">
-            <h1>Hold Request - Error</h1>
+            <h1>Hold Request Error</h1>
             <p>${errorMsg}</p>
         </c:when>
         <c:otherwise>
