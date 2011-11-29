@@ -25,7 +25,7 @@
 		
 			<c:choose>
 				<c:when test="${empty mostPopularBooks}">
-				<!-- We have 0 results -->
+					<!-- We have 0 results -->
 					<p>There were no books borrowed that year. Weird!</p>
 				</c:when>
 				<c:otherwise>

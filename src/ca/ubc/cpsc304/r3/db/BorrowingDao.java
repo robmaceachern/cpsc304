@@ -148,9 +148,9 @@ public class BorrowingDao {
 			PreparedStatement ps = null;
 
 			// Check if has overdue book
-			rs = st.executeQuery("SELECT amount FROM Fine F, Borrowing B "
-					+ "WHERE F.amount > 0 AND B.borid=F.borid AND B.bid="
-					+ DaoUtility.convertToSQLvalue(bid));
+			rs = st.executeQuery(
+					"SELECT amount FROM Fine F, Borrowing B " +
+					"WHERE F.amount > 0 AND B.borid=F.borid AND B.bid=" + DaoUtility.convertToSQLvalue(bid));
 			if (rs.next()) {
 				int fine = rs.getInt("amount");
 				System.out.println("You currently have a fine of "

@@ -1,5 +1,6 @@
+
+<link rel='stylesheet' type='text/css' href="/CrazyCoolLibrary/style.css" />
 <div>
 <h1><a href="/CrazyCoolLibrary">CrazyCoolLibrary</a></h1>
 <span>It's so cool, it's crazy!</span>
-<span>This is the header. We will make it pretty when we have time</span>
 </div>
