@@ -34,10 +34,10 @@
 					<table>
 						<thead>
 							<tr>
-								<td>Call Number</td>
-								<td>Title</td>
-								<td>Main Author</td>
-								<td>Borrowed Count</td>
+								<th>Call Number</th>
+								<th>Title</th>
+								<th>Main Author</th>
+								<th>Borrowed Count</th>
 							</tr>
 						</thead>
 						<tbody>

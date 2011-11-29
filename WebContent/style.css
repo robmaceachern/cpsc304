@@ -40,6 +40,7 @@ form > div {
 
 h1 {
 	font-size: 200%;
+	margin-bottom: 15px;
 }
 
 #navigation {
@@ -71,7 +72,6 @@ header h1 {
 
 #main_content table {
 	width: 100%;
-	margin-top: 25px;
 }
 
 #main_content thead th {
@@ -85,9 +85,20 @@ header h1 {
 
 #main_content td {
 	border-top: 1px solid #DDD;
-	padding: 6px 10px 6px 0;
+	padding: 10px 10px 10px 0;
 }
 
 td, th {
 	text-align: left;
+}
+
+#main_content h2 {
+	margin-top: 40px;
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+#main_content p {
+	margin-top: 10px;
 }

@@ -30,12 +30,12 @@
 					<table>
 						<thead>
 							<tr>
-								<td>Call Number</td>
-								<td>Copy Number</td>
-								<td>Title</td>
-								<td>Check Out Date</td>
-								<td>Due Date</td>
-								<td>Overdue</td>
+								<th>Call Number</th>
+								<th>Copy Number</th>
+								<th>Title</th>
+								<th>Check Out Date</th>
+								<th>Due Date</th>
+								<th>Overdue</th>
 							</tr>
 						</thead>
 						<tbody>

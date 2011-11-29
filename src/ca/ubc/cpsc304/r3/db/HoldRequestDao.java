@@ -134,7 +134,7 @@ public class HoldRequestDao {
 				conn = connService.getConnection();	
 				PreparedStatement ps3 = conn.prepareStatement(
 						"UPDATE bookcopy " + 
-						"SET status='on-hold'" +
+						"SET status='on hold'" +
 						" WHERE callNumber=? AND copyNo=?");
 
 				ps3.setInt(1, callNo);
