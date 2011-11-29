@@ -1,6 +1,7 @@
 package ca.ubc.cpsc304.r3.web.responder;
 
 
+import java.security.InvalidParameterException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -89,6 +90,10 @@ public class ReportController {
 			
 			int year = Integer.parseInt(reqParams.get("year")[0]);
 			int limit = Integer.parseInt(reqParams.get("limit")[0]);
+			
+			if(limit < 1){
+				throw new RuntimeException("The limit must be greater than 0.");
+			}
 
 			BorrowingDao dao = new BorrowingDao(ConnectionService.getInstance());
 			List<BookCheckoutReportDto> mostPopularBooks = dao.generateMostPopularBooksReport(year, limit);

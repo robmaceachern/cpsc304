@@ -120,19 +120,29 @@ public class BorrowerController {
 			FineDao daoFine = new FineDao(ConnectionService.getInstance());
 			HoldRequestDao daoHoldRequest = new HoldRequestDao(
 					ConnectionService.getInstance());
+			
+			// check to make sure the bid is valid
+			BorrowerDao daoBorower = new BorrowerDao(ConnectionService.getInstance());
+			
+			if(!daoBorower.checkValidBorid(bid)){
+				Exception badBorid = new Exception("Unrecognized borrower ID entered.");
+				throw badBorid;
+			}
+			else{
 
-			// get the results of the 3 queries
-			List<BorrowingDto> borrowedItems = daoBorrowing
-					.getBorrowedByID(bid);
-			List<FineDto> outstandingFines = daoFine.getUnpaidByID(bid);
-			List<HoldRequestDto> currentHolds = daoHoldRequest.getByID(bid);
-
-			// attach the results to give them to the web page
-			vp.putViewParam("borrowedItems", borrowedItems);
-			vp.putViewParam("outstandingFines", outstandingFines);
-			vp.putViewParam("currentHolds", currentHolds);
-
-			return vp;
+				// get the results of the 3 queries
+				List<BorrowingDto> borrowedItems = daoBorrowing
+						.getBorrowedByID(bid);
+				List<FineDto> outstandingFines = daoFine.getUnpaidByID(bid);
+				List<HoldRequestDto> currentHolds = daoHoldRequest.getByID(bid);
+	
+				// attach the results to give them to the web page
+				vp.putViewParam("borrowedItems", borrowedItems);
+				vp.putViewParam("outstandingFines", outstandingFines);
+				vp.putViewParam("currentHolds", currentHolds);
+	
+				return vp;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			vp.putViewParam("hasError", true);

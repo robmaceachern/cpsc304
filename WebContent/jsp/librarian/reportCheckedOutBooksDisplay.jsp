@@ -19,36 +19,45 @@
 		<p>${errorMsg}</p>
 	</c:when>
 	<c:otherwise>
-		<h1>Checked Out Books Report</h1>	
-			<table>
-				<thead>
-					<tr>
-						<td>Call Number</td>
-						<td>Copy Number</td>
-						<td>Title</td>
-						<td>Check Out Date</td>
-						<td>Due Date</td>
-						<td>Overdue</td>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="item" items="${checkedOutBooks}">
-					<tr>
-						<td>${item.callNumber}</td>
-						<td>${item.copyNo}</td>
-						<td>${item.title}</td>
-						<td>${item.outDate}</td>
-						<td>${item.dueDate}</td>
-						<td>
-							<c:choose>
-								<c:when test="${(item.dueDate.time - now.time) < 0}">Yes</c:when>
-								<c:otherwise>No</c:otherwise>
-							</c:choose>
-						</td>
-					</tr>
-					</c:forEach>
-				</tbody>
-			</table>
+		<h1>Checked Out Books Report</h1>
+		
+			<c:choose>
+				<c:when test="${empty checkedOutBooks}">
+					<p>There were no checked out books that matched your search</p>
+				</c:when>
+				<c:otherwise>
+					<table>
+						<thead>
+							<tr>
+								<td>Call Number</td>
+								<td>Copy Number</td>
+								<td>Title</td>
+								<td>Check Out Date</td>
+								<td>Due Date</td>
+								<td>Overdue</td>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="item" items="${checkedOutBooks}">
+							<tr>
+								<td>${item.callNumber}</td>
+								<td>${item.copyNo}</td>
+								<td>${item.title}</td>
+								<td>${item.outDate}</td>
+								<td>${item.dueDate}</td>
+								<td>
+									<c:choose>
+										<c:when test="${(item.dueDate.time - now.time) < 0}">Yes</c:when>
+										<c:otherwise>No</c:otherwise>
+									</c:choose>
+								</td>
+							</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</c:otherwise>
+			</c:choose>
+			
 	</c:otherwise>
 </c:choose>
 </body>
