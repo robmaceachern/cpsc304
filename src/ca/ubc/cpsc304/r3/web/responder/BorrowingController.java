@@ -22,49 +22,40 @@ public class BorrowingController {
 		ViewAndParams vp = new ViewAndParams("/jsp/clerk/checkOutResults.jsp");
 		boolean hasError = false;
 		Map<String, String[]> reqParams = request.getParameterMap();
-		String bid = reqParams.get("bid")[0];
-		String callNums = reqParams.get("callNumber")[0];
-		if(callNums.equals("") || bid.equals(""))
-		{
-			hasError=true;
-			vp.putViewParam("hasError", hasError);
-			vp.putViewParam("errorMsg", "Please enter valid input for all fields.");
-			return vp;
-		}
-		BorrowingDao clerk = new BorrowingDao(ConnectionService.getInstance());
-		ArrayList<String> books = listStrings(callNums);
-		ArrayList<String> bookNames = new ArrayList<String>();
-		BookDao bdao = new BookDao(ConnectionService.getInstance());
-		java.sql.Date duedate = new java.sql.Date(0);
-		for (int i = 0; i < books.size(); i++) {
-			System.out.println(Integer.parseInt(reqParams.get("bid")[0]) + " "
-					+ Integer.parseInt(books.get(i)));
-			try {
-				duedate = clerk.borrowItem(
-						Integer.parseInt(bid),
-						Integer.parseInt(books.get(i)));
-				bookNames.add(bdao
-						.getByCallNumber(Integer.parseInt(books.get(i))).get(0)
-						.getTitle());
-			} catch (NumberFormatException e) {
-				System.out.println("NOT A NUMBER!");
-				hasError = true;
-				vp.putViewParam("errorMsg", numErrorMsg);
-			} catch (SQLException e){
-				hasError=true;
-				vp.putViewParam("errorMsg", e.getMessage());
-			} catch (Exception e) {
-//				hasError = true;
-//				error = error + e.getMessage() + " for call number "
-//						+ books.get(i) + ".<br>";
-//				vp.putViewParam("errorMsg", error);
-				 e.printStackTrace();
-			}
-		}
-		vp.putViewParam("hasError", hasError);
-		vp.putViewParam("booksOut", bookNames);
-		vp.putViewParam("duedate", duedate);
 
+		try {
+			BookController.checkForBadInput(reqParams);
+			String bid = reqParams.get("bid")[0];
+			String callNums = reqParams.get("callNumber")[0];
+			BorrowingDao clerk = new BorrowingDao(
+					ConnectionService.getInstance());
+			ArrayList<String> books = listStrings(callNums);
+			ArrayList<String> bookNames = new ArrayList<String>();
+			BookDao bdao = new BookDao(ConnectionService.getInstance());
+			java.sql.Date duedate = new java.sql.Date(0);
+			for (int i = 0; i < books.size(); i++) {
+				try {
+					duedate = clerk.borrowItem(Integer.parseInt(bid),
+							Integer.parseInt(books.get(i)));
+					bookNames.add(bdao
+							.getByCallNumber(Integer.parseInt(books.get(i)))
+							.get(0).getTitle());
+
+					vp.putViewParam("booksOut", bookNames);
+					vp.putViewParam("duedate", duedate);
+				} catch (Exception e) {
+					hasError = true;
+					vp.putViewParam("errorMsg",
+							BookController.generateFriendlyError(e));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			hasError = true;
+			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
+		}
+
+		vp.putViewParam("hasError", hasError);
 		return vp;
 
 	}
@@ -78,66 +69,38 @@ public class BorrowingController {
 		ViewAndParams vp = new ViewAndParams(
 				"/jsp/clerk/processReturnResults.jsp");
 		Map<String, String[]> reqParams = request.getParameterMap();
-		ReturnDao rdao = new ReturnDao(ConnectionService.getInstance());
-		BookCopyDto bcd = new BookCopyDto();
 		boolean hasError = false;
-		boolean DNEerror = false;
-		String copy = reqParams.get("copyNo")[0];
-		String callNum = reqParams.get("callNumber")[0];
-		if(callNum.equals("") || copy.equals(""))
-		{
-			hasError=true;
-			vp.putViewParam("hasError", hasError);
-			vp.putViewParam("errorMsg", "Please enter valid input for all fields.");
-			return vp;
-		}
+		// boolean DNEerror = false;
+
 		try {
+			BookController.checkForBadInput(reqParams);
+			ReturnDao rdao = new ReturnDao(ConnectionService.getInstance());
+			BookCopyDto bcd = new BookCopyDto();
+			String copy = reqParams.get("copyNo")[0];
+			String callNum = reqParams.get("callNumber")[0];
 			bcd.setCallNumber(Integer.valueOf(callNum));
 			bcd.setCopyNo(Integer.valueOf(copy));
 			ReturnDto rdto = rdao.processReturn(bcd);
-
 			// Notify requester if on hold
 			vp.putViewParam("onHold", rdto.isOnHold());
-			vp.putViewParam("requesterName", rdto.getName());
+			vp.putViewParam("returner", rdto.getReturner());
+			vp.putViewParam("requesterName", rdto.getRequestor());
 			vp.putViewParam("requesterEmail", rdto.getEmail());
-			
-			if (rdto.isOnHold()) {
-				String name = rdto.getName();
-				String email = rdto.getEmail();
-				// TODO message that email has been sent!
-				System.out.println("Sending email to " + name + " at " + email
-						+ " to notify of requested book.");
-			}
 
 			// Display fine if overdue
 			int fine = rdto.getFine();
 			if (fine > 0) {
-
-				System.out
-						.println("This was overdue! To check out any more books you must pay a fine of $"
-								+ fine);
-				hasError=true;
-				vp.putViewParam("hasError", "You have a fine of $" + fine);
-				// TODO display fine message
+				vp.putViewParam("fineMsg", "This book was overdue. You now have a fine of $" + fine
+						+ " so your account has been frozen.");
 			}
 
-		} catch (NumberFormatException nfe) {
-			System.out.println("Please ensure your input in a valid number");
-			hasError = true;
-			vp.putViewParam("errorMsg", numErrorMsg);
-		} catch (DNEException dne) {
-			DNEerror = true;
-			vp.putViewParam("errorMsg", dne.getMessage());
-		} catch (SQLException e) {
-			hasError = true;
-			vp.putViewParam("errorMsg", "Caught a SQLException");
 		} catch (Exception e) {
+			e.printStackTrace();
 			hasError = true;
-			vp.putViewParam("errorMsg", e.getStackTrace());
+			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
 		}
 
 		vp.putViewParam("hasError", hasError);
-		vp.putViewParam("DNEerror", DNEerror);
 		vp.putViewParam("returns", reqParams);
 		return vp;
 	}
@@ -151,7 +114,7 @@ public class BorrowingController {
 	private ArrayList<String> listStrings(String s) {
 		if (s == null)
 			return null;
-		int count = countChars(s, ',', 0);
+		int count = countChars(s, ',', 0);	
 		ArrayList<String> sList = new ArrayList<String>();
 		return listStringsHelper(s, count, sList, 0);
 	}

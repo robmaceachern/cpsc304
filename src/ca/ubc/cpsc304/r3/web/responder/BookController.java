@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import ca.ubc.cpsc304.r3.DNEException;
 import ca.ubc.cpsc304.r3.db.BookDao;
 import ca.ubc.cpsc304.r3.db.ConnectionService;
 import ca.ubc.cpsc304.r3.dto.BookDto;
@@ -128,15 +129,17 @@ public class BookController {
 	 * @return a user-friendly error messsage
 	 */
 	public static String generateFriendlyError(Exception e){
-		if(e instanceof IllegalArgumentException){
-			return "Please ensure all fields are completed before submitting.";
-		} else if (e instanceof NumberFormatException){
+		if (e instanceof NumberFormatException){
 			return "Please ensure that numeric fields contain only numbers.";
+		} else if (e instanceof DNEException){
+			return e.getMessage();
 		} else if (e instanceof SQLException){
-			if(((SQLException) e).getErrorCode() == 1452){
+			if(((SQLException) e).getErrorCode() == 1452 || ((SQLException) e).getErrorCode() == 0){
 				return "You are attempting to reference data that does not exit in the library! Please try again.";
 			}
 			return e.getMessage() + ". Please correct the error and try again. Error code: " + ((SQLException) e).getErrorCode();
+		} else if(e instanceof IllegalArgumentException){
+			return "Please ensure all fields are completed before submitting.";
 		} else {
 			return "There was a a problem completing your request. " + e.getMessage();
 		}

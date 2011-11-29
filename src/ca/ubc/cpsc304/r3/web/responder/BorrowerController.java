@@ -66,11 +66,13 @@ public class BorrowerController {
 		ViewAndParams vp = new ViewAndParams(
 				"/jsp/clerk/addNewBorrowerResults.jsp");
 		boolean hasError = false;
+		Map<String, String[]> reqParams = request.getParameterMap();
 
 		try {
+			
 			BorrowerDao bdao = new BorrowerDao(ConnectionService.getInstance());
 			BorrowerDto bdto = new BorrowerDto();
-			Map<String, String[]> reqParams = request.getParameterMap();
+			BookController.checkForBadInput(reqParams);
 			bdto.setAddress(reqParams.get("address")[0]);
 			bdto.setName(reqParams.get("name")[0]);
 			bdto.setEmail(reqParams.get("email")[0]);
@@ -83,18 +85,7 @@ public class BorrowerController {
 			vp.putViewParam("bid", bid);
 		} catch (Exception e) {
 			hasError = true;
-			e.printStackTrace();
-			if (e instanceof NumberFormatException)
-				vp.putViewParam("errorMsg", numErrorMsg);
-			else if (e instanceof DNEException)
-				vp.putViewParam("errorMsg", e.getMessage());
-			else if(e instanceof SQLException)
-				vp.putViewParam("error", e.getMessage());
-			else
-				vp.putViewParam(
-						"errorMeg",
-						"There was an error adding the borrower.<br>"
-								+ "Please make sure all values are entered correctly.");
+			vp.putViewParam("errorMsg", BookController.generateFriendlyError(e));
 		}
 		finally {
 			vp.putViewParam("hasError", hasError);

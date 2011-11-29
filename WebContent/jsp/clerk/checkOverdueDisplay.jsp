@@ -14,49 +14,49 @@
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
 
 <script language="javascript">
-function sendEmails(){
-	var nameList = 'Emails have ben sent to ';
-	$(".bname")
-	
-//	for(i=0; i< names.size(); i++){
-	//	if(nameList.search(names[i]) == -1)
-	//		nameList = names[i] + ' \n';
-//	}
-	alert(nameList);
-	
-}
 </script>
-	<h2>Overdue Items</h2>
-	<c:choose>
-		<c:when test="${noOverdue != null}">
-			<p>${noOverdue}</p>
-		</c:when>
-		<c:otherwise>
-			<table>
-				<thead>
-					<tr>
-						<td><b>Name </b></td>
-						<td><b>Email </b></td>
-						<td><b>Book </b></td>
-						<td></td>
-					</tr>
-				</thead>
-				<tbody>
-						<c:forEach var="v" items="${overdue['Name']}" varStatus="stat">
+<c:choose>
+	<c:when test="${hasError}">
+		<h2>Error Generating Overdue Report</h2>
+		<p>${errorMsg}</p>
+	</c:when>
+	<c:otherwise>
+		<h2>Overdue Items</h2>
+		<c:choose>
+			<c:when test="${noOverdue != null}">
+				<p>${noOverdue}</p>
+			</c:when>
+			<c:otherwise>
+				<table>
+					<thead>
 						<tr>
-							<c:set var="name" value ="${overdue['Name'][stat.count-1]}" scope="session"/>
-							<c:set var="email" value ="${overdue['Email'][stat.count-1]}" scope="session"/>
-							<c:set var="book" value ="${overdue['Title'][stat.count-1]}" scope="session"/>
-							<td class="bname">${name}</td>
-							<td>${email}</td>
-							<td>${book}</td>
-							<td><input type=button value="Notify" onclick="alert('Email has been sent to ${name} at ${email}')"></td>
+							<td><b>Name </b></td>
+							<td><b>Email </b></td>
+							<td><b>Book </b></td>
+							<td><b>Was Due </b></td>
+							<td></td>
 						</tr>
-						</c:forEach>
-				</tbody>
-			</table>
-			<input type=button value="Notify all" onclick="alert('Emails have been sent to all borrowers.')">
-		</c:otherwise>
-	</c:choose>
+					</thead>
+					<tbody>
+							<c:forEach var="v" items="${overdue['Name']}" varStatus="stat">
+							<tr>
+								<c:set var="name" value ="${overdue['Name'][stat.count-1]}" scope="session"/>
+								<c:set var="email" value ="${overdue['Email'][stat.count-1]}" scope="session"/>
+								<c:set var="book" value ="${overdue['Title'][stat.count-1]}" scope="session"/>
+								<c:set var="duedate" value="${overdue['Date'][stat.count-1]}" scope="session"/>
+								<td class="bname">${name}</td>
+								<td>${email}</td>
+								<td>${book}</td>
+								<td>${duedate}</td>
+								<td><input type=button value="Notify" onclick="alert('Email has been sent to ${name} at ${email}')"></td>
+							</tr>
+							</c:forEach>
+					</tbody>
+				</table>
+				<input type=button value="Notify all" onclick="alert('Emails have been sent to all borrowers.')">
+			</c:otherwise>
+		</c:choose>
+	</c:otherwise>
+</c:choose>
 </body>
 </html>

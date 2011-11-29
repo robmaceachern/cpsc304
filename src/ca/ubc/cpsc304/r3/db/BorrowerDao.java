@@ -72,6 +72,7 @@ public class BorrowerDao {
 			ps.setString(8, bd.getType());
 			ps.executeUpdate();
 
+			//Get new bid to return
 			ResultSet rs = conn.createStatement().executeQuery(
 					"SELECT bid FROM Borrower WHERE sinOrStNo="
 							+ DaoUtility.convertToSQLvalue(bd.getSin()));

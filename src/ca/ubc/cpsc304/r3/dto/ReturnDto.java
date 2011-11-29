@@ -2,18 +2,19 @@ package ca.ubc.cpsc304.r3.dto;
 
 public class ReturnDto {
 
-	private String name;
+	private String requestor;
 	private String email;
+	private String returner;
 	boolean onHold = false;
 	private int hid;
 	private int fine = 0;
 
-	public String getName() {
-		return name;
+	public String getRequestor() {
+		return requestor;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setRequestor(String requestor) {
+		this.requestor = requestor;
 	}
 
 	public String getEmail() {
@@ -22,6 +23,14 @@ public class ReturnDto {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getReturner() {
+		return returner;
+	}
+
+	public void setReturner(String returner) {
+		this.returner = returner;
 	}
 
 	public boolean isOnHold() {

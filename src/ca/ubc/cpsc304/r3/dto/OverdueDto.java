@@ -1,5 +1,7 @@
 package ca.ubc.cpsc304.r3.dto;
 
+import java.sql.Date;
+
 public class OverdueDto {
 	// variables to hold the actual data of an overdue item
 		private int callNumber;
@@ -8,6 +10,7 @@ public class OverdueDto {
 		private String email;
 		private String btitle;
 		private String name;
+		private Date duedate;
 
 	    // default constructor
 	    public OverdueDto(){}
@@ -68,6 +71,14 @@ public class OverdueDto {
 		
 		public void setName(String name){
 			this.name = name;
+		}
+		
+		public Date getDuedate(){
+			return duedate;
+		}
+		
+		public void setDuedate(Date date){
+			duedate = date;
 		}
 	}
 

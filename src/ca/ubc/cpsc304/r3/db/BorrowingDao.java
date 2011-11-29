@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import ca.ubc.cpsc304.r3.DNEException;
 import ca.ubc.cpsc304.r3.DaoUtility;
 import ca.ubc.cpsc304.r3.dto.BookCheckoutReportDto;
 import ca.ubc.cpsc304.r3.dto.BorrowingDto;
@@ -148,22 +149,31 @@ public class BorrowingDao {
 			PreparedStatement ps = null;
 
 			// Check if has overdue book
-			rs = st.executeQuery(
+			ps = conn.prepareStatement(
 					"SELECT amount FROM Fine F, Borrowing B " +
-					"WHERE F.amount > 0 AND B.borid=F.borid AND B.bid=" + DaoUtility.convertToSQLvalue(bid));
+					"WHERE F.amount > 0 AND B.borid=F.borid AND B.bid=?");
+			ps.setInt(1, bid);
+			
+			rs = ps.executeQuery();
 			if (rs.next()) {
 				int fine = rs.getInt("amount");
-				System.out.println("You currently have a fine of "
-						+ fine);
-				throw new SQLException("You currently have a fine of $" +fine+" and have been blocked from borrowing.");
+				throw new DNEException("Borrower ID "+ bid+" currently has a fine of $" +fine+" and has been blocked from borrowing.");
 			}
+			
+			//Check the book is in the database
+			ps = conn.prepareStatement("SELECT COUNT(*) AS 'present' FROM Book WHERE callNumber=?");
+			ps.setInt(1, callNo);
+			rs = ps.executeQuery();
+			
+			if(!rs.next() || 0 >= rs.getInt("present"))
+				throw new SQLException("Unknown call number");
 
 			// get an available copy
 			int copy = findAvailableCopy(callNo);
 			if (copy == -1) {
 				// prompt user to request hold
 				System.out.println("Sorry, there are no available copies ");
-				throw new SQLException("No available copies for call number " + callNo + ".<br>");
+				throw new DNEException("No available copies for call number " + callNo + ".<br>");
 			}
 
 			// Create new borrowing record
