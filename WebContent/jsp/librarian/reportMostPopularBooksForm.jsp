@@ -10,10 +10,11 @@
 <title>Most popular books report</title>
 </head>
 <body>
+<div id="wrap">
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
+	<div id="main_content">
 	<h1>Most popular books report</h1>
-	<p>Not implemented yet</p>
 	<!-- I'm using GET for this form because we're not changing the server state 
 			based on the year or limit. It's just a filtering mechanism. -->
 	<form action="/CrazyCoolLibrary/app/viewmostpopularbooksreport" method="get">
@@ -21,5 +22,7 @@
 		<div><label for="limit">Results limit</label><input id="limit" name="limit" type="text"/></div>
 		<button type="submit">Generate report</button>
 	</form>
+	</div>
+</div>
 </body>
 </html>

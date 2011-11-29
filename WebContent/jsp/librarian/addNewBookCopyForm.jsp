@@ -7,15 +7,19 @@
 <head>
 <jsp:include page="/jsp/fragment/head.jspf"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Add new book</title>
+<title>Add New Book Copy</title>
 </head>
 <body>
+<div id="wrap">
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
+	<div id="main_content">
 	<h1>Add a New Book Copy</h1>
 	<form action="/CrazyCoolLibrary/app/addnewbookcopysubmit" method="post">
 		<div><label for="callNumber">Call Number</label><input id="callNumber" name="callNumber" type="text"/></div>
 		<button type="submit">Add book copy</button>
 	</form>
+	</div>
+</div>
 </body>
 </html>

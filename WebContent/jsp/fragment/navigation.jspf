@@ -43,8 +43,8 @@
 			<li><a href="/CrazyCoolLibrary/app/removebook">Remove a book</a></li>
 			<li><a href="/CrazyCoolLibrary/app/addnewcopy">Add new book copy</a></li>
 			<li><a href="/CrazyCoolLibrary/app/removeborrower">Remove borrower</a></li>
-			<li><a href="/CrazyCoolLibrary/app/checkedoutbooksreport">Checked out books report</a></li>
-			<li><a href="/CrazyCoolLibrary/app/mostpopularbooksreport">Most popular books report</a></li>
+			<li><a href="/CrazyCoolLibrary/app/checkedoutbooksreport">Checked out report</a></li>
+			<li><a href="/CrazyCoolLibrary/app/mostpopularbooksreport">Most popular report</a></li>
 			<!-- The following keep the navigation blocks in sync, but does not display any links -->
 			<li style="display:none;"><a href="/CrazyCoolLibrary/app/addnewbooksubmit"></a>
 			<li style="display:none;"><a href="/CrazyCoolLibrary/app/removebooksubmit"></a>

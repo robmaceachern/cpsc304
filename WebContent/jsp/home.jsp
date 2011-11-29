@@ -6,7 +6,7 @@
 <head>
 <jsp:include page="/jsp/fragment/head.jspf"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Home sweet home</title>
+<title>Home Sweet Home</title>
 </head>
 <body>
 <jsp:include page="/jsp/fragment/header.jspf"/>

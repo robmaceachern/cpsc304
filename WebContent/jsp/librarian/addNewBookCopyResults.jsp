@@ -13,8 +13,10 @@
 </c:choose>
 </head>
 <body>
+<div id="wrap">
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
+	<div id="main_content">
 	<c:choose>
 		<c:when test="${hasError}">
 			<h1>Add Book Copy - Failure</h1>
@@ -25,5 +27,7 @@
 			<p>A new book copy with call number ${callNumber} has been added to the system.</p>
 		</c:otherwise>
 	</c:choose>
+	</div>
+</div>
 </body>
 </html>

@@ -10,12 +10,16 @@
 <title>Remove a Book</title>
 </head>
 <body>
+<div id="wrap">
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
+	<div id="main_content">
 	<h1>Remove a Book</h1>
 	<form action="/CrazyCoolLibrary/app/removebooksubmit" method="post">
 		<div><label for="catalogueNumber">Call Number</label><input id="callNumber" name="callNumber" type="text"/></div>
 		<button type="submit">Remove Book</button>
 	</form>
+	</div>
+</div>
 </body>
 </html>

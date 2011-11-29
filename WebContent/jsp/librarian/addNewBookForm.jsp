@@ -7,20 +7,23 @@
 <head>
 <jsp:include page="/jsp/fragment/head.jspf"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Add new book</title>
+<title>Add New Book</title>
 </head>
 <body>
+<div id="wrap">
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
-	<h1>Add a new book</h1>
-	<p>This is the new book page, but I don't have anything yet. Don't judge me.</p>
+	<div id="main_content">
+	<h1>Add New Book</h1>
 	<form action="/CrazyCoolLibrary/app/addnewbooksubmit" method="post">
-		<div><label for="isbn">ISBN</label><input id="isbn" name="isbn" type="text"/></div>
-		<div><label for="title">Title</label><input id="title" name="title" type="text"/></div>
-		<div><label for="author">Author</label><input id="author" name="author" type="text"/></div>
-		<div><label for="publisher">Publisher</label><input id="publisher" name="publisher" type="text"/></div>
-		<div><label for="year">Year</label><input id="year" name="year" type="text"/></div>
+		<div><label for="isbn"><span>ISBN</span></label><input id="isbn" name="isbn" type="text"/></div>
+		<div><label for="title"><span>Title</span></label><input id="title" name="title" type="text"/></div>
+		<div><label for="author"><span>Author</span></label><input id="author" name="author" type="text"/></div>
+		<div><label for="publisher"><span>Publisher</span></label><input id="publisher" name="publisher" type="text"/></div>
+		<div><label for="year"><span>Year</span></label><input id="year" name="year" type="text"/></div>
 		<button type="submit">Add book</button>
 	</form>
+	</div>
+</div>
 </body>
 </html>
