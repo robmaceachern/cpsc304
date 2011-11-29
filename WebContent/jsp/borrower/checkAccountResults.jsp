@@ -24,7 +24,7 @@
         </c:when>
         <c:otherwise>
 		    <h1>Results of Check Account</h1>
-		    <p>Items Currently Borrowed:</p>
+		    <h2>Items Currently Borrowed:</h2>
 		    <c:choose>
 			    <c:when test="${numBorrowedItems eq 0}">
 		               <p>There are no currently borrowed items</p>
@@ -54,7 +54,7 @@
 				    </table>
 				</c:otherwise>
 		    </c:choose>
-		    <p>Outstanding Fines:</p>
+		    <h2>Outstanding Fines:</h2>
 		    <c:choose>
 			    <c:when test="${numOutstandingFines eq 0}">
 	                <p>There are no out standing fines</p>
@@ -63,12 +63,12 @@
 		            <table>
 		                <thead>
 		                    <tr>
-		                        <td>Title</td>
-                                <td>Author</td>
-                                <td>Call Number</td>
-		                        <td>Amount Owing</td>
-		                        <td>Issued Date</td>
-		                        <td>Fine ID</td>
+		                        <th>Title</th>
+                                <th>Author</th>
+                                <th>Call Number</th>
+		                        <th>Amount Owing</th>
+		                        <th>Issued Date</th>
+		                        <th>Fine ID</th>
 		                    </tr>
 		                </thead>
 		                <c:forEach var="entry" items="${outstandingFines}" >
@@ -84,7 +84,7 @@
 		            </table>
 	            </c:otherwise>
 	        </c:choose>
-            <p>Current Hold Requests:</p>
+            <h2>Current Hold Requests:</h2>
             <c:choose>
 	            <c:when test="${numCurrentHolds eq 0}">
 	                <p>There are no current hold requests</p>
@@ -93,11 +93,11 @@
 		            <table>
 		                <thead>
 		                    <tr>
-		                        <td>Title</td>
-                                <td>Author</td>
-		                        <td>Call Number</td>
-		                        <td>Issued Date</td>
-		                        <td>Hold Request ID</td>
+		                        <th>Title</th>
+                                <th>Author</th>
+		                        <th>Call Number</th>
+		                        <th>Issued Date</th>
+		                        <th>Hold Request ID</th>
 		                    </tr>
 		                </thead>
 		                <c:forEach var="entry" items="${currentHolds}" >
