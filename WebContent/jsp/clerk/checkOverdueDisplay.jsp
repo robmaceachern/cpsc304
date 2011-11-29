@@ -14,13 +14,10 @@
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
 
 <script language="javascript">
-function sendEmail(name, email){
-	document.
-	alert('Email has bee sent to '+name+' at '+email+'.');
-}
 function sendEmails(){
-// var names = ${overdue['Name']};
 	var nameList = 'Emails have ben sent to ';
+	$(".bname")
+	
 //	for(i=0; i< names.size(); i++){
 	//	if(nameList.search(names[i]) == -1)
 	//		nameList = names[i] + ' \n';
@@ -50,7 +47,7 @@ function sendEmails(){
 							<c:set var="name" value ="${overdue['Name'][stat.count-1]}" scope="session"/>
 							<c:set var="email" value ="${overdue['Email'][stat.count-1]}" scope="session"/>
 							<c:set var="book" value ="${overdue['Title'][stat.count-1]}" scope="session"/>
-							<td>${name}</td>
+							<td class="bname">${name}</td>
 							<td>${email}</td>
 							<td>${book}</td>
 							<td><input type=button value="Notify" onclick="alert('Email has been sent to ${name} at ${email}')"></td>

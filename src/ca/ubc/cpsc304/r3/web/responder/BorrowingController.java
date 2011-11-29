@@ -92,11 +92,15 @@ public class BorrowingController {
 			return vp;
 		}
 		try {
-			bcd.setCallNumber(Integer.valueOf(copy));
-			bcd.setCopyNo(Integer.valueOf(callNum));
+			bcd.setCallNumber(Integer.valueOf(callNum));
+			bcd.setCopyNo(Integer.valueOf(copy));
 			ReturnDto rdto = rdao.processReturn(bcd);
 
 			// Notify requester if on hold
+			vp.putViewParam("onHold", rdto.isOnHold());
+			vp.putViewParam("requesterName", rdto.getName());
+			vp.putViewParam("requesterEmail", rdto.getEmail());
+			
 			if (rdto.isOnHold()) {
 				String name = rdto.getName();
 				String email = rdto.getEmail();

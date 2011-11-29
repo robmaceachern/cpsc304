@@ -74,7 +74,7 @@ public class BorrowerController {
 			bdto.setAddress(reqParams.get("address")[0]);
 			bdto.setName(reqParams.get("name")[0]);
 			bdto.setEmail(reqParams.get("email")[0]);
-			bdto.setOasswird(reqParams.get("password")[0]);
+			bdto.setPassword(reqParams.get("password")[0]);
 			bdto.setPhone(Integer.valueOf(reqParams.get("phone")[0]));
 			bdto.setType(reqParams.get("btype")[0]);
 			bdto.setSin(Integer.valueOf(reqParams.get("sin")[0]));
@@ -83,10 +83,13 @@ public class BorrowerController {
 			vp.putViewParam("bid", bid);
 		} catch (Exception e) {
 			hasError = true;
+			e.printStackTrace();
 			if (e instanceof NumberFormatException)
 				vp.putViewParam("errorMsg", numErrorMsg);
 			else if (e instanceof DNEException)
 				vp.putViewParam("errorMsg", e.getMessage());
+			else if(e instanceof SQLException)
+				vp.putViewParam("error", e.getMessage());
 			else
 				vp.putViewParam(
 						"errorMeg",

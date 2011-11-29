@@ -26,7 +26,6 @@
 		    <table>
 		        <thead>
 		            <tr>
-		                <td>Borrower ID</td>
 		                <td>Borrowing ID</td>
 		                <td>Call Number</td>
 		                <td>Copy Number</td>
@@ -35,7 +34,6 @@
 		        </thead>
 		        <c:forEach var="entry" items="${borrowedItems}" >
 			        <tr>
-			            <td>${entry.bid}</td>
 				        <td>${entry.borid}</td>
 				        <td>${entry.callNumber}</td>
 				        <td>${entry.copyNo}</td>
@@ -47,7 +45,6 @@
             <table>
                 <thead>
                     <tr>
-                        <td>Borrower ID</td>
                         <td>Fine ID</td>
                         <td>Amount Owing</td>
                         <td>Issued Date</td>
@@ -55,7 +52,6 @@
                 </thead>
                 <c:forEach var="entry" items="${outstandingFines}" >
                     <tr>
-                        <td>${entry.borid}</td>
                         <td>${entry.fid}</td>
                         <td>${entry.amount}</td>
                         <td>${entry.issuedDate}</td>
@@ -66,7 +62,6 @@
             <table>
                 <thead>
                     <tr>
-                        <td>Borrower ID</td>
                         <td>Hold Request ID</td>
                         <td>Call Number</td>
                         <td>Issued Date</td>
@@ -74,7 +69,6 @@
                 </thead>
                 <c:forEach var="entry" items="${currentHolds}" >
                     <tr>
-                        <td>${entry.bid}</td>
                         <td>${entry.hid}</td>
                         <td>${entry.callNumber}</td>
                         <td>${entry.issuedDate}</td>

@@ -24,7 +24,7 @@
         <c:otherwise>
             <c:choose>
                 <c:when test="${numFinesPaid eq 0}">
-                    <h1>Pay Fine Error</h1>
+                    <h1>Pay Fine - Error</h1>
                     <p>No unpaid fine with the specified ID found</p>
                 </c:when>
                 <c:otherwise>

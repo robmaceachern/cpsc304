@@ -24,6 +24,13 @@
 					<p>${errorMsg}</p>
 				</c:when>
 				<c:otherwise>
+					<c:if test="${onHold}">
+						<script language="javascript">
+						$(document).ready(function(){
+							alert("Notifying ${requesterName} at ${requesterEmail} that this book is now available.");
+						});
+						</script>
+					</c:if>
 					<p>The following was checked in:</p>
 					Call Number: ${returns['callNumber'][0]}<br>
 					Copy: ${returns['copyNo'][0]}
@@ -32,6 +39,5 @@
 			</c:choose>
 		</c:otherwise>
 	</c:choose>
-	
 </body>
 </html>

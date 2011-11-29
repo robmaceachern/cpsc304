@@ -27,7 +27,7 @@ public class BorrowerDto {
 		return password;
 	}
 	
-	public void setOasswird(String pw){
+	public void setPassword(String pw){
 		password = pw;
 	}
 	

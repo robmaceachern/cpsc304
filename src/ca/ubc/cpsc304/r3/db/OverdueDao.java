@@ -97,7 +97,6 @@ public class OverdueDao {
 			}
 		} finally {
 			if (conn != null)
-
 				conn.close();
 		}
 		return queryResults;

@@ -12,7 +12,7 @@
 <body>
 <jsp:include page="/jsp/fragment/header.jspf"></jsp:include>
 <jsp:include page="/jsp/fragment/navigation.jspf"/>
-    <h1>Pay a fine</h1>
+    <h1>Pay Fine</h1>
     <p>Enter the ID of the fine you wish to pay.</p>
     <form action="/CrazyCoolLibrary/app/payfinesubmit" method="post">
         <div><label for="fid">Fine ID</label><input id="fid" name="fid" type="text"/></div>
