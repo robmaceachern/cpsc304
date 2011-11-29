@@ -59,7 +59,7 @@ public class HoldReqestDao {
 		return queryResult;
 	}
 	
-	public void placeByCallNumberAndID(int callNo, int borrowerID) throws SQLException{
+	public int placeByCallNumberAndID(int callNo, int borrowerID) throws SQLException{
 		Connection conn = null; 
 		try {
 			// first get the current date to be used when placing the hold request
@@ -76,6 +76,35 @@ public class HoldReqestDao {
 			ps.setDate(3, sqlNow);
 
 			ps.executeUpdate();
+			
+			
+			PreparedStatement ps2 = conn.prepareStatement(
+					"SELECT * "+
+					"FROM bookcopy "  +
+					"WHERE status='in' AND callNumber=?"); // matches any main author that contains <keyword>
+			ps2.setInt(1, callNo);
+			ResultSet rs2 = ps2.executeQuery();
+			rs2.last();
+			int numIn = rs2.getRow();		
+
+			if(numIn>0){
+				int copyToReserve = rs2.getInt("copyNo");
+				
+				
+				conn = connService.getConnection();	
+				PreparedStatement ps3 = conn.prepareStatement(
+						"UPDATE bookcopy " + 
+						"SET status='on-hold'" +
+						" WHERE callNumber=? AND copyNo=?");
+
+				ps3.setInt(1, callNo);
+				ps3.setInt(2, copyToReserve);
+				
+				return 1;
+			}
+			else{
+				return 0;
+			}
 		
 		} catch (SQLException e) {
 			// two options here. either don't catch this exception and 
@@ -91,9 +120,6 @@ public class HoldReqestDao {
 				conn.close();
 			}
 		}
-		
-		// is there anything we want to return?
-		return;
 	}
 }
 

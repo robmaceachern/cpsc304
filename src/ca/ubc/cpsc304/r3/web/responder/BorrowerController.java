@@ -199,7 +199,8 @@ public class BorrowerController {
 				throw badBorid;
 			}
 			else{
-				dao.placeByCallNumberAndID(callNo, borId);
+				int numHeld = dao.placeByCallNumberAndID(callNo, borId);
+				vp.putViewParam("numHeld", numHeld);
 			}
 		} catch (Exception e){
 			vp.putViewParam("hasError", true);
